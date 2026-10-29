@@ -105,7 +105,7 @@
     box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 2px 6px rgba(0,0,0,.4);
   }
   .btn.small{padding:8px 13px;font-size:13px}
-  /* Beat the engine's `button:not([disabled]){color:inherit}` (0-1-1) with higher specificity. */
+  
   button.btn:not([disabled]){color:#0a2c40;text-shadow:0 1px 0 rgba(255,255,255,.6)}
   button.btn.ghost:not([disabled]){color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.7)}
   button.pill:not([disabled]),button.swatch:not([disabled]){color:#0e2a3f}
@@ -158,7 +158,7 @@
   #changeLog{margin:0;padding-left:22px}
   #changeLog li{margin:6px 0}
   #menuPanel{background:linear-gradient(180deg, rgba(255,255,255,.17), rgba(255,255,255,.03) 46%, rgba(0,0,0,.10)), rgba(26,36,50,.78);border:1px solid rgba(255,255,255,.42);border-radius:10px;max-width:760px;width:100%;max-height:86vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 24px 70px rgba(0,0,0,.6);backdrop-filter:blur(14px) saturate(1.3); -webkit-backdrop-filter:blur(14px) saturate(1.3)}
-  /* Vista-dialog title bar: glossy light-blue bar, dark title text, red X. */
+  
   .dlg-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 4px 8px;
     font-size:14px;font-weight:700;color:#0c2740;text-shadow:0 1px 0 rgba(255,255,255,.8);
     background:none;border:0;box-shadow:none}
@@ -166,7 +166,7 @@
   .dlg-bar .dlg-count{opacity:.6;font-weight:600;font-size:12px}
   #menuPanel .dlg-bar,#musicPanel .dlg-bar{border:0}
   #ytWrap{border:1px solid rgba(61,107,143,0.7);border-radius:4px;overflow:hidden;background:#000}
-  /* Vista light bodies for the main windows. */
+  
   .panel.dlg{background:linear-gradient(180deg,rgba(234,244,251,0.7) 0%,rgba(195,220,238,0.7) 45%,rgba(165,203,230,0.7) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;padding:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 10px 30px rgba(0,0,0,.4)}
   .panel.dlg .dlg-bar{border:0}
   .dlg-pad{padding:16px;background:linear-gradient(180deg,rgba(247,250,252,.7),rgba(223,234,243,.7));border:1px solid rgba(61,107,143,0.7);border-radius:4px;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
@@ -184,6 +184,9 @@
   #resultCard #tokenName{color:#12242f;text-shadow:0 1px 0 rgba(255,255,255,.8)}
   #tokenMeta .chip{background:#dcebf7;border-color:#8fb0c7;color:#0e4a5f}
   #tokenMeta .chip.dark{background:#e4ecf2;border-color:#9db4c6;color:#4a6579}
+  #tokenMeta .tdesc{flex-basis:100%;font-size:13px;line-height:1.45;opacity:.92}
+  .tokenRow .descBtn{margin-left:auto;font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid #7a9ab5;background:#fff;color:#0e4a5f;cursor:pointer;white-space:nowrap}
+  .tokenRow .descBtn:hover{border-color:#2f6d9e}
   #history li{border-bottom:1px solid #cfdee9;color:#1c2f3d}
   #history li span:last-child{color:#5a7488}
   #musicMinBtn,#musicHideBtn,#menuCloseBtn{
@@ -196,14 +199,14 @@
     background:linear-gradient(180deg,#f7c9bc 0%,#ec9c83 42%,#d05a3c 50%,#e08a70 58%,#f0b6a2 100%);
     border-color:#7e2817;color:#fff;text-shadow:0 1px 2px rgba(90,10,0,.8);
   }
-  /* Collapse-X buttons on the main windows' title bars. */
+  
   .dlg-bar button.winX{
     border:1px solid #7e2817;border-radius:4px;min-width:32px;padding:4px 8px;line-height:1;font-size:13px;
     background:linear-gradient(180deg,#f7c9bc 0%,#ec9c83 42%,#d05a3c 50%,#e08a70 58%,#f0b6a2 100%);
     color:#fff;text-shadow:0 1px 2px rgba(90,10,0,.8);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(0,0,0,.35);cursor:pointer;
   }
-  /* Vista light-dialog bodies (token browser). */
+  
   #menuPanel{background:linear-gradient(180deg,rgba(234,244,251,0.7) 0%,rgba(195,220,238,0.7) 45%,rgba(165,203,230,0.7) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;padding:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 24px 70px rgba(0,0,0,.6)}
   #menuHead{padding:10px 14px;text-align:left;background:linear-gradient(180deg,rgba(247,250,252,.7),rgba(232,241,247,.7));border:1px solid rgba(61,107,143,0.7);border-bottom:0;border-radius:4px 4px 0 0;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
   #menuSearch{width:100%;max-width:100%;min-width:0;background:#fff;border:1px solid #7a9ab5;color:#12242f;border-radius:3px;padding:8px 10px;font-size:14px;outline:none}
@@ -219,19 +222,19 @@
   .tokenRow a{color:inherit}
   .tokenRow .tsrc{color:#5a7488;font-size:12px}
   footer{margin-top:22px;color:var(--muted);font-size:37.5px;line-height:1.4;background:rgba(8,18,26,.55);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:12px 12px 16px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-  /* Scrolling music backdrop: shown only while the song is playing. */
+  
   #musicBg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;display:none;background:#0b0e12}
   body.music-playing #musicBg{display:block}
   #musicBg .tiles{position:absolute;inset:-500px;background:url('https://images.steamusercontent.com/ugc/1761440749200121021/CB0E498D00F09A64AE0216DD7B0A1E1AFC4A18DC/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false') repeat;background-size:450px 450px;animation:musicTile 120s linear infinite;will-change:background-position}
   #musicBg .dim{position:absolute;inset:0;background:rgba(14,18,24,.6)}
   @keyframes musicTile{from{background-position:0 0}to{background-position:-450px -450px}}
-  /* Random jumpscare overlay: flashed briefly by the timer below. */
+  
   #jumpscare{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);pointer-events:none}
   #jumpscare[hidden]{display:none}
   #jumpscare img{width:min(92vw,900px);height:auto;max-height:94vh;object-fit:contain}
   #ccBadge{position:fixed;left:8px;bottom:52px;z-index:40;font-size:9px;color:rgba(255,255,255,.6);text-decoration:none;background:rgba(8,18,26,.45);padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.15)}
   #darkBtn{position:fixed;left:8px;bottom:8px;z-index:40}
-  /* Cookie Jar folding sidebar (right edge; folds to a tab). */
+  
   #sideBar{position:fixed;top:0;right:0;bottom:0;width:min(320px,88vw);z-index:45;display:flex;
     transform:translateX(0);transition:transform .3s ease;
     background:linear-gradient(180deg,rgba(234,244,251,.92) 0%,rgba(195,220,238,.92) 45%,rgba(165,203,230,.92) 100%);
@@ -256,9 +259,9 @@
   body.dark .cookieRow{border-bottom-color:#333d48;color:var(--ink)}
   body.dark .cookieRow .crm{border-color:#3a4552;color:var(--muted)}
   body.dark .cookieRow [data-pdf="000000"]{color:#fff !important}
-  /* Dark mode: flips the light Vista glass to dark glass + light text. Toggled by #darkBtn. */
+  
   body.dark{background-color:#05070d}
-  /* Theme crossfade (background only): the dark bg lives on a fading underlay. */
+  
   body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:#05070d url('https://user.uploads.dev/file/9d1cbed9d5b8f8a8e91300b355a9e3ae.png') no-repeat center center fixed;background-size:cover;
     opacity:0;transition:opacity .6s ease}
@@ -277,7 +280,7 @@
   body.dark #resultCard .dlg-pad{background:linear-gradient(180deg,rgba(34,44,58,.78),rgba(22,30,40,.78));border-color:rgba(0,194,216,.3)}
   body.dark #resultCard .cat{color:var(--carib)}
   body.dark #resultCard #tokenName{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
-  /* Common tokens are true black inline — unreadable on dark glass, so force white (+visible frame accents). */
+  
   body.dark #resultCard #tokenName[data-pdf="000000"]{color:#fff !important}
   body.dark #resultCard[data-pdf="000000"]{border-color:rgba(255,255,255,.55) !important}
   body.dark .tcard h3[data-pdf="000000"]{color:#fff !important}
@@ -307,7 +310,7 @@
   body.dark .tcard .src{color:var(--muted)}
   body.dark #musicPanel{background:linear-gradient(180deg,rgba(40,54,72,.92),rgba(18,26,36,.92)) !important;border-color:rgba(0,194,216,.4) !important}
   body.dark #musicNote{color:#d7eef3 !important}
-  /* Suggest-a-token + admin approval (Neocities-safe, static). */
+  
   .overlay{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,14,18,.74);backdrop-filter:blur(3px)}
   .overlay[hidden]{display:none}
   .overlay .sheet{background:linear-gradient(180deg,rgba(234,244,251,0.97) 0%,rgba(195,220,238,0.97) 45%,rgba(165,203,230,0.97) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;padding:8px;max-width:640px;width:100%;max-height:86vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 24px 70px rgba(0,0,0,.6);color:#1c2f3d;text-align:left}
@@ -360,7 +363,7 @@
     <div class="hero-body">
       <div id="musicNote" class="muted" style="display:none;color:#0e2a3f">♪ playing — click the title bar to pause</div>
       <div class="count-pill"><b id="totalEl">…</b> tokens loaded</div>
-      <div class="count-pill">Last Updated 10/21/2026</div>
+      <div class="count-pill">Last Updated 10/29/26</div>
     </div>
   </header>
 
@@ -374,6 +377,7 @@
       <button class="btn small" id="rerollBtn">↻ Reroll</button>
       <button class="btn small ghost" id="saveResultBtn">Add to cookie jar</button>
       <button class="btn small ghost" id="clearHistBtn">Clear history</button>
+      <button class="btn small ghost" id="resultDescBtn">Suggest Description</button>
     </div>
     </div>
   </div>
@@ -404,10 +408,10 @@
     </div>
   </div>
 
-  <button class="btn ghost" id="browseBtn" style="width:100%;margin-top:18px;padding:16px;font-size:17px">Browse all Tokens</button>
+  <button class="btn" id="browseBtn" style="width:100%;margin-top:18px;padding:16px;font-size:17px">Browse all Tokens</button>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
     <button class="btn" id="suggestBtn" style="flex:1;min-width:200px;padding:14px;font-size:15px">＋ Suggest a Token</button>
-    <button class="btn small ghost" id="adminBtn" style="padding:14px 18px;font-size:15px" title="Admin login / approval queue">🔒 Admin</button>
+    <button class="btn" id="adminBtn" style="padding:14px 18px;font-size:15px" title="Admin login / approval queue">Admin</button>
   </div>
   <div class="muted" id="backendNote" style="margin-top:8px"></div>
 
@@ -440,7 +444,7 @@
 <div id="logOverlay" hidden>
   <div id="logPanel" role="dialog" aria-modal="true" aria-label="Change log">
     <div class="dlg-bar"><b>Change Log</b><button class="btn small ghost" id="logCloseBtn" title="Close">✕</button></div>
-    <div id="logBody"><ul id="changeLog"><li>10/21/2026 - Added 84 Tokens</li><li>10/19/2026 - Added dark mode and the cookie jar</li><li>10/18/2026 - Website Created. Please Report any bugs to the discord.
+    <div id="logBody"><ul id="changeLog"><li>10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things</li><li>10/21/2026 - Added 84 Tokens</li><li>10/19/2026 - Added dark mode and the cookie jar</li><li>10/18/2026 - Website Created. Please Report any bugs to the discord.
     ㅤ
     if you have any suggestions please dont be afraid to suggest them.</li></ul></div>
   </div>
@@ -493,18 +497,38 @@
     </div>
   </div>
 </div>
+<div class="overlay" id="descOverlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Suggest a description">
+    <div class="dlg-bar"><b>Suggest a Description</b><button class="winX" id="descCloseBtn" title="Close">✕</button></div>
+    <div class="formBody">
+      <div class="muted" id="descTokenNote">For: <b id="descTokenName"></b></div>
+      <div class="muted" id="descCurrentNote" style="margin-top:6px"></div>
+      <label class="f" for="descText">Your description *</label>
+      <textarea id="descText" maxlength="500" placeholder="e.g. A plasma-forged blade carried by elite Covenant warriors…"></textarea>
+      <label class="f" for="descBy">Your name (optional)</label>
+      <input type="text" id="descBy" maxlength="60" placeholder="e.g. DiscordUser123" autocomplete="off">
+      <div class="muted" id="descMsg" style="margin-top:8px;min-height:18px"></div>
+      <div class="frow">
+        <button class="btn" id="descSubmitBtn">Submit for approval</button>
+        <button class="btn ghost" id="descCancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="adminPanelOverlay" hidden>
   <div class="sheet wide" role="dialog" aria-modal="true" aria-label="Token approvals">
     <div class="dlg-bar"><b>Token Approvals <span class="dlg-count" id="pendingCount"></span></b><button class="winX" id="adminPanelCloseBtn" title="Close">✕</button></div>
     <div class="formBody">
       <div class="muted" id="adminModeNote"></div>
       <div class="frow" style="margin-top:8px">
-        <button class="btn small ghost" id="adminRefreshBtn">↻ Refresh</button>
-        <button class="btn small ghost" id="adminExportBtn">⧉ Copy added as embed JSON</button>
+        <button class="btn small ghost" id="adminRefreshBtn">Refresh</button>
+        <button class="btn small ghost" id="adminExportBtn">Copy added as embed JSON</button>
         <button class="btn small ghost" id="adminLogoutBtn">Log out</button>
       </div>
       <label class="f">Pending suggestions</label>
       <div id="pendingList"><div class="muted">Loading…</div></div>
+      <label class="f">Pending descriptions</label>
+      <div id="descPendingList"><div class="muted">Loading…</div></div>
       <label class="f">Add a token directly (goes live immediately)</label>
       <div class="sugRow" id="adminAddBox">
         <input type="text" id="admName" maxlength="150" placeholder="Token name *">
@@ -513,7 +537,7 @@
         <input type="url" id="admUrl" maxlength="500" placeholder="https://… (optional)">
         <input type="text" id="admNotes" maxlength="300" placeholder="Notes (optional)">
         <div class="muted" id="admAddMsg" style="margin-top:6px;min-height:16px"></div>
-        <div class="ops"><button class="btn small" id="admAddBtn">＋ Add live now</button></div>
+        <div class="ops"><button class="btn small" id="admAddBtn">Add live now</button></div>
       </div>
       <label class="f">Live added tokens — community + admin (<span id="approvedCount">0</span>)</label>
       <div id="approvedList"><div class="muted">Loading…</div></div>
@@ -536,7 +560,6 @@
     menuOverlay=$('menuOverlay'), menuBody=$('menuBody'), menuSearch=$('menuSearch'),
     menuInfo=$('menuInfo'), menuTotal=$('menuTotal');
 
-  // YOU HAVE JUST LOST THE GAME!
   const PDF_COLORS = [
     {id:'783f04', label:'Trash',     pages:'tabs pp. 3–14'},
     {id:'000000', label:'Common',    pages:'tabs pp. 15–28'},
@@ -548,7 +571,6 @@
     {id:'1155cc', label:'Base',      pages:'tabs pp. 80–85'},
   ];
   const PDF_LABEL = Object.fromEntries(PDF_COLORS.map(c=>[c.id,c.label]));
-
 
   function displayColor(hex){
     if(hex==='rainbow') return null;
@@ -593,7 +615,7 @@
     else if(/bag of seeds?/i.test(full) || /\beggs?\b/i.test(full)) cat = 'seeds';
     else if(/pallet of|8 pack|refills?|reappears?|respawns?|every (week|month|year|hour)|every 24 hours|once per/i.test(full)
       || /^\d+\s*(lb|nzt|pack|cubic)/i.test(name) || /^1[02]\s/i.test(name)) cat = 'bulk';
-    return {id:idx, full, name, source, notes, page, cat, pdf, url:(raw && typeof raw === 'object' ? (raw.u||null) : null), extra:(raw && typeof raw === 'object' && Array.isArray(raw.ux) ? raw.ux : [])};
+    return {id:idx, full, name, source, notes, page, cat, pdf, url:(raw && typeof raw === 'object' ? (raw.u||null) : null), extra:(raw && typeof raw === 'object' && Array.isArray(raw.ux) ? raw.ux : []), desc:(raw && typeof raw === 'object' && typeof raw.d === 'string' ? raw.d : '')};
   }
 
   const CATS = [
@@ -739,8 +761,10 @@
     for(const x of (t.extra||[])) tokenMeta.appendChild(linkChip(x));
     if(t.source){ const s=document.createElement('span'); s.className='chip'; s.textContent='📚 '+t.source; tokenMeta.appendChild(s); }
     for(const n of t.notes){ const s=document.createElement('span'); s.className='chip dark'; s.textContent=n; tokenMeta.appendChild(s); }
+    if(t.desc){ const ds=document.createElement('div'); ds.className='tdesc'; ds.textContent=t.desc; tokenMeta.appendChild(ds); }
     if(t.page){ const p=document.createElement('span'); p.className='chip dark'; p.textContent='p.'+t.page; tokenMeta.appendChild(p); }
     resultCard.classList.remove('pop'); void resultCard.offsetWidth; resultCard.classList.add('pop');
+    window.__lastSingle=t;
   }
   function showGrid(list){
     grid.innerHTML='';
@@ -767,6 +791,7 @@
       const s=document.createElement('div'); s.className='src';
       s.textContent=(t.source?('📚 '+t.source):'')+(t.notes.length?(' • '+t.notes.join(' • ')):'');
       d.appendChild(c); d.appendChild(h); d.appendChild(s);
+      if(t.desc){ const dd=document.createElement('div'); dd.className='src'; dd.textContent=t.desc; d.appendChild(dd); }
       const sv=document.createElement('button'); sv.className='btn small ghost saveCookieBtn'; sv.dataset.id=t.id; sv.textContent='Add to cookie jar'; sv.style.marginTop='8px';
       d.appendChild(sv);
       grid.appendChild(d);
@@ -819,6 +844,7 @@
   }
 
   draw1Btn.onclick=()=>doDraw(1);
+  resultDescBtn.onclick=()=>{ if(!window.__lastSingle){ try{ doDraw(1); }catch(e){} } if(window.__suggestDesc && window.__lastSingle) window.__suggestDesc(window.__lastSingle); };
   draw5Btn.onclick=()=>doDraw(5);
   draw10Btn.onclick=()=>doDraw(10);
   browseBtn.onclick=openMenu;
@@ -836,7 +862,6 @@
   };
   copyHistBtn.onclick=()=>copyText(history.map(t=>t.name+(t.source?` (${t.source})`:'')).join('\n'), copyHistBtn);
 
-  
   let menuBuilt=false, currentFilter='';
 
   function renderTierBody(det, rows){
@@ -858,6 +883,9 @@
     nameEl.dataset.pdf=t.pdf;
     d.appendChild(nameEl);
     if(t.source){ const s=document.createElement('span'); s.className='tsrc'; s.textContent='— '+t.source; d.appendChild(s); }
+    const db=document.createElement('button'); db.className='descBtn'; db.textContent='Suggest Description'; db.title='Suggest a description for this token';
+    db.onclick=function(){ if(window.__suggestDesc) window.__suggestDesc(t); };
+    d.appendChild(db);
     return d;
   }
   function buildMenu(){
@@ -924,38 +952,6 @@
   window.tokenFindById = (id)=>TOKENS[id]||null;
   window.tokenCount = ()=>TOKENS.length;
   window.tokenViewById = (id)=>{ const t=TOKENS[id]; if(!t) return; showSingle(t); showGrid([t]); pushHistory([t]); lastShown=[t]; };
-  // Community-token hook (used by the Suggest/Admin system below; Neocities-safe).
-  // Items: {name, source, pdf, url, notes(Array|string), by}
-  window.tokenAddApproved = (list)=>{
-    if(!Array.isArray(list)) return 0;
-    let added=0;
-    for(const o of list){
-      if(!o || typeof o.name!=='string' || !o.name.trim()) continue;
-      if(TOKENS.some(t=>t.communityId && t.communityId===o.clientId)) continue;
-      const nm=o.name.trim().slice(0,150);
-      const src=(o.source||'').toString().trim().slice(0,120);
-      const full = src ? `${nm} (${src})` : nm;
-      let pdf=String(o.pdf||'000000').toLowerCase();
-      if(pdf!=='rainbow' && !/^[0-9a-f]{6}$/.test(pdf)) pdf='000000';
-      const idx=TOKENS.length;
-      const t=parseToken(full, 0, idx, pdf, {u:(o.url||null)});
-      t.communityId=o.clientId||('c_'+idx+'_'+Date.now());
-      t.communityBy=o.by||'';
-      if(typeof o.notes==='string' && o.notes.trim()) t.notes=t.notes.concat([o.notes.trim().slice(0,300)]);
-      else if(Array.isArray(o.notes)) t.notes=t.notes.concat(o.notes.filter(x=>typeof x==='string').map(x=>x.slice(0,300)));
-    t.community=true;
-    TOKENS.push(t);
-    added++;
-  }
-    if(added){
-      deck=[];
-      try{
-        if(typeof menuBuilt!=='undefined' && menuBuilt){ menuBuilt=false; if(typeof menuBody!=='undefined' && menuBody) menuBody.innerHTML=''; if(typeof currentFilter!=='undefined') currentFilter=''; }
-      }catch(_){}
-      renderPills(); renderSwatches(); applyFilterInfo();
-    }
-    return added;
-  };
   window.tokenRemoveApproved = (clientId)=>{
     const i=TOKENS.findIndex(t=>t.communityId===clientId||(t.serverId!=null&&String(t.serverId)===String(clientId)));
     if(i<0) return false;
@@ -964,7 +960,7 @@
     deck=[]; renderPills(); renderSwatches(); applyFilterInfo();
     return true;
   };
-  // Server-library hook: raw DB rows {id,t,p,c,u,ux[],origin,by_name}. Stable order in = stable ids.
+  
   window.tokenAddServerRows = (rows)=>{
     if(!Array.isArray(rows)) return 0;
     let added=0;
@@ -974,7 +970,7 @@
       let pdf=String(r.c||'000000').toLowerCase();
       if(pdf!=='rainbow' && !/^[0-9a-f]{6}$/.test(pdf)) pdf='000000';
       const idx=TOKENS.length;
-      const t=parseToken(r.t, (r.p|0), idx, pdf, {u:(r.u||null), ux:(Array.isArray(r.ux)?r.ux:[])});
+      const t=parseToken(r.t, (r.p|0), idx, pdf, {u:(r.u||null), ux:(Array.isArray(r.ux)?r.ux:[]), d:(r.d||'')});
       t.serverId=r.id; t.serverOrigin=r.origin||''; t.serverBy=r.by_name||'';
       TOKENS.push(t);
       added++;
@@ -992,19 +988,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ============================================================
-   SUGGEST-A-TOKEN + ADMIN APPROVALS (Neocities static-safe)
-   - Visitors submit suggestions. Nothing goes live until you approve.
-   - Admin login: username Roboshark1019 + your server password
-     (or the offline fallback password before the server is set up).
-   - Setup guide: see SUPABASE_SETUP.md next to this file.
-      1) Create free Supabase project.
-      2) Run supabase.sql, then supabase-tokens-migration.sql, then supabase-seed.sql in the SQL Editor.
-      3) Create your admin login user, paste URL + anon key + email below, re-upload.
-   - Before setup (supabaseUrl = null) the site runs in OFFLINE
-     MODE: suggestions save in each visitor's own browser only.
-     Good for testing, not shared. Set up Supabase to share them.
-   ============================================================ */
+
 var SITE_BACKEND = {
   supabaseUrl: "https://jlqjfzmnwhotfqauhmwz.supabase.co",
   supabaseAnonKey: "sb_publishable_ix3r8EOKuxm492oEc2Hr7w_hMn9iBf8",
@@ -1012,7 +996,7 @@ var SITE_BACKEND = {
 };
 (function(){
   var ADMIN_USER = "Roboshark1019";
-  var ADMIN_PASS_HASH_FALLBACK = "d5e3d8ada1f498e06e6d325c433f6cc8c65457c8d2ce1e6e56d1997e3d0f74e1"; // offline-mode only
+  var ADMIN_PASS_HASH_FALLBACK = "d5e3d8ada1f498e06e6d325c433f6cc8c65457c8d2ce1e6e56d1997e3d0f74e1"; 
   var RARITIES = [
     {id:"783f04", label:"Trash"},
     {id:"000000", label:"Common"},
@@ -1025,12 +1009,15 @@ var SITE_BACKEND = {
   ];
   var LS_PENDING = "tr_suggest_pending_v1";
   var LS_APPROVED = "tr_community_approved_v1";
-  var LS_TOKENS_CACHE = "tr_tokens_cache_v1"; // last good copy of the server library (offline fallback)
+  var LS_TOKENS_CACHE = "tr_tokens_cache_v1"; 
+  var LS_DESC_PENDING = "tr_desc_pending_v1"; 
   var SS_ADMIN = "tr_admin_session_v1";
   function $(id){ return document.getElementById(id); }
   var suggestOverlay=$("suggestOverlay"), adminLoginOverlay=$("adminLoginOverlay"), adminPanelOverlay=$("adminPanelOverlay");
   var backendNote=$("backendNote"), sugMsg=$("sugMsg"), adminLoginMsg=$("adminLoginMsg");
   var pendingList=$("pendingList"), approvedList=$("approvedList"), pendingCount=$("pendingCount"), approvedCount=$("approvedCount");
+  var descPendingList=$("descPendingList"), descOverlay=$("descOverlay"), descMsg=$("descMsg");
+  var descTarget=null; 
   var adminBtn=$("adminBtn"), adminModeNote=$("adminModeNote"), suggestModeNote=$("suggestModeNote");
   var rarSel=$("sugRarity");
   rarSel.innerHTML="";
@@ -1045,18 +1032,19 @@ var SITE_BACKEND = {
   function loadLS(key){ try{ var a=JSON.parse(localStorage.getItem(key)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
   function saveLS(key,val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
   function uid(p){ return (p||"id_")+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8); }
-  var serverDown=false; // set when the configured server can't be reached
-  function setBackendNote(){
-    if(!backendNote) return;
-    if(useServer && serverDown) backendNote.textContent="⚠ Can't reach the Supabase server — is the project unpaused? New suggestions will be kept on this device for now.";
-    else if(useServer) backendNote.textContent="Community suggestions are shared — approved tokens appear for everyone.";
-    else backendNote.textContent="Offline mode: suggestions on this device only until the free server is set up (see setup guide).";
-  }
+  var serverDown=false; 
+ function setBackendNote(){
+   if(!backendNote) return;
+   if(useServer && serverDown) backendNote.textContent="⚠ Can't reach the Supabase server — is the project unpaused? New suggestions will be kept on this device for now.";
+    else if(useServer) backendNote.textContent="";
+   else backendNote.textContent="Offline mode: suggestions on this device only until the free server is set up (see setup guide).";
+    backendNote.hidden = !backendNote.textContent;
+ }
   setBackendNote();
   function isAdmin(){
     if(useServer){
       if(!sbUser) return false;
-      // Belt-and-braces: only the configured admin email counts, not just any logged-in user.
+      
       var want=String(SITE_BACKEND.adminEmail||"").toLowerCase(), got=String((sbUser.email)||"").toLowerCase();
       return want && got===want;
     }
@@ -1064,8 +1052,8 @@ var SITE_BACKEND = {
   }
   function refreshAdminBtn(n){
     if(!adminBtn) return;
-    if(isAdmin()){ adminBtn.classList.add("loggedIn"); adminBtn.innerHTML="✅ Admin"+(typeof n==="number"&&n>0?" ("+n+")":""); }
-    else{ adminBtn.classList.remove("loggedIn"); adminBtn.textContent="🔒 Admin"; }
+    if(isAdmin()){ adminBtn.classList.add("loggedIn"); adminBtn.innerHTML="Admin"+(typeof n==="number"&&n>0?" ("+n+")":""); }
+    else{ adminBtn.classList.remove("loggedIn"); adminBtn.textContent="Admin"; }
   }
   async function sha256hex(str){
     if(window.crypto && crypto.subtle){ var b=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0");}).join(""); }
@@ -1075,7 +1063,7 @@ var SITE_BACKEND = {
   }
   function mergedOfflineRows(){
     var rows=loadLS(LS_TOKENS_CACHE);
-    var old=loadLS(LS_APPROVED); // one-time merge of pre-migration community approvals
+    var old=loadLS(LS_APPROVED); 
     if(old.length){
       old.forEach(function(o){
         var full=o.source?(o.name+" ("+o.source+")"):o.name;
@@ -1087,7 +1075,7 @@ var SITE_BACKEND = {
     }
     return rows;
   }
-  // ---- public: load the full token library from the server ----
+  
   async function loadServerTokens(){
     var rows=[];
     if(useServer && sb){
@@ -1097,25 +1085,23 @@ var SITE_BACKEND = {
           var rp=await sb.from("tokens").select("*").order("id",{ascending:true}).range(from, from+pageSize-1);
           if(rp.error) throw rp.error;
           var got=rp.data||[];
-          got.forEach(function(v){ rows.push({id:v.id, t:v.t, p:v.p, c:v.c, u:v.u, ux:v.ux, origin:v.origin, by_name:v.by_name}); });
+          got.forEach(function(v){ rows.push({id:v.id, t:v.t, p:v.p, c:v.c, u:v.u, ux:v.ux, d:(v.d||''), origin:v.origin, by_name:v.by_name}); });
           if(got.length<pageSize) break;
           from+=pageSize;
           if(from>=50000) break;
         }
         saveLS(LS_TOKENS_CACHE, rows);
-      }catch(e){
-        serverDown=true; setBackendNote();
-        rows=mergedOfflineRows();
-        if(rows.length && backendNote) backendNote.textContent+=" ("+rows.length.toLocaleString()+" cached tokens offline)";
+     }catch(e){
+       serverDown=true; setBackendNote();
+       rows=mergedOfflineRows();
       }
     } else {
       rows=mergedOfflineRows();
-      if(rows.length && backendNote) backendNote.textContent+=" ("+rows.length.toLocaleString()+" cached tokens)";
     }
     if(rows.length && window.tokenAddServerRows){ try{ window.tokenAddServerRows(rows); }catch(e){} }
     return rows;
   }
-  // ---- submit a suggestion ----
+  
   async function submitSuggestion(){
     var name=$("sugName").value.trim().slice(0,150), source=$("sugSource").value.trim().slice(0,120);
     var pdf=rarSel.value, url=$("sugUrl").value.trim().slice(0,500), notes=$("sugNotes").value.trim().slice(0,500), by=$("sugBy").value.trim().slice(0,60);
@@ -1149,7 +1135,7 @@ var SITE_BACKEND = {
     }catch(e){ sugMsg.textContent="Could not submit: "+(e&&e.message?e.message:e); }
     btn.disabled=false; btn.textContent="Submit for approval";
   }
-  // ---- admin: fetch lists ----
+  
   async function fetchPending(){
     if(useServer && sb){ var out=[]; var r1=await sb.from("suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r1.error) throw r1.error; (r1.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srv_"+v.id, name:v.name, source:v.source, pdf:v.pdf, url:v.url, notes:v.notes, by:v.by_name}); }); return out; }
     return loadLS(LS_PENDING);
@@ -1158,18 +1144,31 @@ var SITE_BACKEND = {
     if(useServer && sb){ var out2=[]; var r2=await sb.from("tokens").select("*").neq("origin","seed").order("id",{ascending:false}).limit(300); if(r2.error) throw r2.error; (r2.data||[]).forEach(function(v){ out2.push({docId:String(v.id), clientId:"srv_"+v.id, t:v.t, p:v.p, c:v.c, u:v.u, ux:v.ux, origin:v.origin, by:v.by_name}); }); return out2; }
     return mergedOfflineRows().filter(function(r){ return r.origin!=="seed"; }).map(function(r){ return {docId:String(r.id), clientId:"srv_"+r.id, t:r.t, p:r.p, c:r.c, u:r.u, ux:r.ux, origin:r.origin, by:r.by_name}; });
   }
+  async function fetchDescPending(){
+    if(useServer && sb){ var out=[]; var r3=await sb.from("desc_suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r3.error) throw r3.error; (r3.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvd_"+v.id, token_id:v.token_id, token_t:v.token_t, description:v.description, by:v.by_name}); }); return out; }
+    return loadLS(LS_DESC_PENDING);
+  }
   function rarityOptions(sel, val){
     sel.innerHTML=""; RARITIES.forEach(function(r){ var o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id===val) o.selected=true; sel.appendChild(o); });
   }
   async function refreshAdminLists(){
     if(!isAdmin()) return;
     pendingList.innerHTML='<div class="muted">Loading…</div>'; approvedList.innerHTML='<div class="muted">Loading…</div>';
+    if(descPendingList) descPendingList.innerHTML='<div class="muted">Loading…</div>';
     adminModeNote.textContent = (useServer && serverDown) ? ("⚠ Server unreachable — showing this device's data. Unpause the Supabase project, then hit Refresh.") : useServer ? ("Signed in as "+ADMIN_USER+" • shared server mode.") : "Offline mode — approvals on this device only. Set up Supabase to share across visitors.";
     try{
       var pend=await fetchPending(); var appr=await fetchApproved();
+      var descs=[];
+      try{ descs=await fetchDescPending(); }
+      catch(de){
+        if(descPendingList){
+          var m=String((de&&de.message)||de);
+          descPendingList.innerHTML='<div class="muted">'+(/desc_suggestions|schema cache|does not exist|404/i.test(m)?'Descriptions are not enabled yet — run supabase-descriptions-migration.sql in Supabase, then hit Refresh.':'Could not load descriptions: '+esc(m))+'</div>';
+        }
+      }
       pendingCount.textContent=pend.length?("("+pend.length+" pending)"):""; approvedCount.textContent=appr.length;
-      refreshAdminBtn(pend.length);
-      if(!pend.length) pendingList.innerHTML='<div class="muted">No pending suggestions. 🎉</div>';
+      refreshAdminBtn(pend.length+descs.length);
+      if(!pend.length) pendingList.innerHTML='<div class="muted">No pending suggestions.</div>';
       else{
         pendingList.innerHTML="";
         pend.forEach(function(p){
@@ -1185,10 +1184,10 @@ var SITE_BACKEND = {
           var urlIn=document.createElement("input"); urlIn.type="url"; urlIn.value=p.url||""; urlIn.placeholder="https://… (optional)"; urlIn.maxLength=500;
           var noteIn=document.createElement("input"); noteIn.type="text"; noteIn.value=(typeof p.notes==="string"?p.notes:"")||""; noteIn.placeholder="Notes (optional)"; noteIn.maxLength=300;
           card.appendChild(nmIn); card.appendChild(srcIn); card.appendChild(sel); card.appendChild(urlIn); card.appendChild(noteIn);
-          if(p.url){ var m=document.createElement("div"); m.className="meta"; var a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link ⧉"; m.appendChild(a); card.appendChild(m); }
+          if(p.url){ var m=document.createElement("div"); m.className="meta"; var a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link"; m.appendChild(a); card.appendChild(m); }
           var ops=document.createElement("div"); ops.className="ops";
-          var ok=document.createElement("button"); ok.className="btn small"; ok.textContent="✓ Approve";
-          var no=document.createElement("button"); no.className="btn small ghost"; no.textContent="✕ Reject";
+          var ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
+          var no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
           ok.onclick=function(){ approveItem(p, {name:nmIn.value.trim(), source:srcIn.value.trim(), pdf:sel.value, url:urlIn.value.trim(), notes:noteIn.value.trim()}); };
           no.onclick=function(){ rejectItem(p); };
           ops.appendChild(ok); ops.appendChild(no); card.appendChild(ops);
@@ -1206,13 +1205,37 @@ var SITE_BACKEND = {
           var rl=document.createElement("span"); rl.className="meta"; rl.textContent=" • "+(RARITIES.find(function(r){return r.id===a.c;})||{label:a.c}).label+(a.origin==="admin"?" • added by admin":(a.by?(" • suggested by "+a.by):" • community"));
           top.appendChild(rl);
           card.appendChild(top);
-          if(a.u){ var m=document.createElement("div"); m.className="meta"; var lk=document.createElement("a"); lk.href=a.u; lk.target="_blank"; lk.rel="noopener"; lk.textContent="link ⧉"; m.appendChild(lk); card.appendChild(m); }
+          if(a.u){ var m=document.createElement("div"); m.className="meta"; var lk=document.createElement("a"); lk.href=a.u; lk.target="_blank"; lk.rel="noopener"; lk.textContent="link"; m.appendChild(lk); card.appendChild(m); }
           var ops=document.createElement("div"); ops.className="ops";
           var rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
           rm.onclick=function(){ removeApproved(a); };
           ops.appendChild(rm); card.appendChild(ops);
           approvedList.appendChild(card);
         });
+      }
+      if(descPendingList){
+        if(!descs.length) descPendingList.innerHTML='<div class="muted">No pending descriptions.</div>';
+        else{
+          descPendingList.innerHTML="";
+          descs.forEach(function(g){
+            var card=document.createElement("div"); card.className="sugRow";
+            var top=document.createElement("div"); top.className="top";
+            var nm=document.createElement("span"); nm.className="nm"; nm.textContent=g.token_t||"(unknown token)";
+            top.appendChild(nm);
+            if(g.by){ var by=document.createElement("span"); by.className="meta"; by.textContent="from "+g.by; top.appendChild(by); }
+            card.appendChild(top);
+            var cur=tokenCurrentDesc(g);
+            if(cur){ var cm=document.createElement("div"); cm.className="meta"; cm.textContent="Current: "+cur; card.appendChild(cm); }
+            var prop=document.createElement("div"); prop.className="meta"; prop.style.marginTop="4px"; prop.textContent="Proposed: "+g.description; card.appendChild(prop);
+            var ops=document.createElement("div"); ops.className="ops";
+            var ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
+            var no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
+            ok.onclick=function(){ approveDescItem(g); };
+            no.onclick=function(){ rejectDescItem(g); };
+            ops.appendChild(ok); ops.appendChild(no); card.appendChild(ops);
+            descPendingList.appendChild(card);
+          });
+        }
       }
     }catch(e){ pendingList.innerHTML='<div class="muted">Could not load: '+esc(e&&e.message?e.message:e)+'</div>'; approvedList.innerHTML=""; }
   }
@@ -1244,6 +1267,112 @@ var SITE_BACKEND = {
       refreshAdminLists();
     }catch(e){ alert("Reject failed: "+(e&&e.message?e.message:e)); }
   }
+  
+  function tokenCurrentDesc(g){
+    return findLocalDesc(g);
+  }
+  function findLocalDesc(g){
+    try{
+      if(!window.tokenFindById) return "";
+      
+      var n=(window.tokenCount?window.tokenCount():0);
+      for(var i=0;i<n;i++){
+        var t=window.tokenFindById(i);
+        if(!t) continue;
+        if(g.token_id!=null && t.serverId!=null && String(t.serverId)===String(g.token_id)) return t.desc||"";
+        if(g.token_t && t.full===g.token_t) return t.desc||"";
+      }
+    }catch(e){}
+    return "";
+  }
+  function openDescFor(t){
+    if(!t) return;
+    descTarget={serverId:(t.serverId!=null?t.serverId:null), token_t:(t.full||t.name||""), current:(t.desc||"")};
+    $("descTokenName").textContent=descTarget.token_t;
+    $("descCurrentNote").textContent=descTarget.current?("Current description: "+descTarget.current):"No description yet — yours could be the first.";
+    $("descText").value=""; if(descMsg) descMsg.textContent="";
+    descOverlay.hidden=false;
+  }
+  function closeDesc(){ descOverlay.hidden=true; if(descMsg) descMsg.textContent=""; }
+  window.__suggestDesc=openDescFor;
+  async function submitDesc(){
+    var txt=$("descText").value.trim().slice(0,500), by=$("descBy").value.trim().slice(0,60);
+    if(!descTarget){ if(descMsg) descMsg.textContent="Pick a token from Browse all Tokens first."; return; }
+    if(!txt){ if(descMsg) descMsg.textContent="Please enter a description."; return; }
+    var btn=$("descSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; if(descMsg) descMsg.textContent="";
+    try{
+      if(useServer && sb && !serverDown){
+        try{
+          var ins=await sb.from("desc_suggestions").insert({token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by_name:by||""});
+          if(ins.error) throw ins.error;
+        }catch(se){
+          var sm=String((se&&se.message)||se);
+          if(/desc_suggestions|schema cache|does not exist|404/i.test(sm)){
+            if(descMsg) descMsg.textContent="Descriptions are not enabled on the server yet — the admin needs to run the migration first.";
+            btn.disabled=false; btn.textContent="Submit for approval";
+            return;
+          }
+          serverDown=true; setBackendNote();
+          var arr0=loadLS(LS_DESC_PENDING);
+          arr0.unshift({clientId:uid("locald_"), token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by:by, createdAt:Date.now()});
+          saveLS(LS_DESC_PENDING, arr0);
+          if(descMsg) descMsg.textContent="Server unreachable — saved on this device only. It will NOT be shared until the server is back.";
+          btn.disabled=false; btn.textContent="Submit for approval";
+          return;
+        }
+      } else {
+        var arr=loadLS(LS_DESC_PENDING);
+        arr.unshift({clientId:uid("locald_"), token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by:by, createdAt:Date.now()});
+        saveLS(LS_DESC_PENDING, arr);
+      }
+      $("descText").value=""; $("descBy").value="";
+      if(descMsg) descMsg.textContent="Thanks! Your description is waiting for admin approval.";
+      setTimeout(closeDesc, 1600);
+    }catch(e){ if(descMsg) descMsg.textContent="Could not submit: "+(e&&e.message?e.message:e); }
+    btn.disabled=false; btn.textContent="Submit for approval";
+  }
+  function applyDescLocal(g){
+    
+    try{
+      if(window.tokenFindById && window.tokenCount){
+        var n=window.tokenCount();
+        for(var i=0;i<n;i++){
+          var t=window.tokenFindById(i);
+          if(!t) continue;
+          if((g.token_id!=null && t.serverId!=null && String(t.serverId)===String(g.token_id)) || (g.token_t && t.full===g.token_t)){ t.desc=g.description; break; }
+        }
+      }
+      var cache=loadLS(LS_TOKENS_CACHE), changed=false;
+      cache.forEach(function(r){
+        if((g.token_id!=null && String(r.id)===String(g.token_id)) || (g.token_t && r.t===g.token_t)){ r.d=g.description; changed=true; }
+      });
+      if(changed) saveLS(LS_TOKENS_CACHE, cache);
+    }catch(e){}
+  }
+  async function approveDescItem(g){
+    if(!confirm("Approve this description? It will show on the token for everyone.")) return;
+    try{
+      if(useServer && sb && !serverDown){
+        if(g.token_id!=null){
+          var up=await sb.from("tokens").update({d:g.description.slice(0,500)}).eq("id", Number(g.token_id));
+          if(up.error) throw up.error;
+        }
+        if(g.docId){ var dl=await sb.from("desc_suggestions").delete().eq("id", Number(g.docId)); if(dl.error) throw dl.error; }
+      } else {
+        saveLS(LS_DESC_PENDING, loadLS(LS_DESC_PENDING).filter(function(x){ return x.clientId!==g.clientId; }));
+      }
+      applyDescLocal(g);
+      refreshAdminLists();
+    }catch(e){ alert("Approve failed: "+(e&&e.message?e.message:e)); }
+  }
+  async function rejectDescItem(g){
+    if(!confirm("Reject (delete) this description suggestion?")) return;
+    try{
+      if(useServer && sb && !serverDown){ if(g.docId){ var dr=await sb.from("desc_suggestions").delete().eq("id", Number(g.docId)); if(dr.error) throw dr.error; } }
+      else{ saveLS(LS_DESC_PENDING, loadLS(LS_DESC_PENDING).filter(function(x){ return x.clientId!==g.clientId; })); }
+      refreshAdminLists();
+    }catch(e){ alert("Reject failed: "+(e&&e.message?e.message:e)); }
+  }
   async function removeApproved(a){
     if(!confirm("Remove this live community token?")) return;
     try{
@@ -1272,11 +1401,11 @@ var SITE_BACKEND = {
         if(window.tokenAddServerRows){ try{ window.tokenAddServerRows([row]); }catch(e){} }
       }
       $("admName").value=""; $("admSource").value=""; $("admUrl").value=""; $("admNotes").value="";
-      msg.textContent="✓ Live now.";
+        msg.textContent="Live now.";
       refreshAdminLists();
     }catch(e){ msg.textContent="Add failed: "+(e&&e.message?e.message:e); }
   }
-  // ---- overlays ----
+  
   function openSuggest(){ suggestOverlay.hidden=false; }
   function closeSuggest(){ suggestOverlay.hidden=true; if(sugMsg) sugMsg.textContent=""; }
   function openLogin(){ adminLoginOverlay.hidden=false; adminLoginMsg.textContent=""; setTimeout(function(){ var u=$("adminUser"); if(u) u.focus(); },50); }
@@ -1286,12 +1415,15 @@ var SITE_BACKEND = {
   $("suggestBtn").onclick=openSuggest; $("suggestCloseBtn").onclick=closeSuggest; $("sugCancelBtn").onclick=closeSuggest;
   suggestOverlay.addEventListener("click", function(e){ if(e.target===suggestOverlay) closeSuggest(); });
   $("sugSubmitBtn").onclick=submitSuggestion;
+  $("descSubmitBtn").onclick=submitDesc;
+  $("descCloseBtn").onclick=closeDesc; $("descCancelBtn").onclick=closeDesc;
+  descOverlay.addEventListener("click", function(e){ if(e.target===descOverlay) closeDesc(); });
   adminBtn.onclick=function(){ if(isAdmin()) openPanel(); else openLogin(); };
   $("adminLoginCloseBtn").onclick=closeLogin; $("adminLoginCancelBtn").onclick=closeLogin;
   adminLoginOverlay.addEventListener("click", function(e){ if(e.target===adminLoginOverlay) closeLogin(); });
   $("adminPanelCloseBtn").onclick=closePanel;
   adminPanelOverlay.addEventListener("click", function(e){ if(e.target===adminPanelOverlay) closePanel(); });
-  document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ if(!suggestOverlay.hidden) closeSuggest(); if(!adminLoginOverlay.hidden) closeLogin(); if(!adminPanelOverlay.hidden) closePanel(); } });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ if(!suggestOverlay.hidden) closeSuggest(); if(!descOverlay.hidden) closeDesc(); if(!adminLoginOverlay.hidden) closeLogin(); if(!adminPanelOverlay.hidden) closePanel(); } });
   $("adminRefreshBtn").onclick=refreshAdminLists;
   $("admAddBtn").onclick=adminAddToken;
   $("adminLogoutBtn").onclick=async function(){
@@ -1336,10 +1468,8 @@ var SITE_BACKEND = {
   }
   refreshAdminBtn();
   loadServerTokens().then(function(rows){
-    if(rows && rows.length && backendNote) backendNote.textContent+=" ("+rows.length.toLocaleString()+" tokens live)";
     if(isAdmin()) refreshAdminBtn();
   });
-  window.__suggestRefreshAdmin = refreshAdminLists;
 })();
 </script>
 <div id="musicPanel" hidden style="position:fixed;right:14px;bottom:14px;width:320px;max-width:calc(100vw - 28px);background:linear-gradient(180deg,rgba(234,244,251,0.7) 0%,rgba(195,220,238,0.7) 45%,rgba(165,203,230,0.7) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;z-index:60;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 18px 50px rgba(0,0,0,.6);overflow:hidden;padding:8px">
