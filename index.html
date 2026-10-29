@@ -184,7 +184,10 @@
   #resultCard #tokenName{color:#12242f;text-shadow:0 1px 0 rgba(255,255,255,.8)}
   #tokenMeta .chip{background:#dcebf7;border-color:#8fb0c7;color:#0e4a5f}
   #tokenMeta .chip.dark{background:#e4ecf2;border-color:#9db4c6;color:#4a6579}
-  #tokenMeta .tdesc{flex-basis:100%;font-size:13px;line-height:1.45;opacity:.92}
+  #tokenMeta .tdesc{flex-basis:100%;font-size:13px;line-height:1.45;opacity:.92;color:#000}
+  body.dark #tokenMeta .tdesc{color:var(--ink)}
+  .tcard .tdesc{font-size:12.5px;color:#000}
+  body.dark .tcard .tdesc{color:var(--muted)}
   .tokenRow .descBtn{margin-left:auto;font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid #7a9ab5;background:#fff;color:#0e4a5f;cursor:pointer;white-space:nowrap}
   .tokenRow .descBtn:hover{border-color:#2f6d9e}
   #history li{border-bottom:1px solid #cfdee9;color:#1c2f3d}
@@ -791,7 +794,7 @@
       const s=document.createElement('div'); s.className='src';
       s.textContent=(t.source?('📚 '+t.source):'')+(t.notes.length?(' • '+t.notes.join(' • ')):'');
       d.appendChild(c); d.appendChild(h); d.appendChild(s);
-      if(t.desc){ const dd=document.createElement('div'); dd.className='src'; dd.textContent=t.desc; d.appendChild(dd); }
+      if(t.desc){ const dd=document.createElement('div'); dd.className='tdesc'; dd.textContent=t.desc; d.appendChild(dd); }
       const sv=document.createElement('button'); sv.className='btn small ghost saveCookieBtn'; sv.dataset.id=t.id; sv.textContent='Add to cookie jar'; sv.style.marginTop='8px';
       d.appendChild(sv);
       grid.appendChild(d);
