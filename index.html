@@ -7,7 +7,6 @@
 </head>
 <body>
 <style>
-  html{zoom:0.8}
   :root{
     --carib:#00c2d8;
     --carib-deep:#0096ad;
@@ -448,9 +447,7 @@
 <div id="logOverlay" hidden>
   <div id="logPanel" role="dialog" aria-modal="true" aria-label="Change log">
     <div class="dlg-bar"><b>Change Log</b><button class="btn small ghost" id="logCloseBtn" title="Close">✕</button></div>
-    <div id="logBody"><ul id="changeLog"><li>10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things</li><li>10/21/2026 - Added 84 Tokens</li><li>10/19/2026 - Added dark mode and the cookie jar</li><li>10/18/2026 - Website Created. Please Report any bugs to the discord.
-    ㅤ
-    if you have any suggestions please dont be afraid to suggest them.</li></ul></div>
+    <div id="logBody"><ul id="changeLog"></ul></div>
   </div>
 </div>
 <div class="overlay" id="suggestOverlay" hidden>
@@ -545,6 +542,13 @@
       </div>
       <label class="f">Live added tokens — community + admin (<span id="approvedCount">0</span>)</label>
       <div id="approvedList"><div class="muted">Loading…</div></div>
+      <label class="f">Change log</label>
+      <div class="sugRow" id="logAddBox">
+        <input type="text" id="logText" maxlength="300" placeholder="What changed? (today's date is added automatically)">
+        <div class="muted" id="logAddMsg" style="margin-top:6px;min-height:16px"></div>
+        <div class="ops"><button class="btn small" id="logAddBtn">Add entry now</button></div>
+      </div>
+      <div id="logList"><div class="muted">Loading…</div></div>
     </div>
   </div>
 </div>
@@ -1015,12 +1019,15 @@ var SITE_BACKEND = {
   var LS_APPROVED = "tr_community_approved_v1";
   var LS_TOKENS_CACHE = "tr_tokens_cache_v1"; 
   var LS_DESC_PENDING = "tr_desc_pending_v1"; 
+  var LS_LOG = "tr_changelog_v1";
+  var DEFAULT_LOG = ["10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things", "10/21/2026 - Added 84 Tokens", "10/19/2026 - Added dark mode and the cookie jar", "10/18/2026 - Website Created. Please Report any bugs to the discord. If you have any suggestions please dont be afraid to suggest them."];
   var SS_ADMIN = "tr_admin_session_v1";
   function $(id){ return document.getElementById(id); }
   var suggestOverlay=$("suggestOverlay"), adminLoginOverlay=$("adminLoginOverlay"), adminPanelOverlay=$("adminPanelOverlay");
   var backendNote=$("backendNote"), sugMsg=$("sugMsg"), adminLoginMsg=$("adminLoginMsg");
   var pendingList=$("pendingList"), approvedList=$("approvedList"), pendingCount=$("pendingCount"), approvedCount=$("approvedCount");
   var descPendingList=$("descPendingList"), descOverlay=$("descOverlay"), descMsg=$("descMsg");
+  var logList=$("logList");
   var descTarget=null; 
   var adminBtn=$("adminBtn"), adminModeNote=$("adminModeNote"), suggestModeNote=$("suggestModeNote");
   var rarSel=$("sugRarity");
@@ -1152,6 +1159,29 @@ var SITE_BACKEND = {
     if(useServer && sb){ var out=[]; var r3=await sb.from("desc_suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r3.error) throw r3.error; (r3.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvd_"+v.id, token_id:v.token_id, token_t:v.token_t, description:v.description, by:v.by_name}); }); return out; }
     return loadLS(LS_DESC_PENDING);
   }
+  async function fetchLog(){
+    if(useServer && sb){ var out=[]; var r4=await sb.from("changelog").select("*").order("id",{ascending:false}).limit(200); if(r4.error) throw r4.error; (r4.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvl_"+v.id, entry:v.entry}); }); return out; }
+    return loadLS(LS_LOG);
+  }
+  function renderLog(rows){
+    var ul=$("changeLog"); if(!ul) return;
+    ul.innerHTML="";
+    (rows||[]).forEach(function(r){
+      var li=document.createElement("li");
+      li.textContent=(typeof r==="string")?r:(r.entry||"");
+      if(li.textContent) ul.appendChild(li);
+    });
+  }
+  async function loadLog(){
+    if(useServer && sb){
+      try{
+        var rows=await fetchLog();
+        saveLS(LS_LOG, rows.map(function(r){ return {docId:r.docId, clientId:r.clientId, entry:r.entry}; }));
+        return rows;
+      }catch(e){ return loadLS(LS_LOG); }
+    }
+    return loadLS(LS_LOG);
+  }
   function rarityOptions(sel, val){
     sel.innerHTML=""; RARITIES.forEach(function(r){ var o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id===val) o.selected=true; sel.appendChild(o); });
   }
@@ -1159,6 +1189,7 @@ var SITE_BACKEND = {
     if(!isAdmin()) return;
     pendingList.innerHTML='<div class="muted">Loading…</div>'; approvedList.innerHTML='<div class="muted">Loading…</div>';
     if(descPendingList) descPendingList.innerHTML='<div class="muted">Loading…</div>';
+    if(logList) logList.innerHTML='<div class="muted">Loading…</div>';
     adminModeNote.textContent = (useServer && serverDown) ? ("⚠ Server unreachable — showing this device's data. Unpause the Supabase project, then hit Refresh.") : useServer ? ("Signed in as "+ADMIN_USER+" • shared server mode.") : "Offline mode — approvals on this device only. Set up Supabase to share across visitors.";
     try{
       var pend=await fetchPending(); var appr=await fetchApproved();
@@ -1171,6 +1202,14 @@ var SITE_BACKEND = {
         }
       }
       pendingCount.textContent=pend.length?("("+pend.length+" pending)"):""; approvedCount.textContent=appr.length;
+      var logs=[];
+      try{ logs=await fetchLog(); }
+      catch(le){
+        if(logList){
+          var lm=String((le&&le.message)||le);
+          logList.innerHTML='<div class="muted">'+(/changelog|schema cache|does not exist|404/i.test(lm)?'Change log is not enabled yet — run supabase-changelog-migration.sql in Supabase, then hit Refresh.':'Could not load change log: '+esc(lm))+'</div>';
+        }
+      }
       refreshAdminBtn(pend.length+descs.length);
       if(!pend.length) pendingList.innerHTML='<div class="muted">No pending suggestions.</div>';
       else{
@@ -1238,6 +1277,24 @@ var SITE_BACKEND = {
             no.onclick=function(){ rejectDescItem(g); };
             ops.appendChild(ok); ops.appendChild(no); card.appendChild(ops);
             descPendingList.appendChild(card);
+          });
+        }
+      }
+      if(logList){
+        if(!logs.length && logList.innerHTML.indexOf("not enabled yet")<0) logList.innerHTML='<div class="muted">No entries yet.</div>';
+        else if(logs.length){
+          logList.innerHTML="";
+          logs.forEach(function(g){
+            var card=document.createElement("div"); card.className="sugRow";
+            var top=document.createElement("div"); top.className="top";
+            var nm=document.createElement("span"); nm.className="nm"; nm.textContent=g.entry;
+            top.appendChild(nm);
+            card.appendChild(top);
+            var ops=document.createElement("div"); ops.className="ops";
+            var rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
+            rm.onclick=function(){ logRemoveEntry(g); };
+            ops.appendChild(rm); card.appendChild(ops);
+            logList.appendChild(card);
           });
         }
       }
@@ -1377,6 +1434,39 @@ var SITE_BACKEND = {
       refreshAdminLists();
     }catch(e){ alert("Reject failed: "+(e&&e.message?e.message:e)); }
   }
+  async function logAddEntry(){
+    var msg=$("logAddMsg"); msg.textContent="";
+    var txt=$("logText").value.trim().slice(0,300);
+    if(!txt){ msg.textContent="Type what changed first."; return; }
+    var d=new Date();
+    var line=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear()+" - "+txt;
+    try{
+      if(useServer && sb && !serverDown){
+        var ai=await sb.from("changelog").insert({entry:line}).select();
+        if(ai.error) throw ai.error;
+      } else {
+        var cache=loadLS(LS_LOG); cache.unshift({clientId:uid("locallog_"), entry:line}); saveLS(LS_LOG, cache);
+      }
+      $("logText").value=""; msg.textContent="Live now.";
+      var rows=await fetchLog().catch(function(){ return loadLS(LS_LOG); });
+      renderLog(rows && rows.length?rows:DEFAULT_LOG);
+      refreshAdminLists();
+    }catch(e){
+      var sm=String((e&&e.message)||e);
+      if(/changelog|schema cache|does not exist|404/i.test(sm)){ msg.textContent="Change log is not enabled on the server yet — run the migration first."; }
+      else msg.textContent="Add failed: "+sm;
+    }
+  }
+  async function logRemoveEntry(g){
+    if(!confirm("Remove this change log entry?")) return;
+    try{
+      if(useServer && sb && !serverDown){ if(g.docId){ var dr=await sb.from("changelog").delete().eq("id", Number(g.docId)); if(dr.error) throw dr.error; } }
+      else{ saveLS(LS_LOG, loadLS(LS_LOG).filter(function(x){ return String(x.clientId||"")!==String(g.clientId||""); })); }
+      var rows2=await fetchLog().catch(function(){ return loadLS(LS_LOG); });
+      renderLog(rows2 && rows2.length?rows2:DEFAULT_LOG);
+      refreshAdminLists();
+    }catch(e){ alert("Remove failed: "+(e&&e.message?e.message:e)); }
+  }
   async function removeApproved(a){
     if(!confirm("Remove this live community token?")) return;
     try{
@@ -1430,6 +1520,7 @@ var SITE_BACKEND = {
   document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ if(!suggestOverlay.hidden) closeSuggest(); if(!descOverlay.hidden) closeDesc(); if(!adminLoginOverlay.hidden) closeLogin(); if(!adminPanelOverlay.hidden) closePanel(); } });
   $("adminRefreshBtn").onclick=refreshAdminLists;
   $("admAddBtn").onclick=adminAddToken;
+  $("logAddBtn").onclick=logAddEntry;
   $("adminLogoutBtn").onclick=async function(){
     try{ if(useServer && sb) await sb.auth.signOut(); }catch(e){}
     offlineAdmin=false; try{ sessionStorage.removeItem(SS_ADMIN); }catch(e){}
@@ -1474,6 +1565,8 @@ var SITE_BACKEND = {
   loadServerTokens().then(function(rows){
     if(isAdmin()) refreshAdminBtn();
   });
+  renderLog(DEFAULT_LOG);
+  loadLog().then(function(rows){ renderLog(rows && rows.length?rows:DEFAULT_LOG); });
 })();
 </script>
 <div id="musicPanel" hidden style="position:fixed;right:14px;bottom:14px;width:320px;max-width:calc(100vw - 28px);background:linear-gradient(180deg,rgba(234,244,251,0.7) 0%,rgba(195,220,238,0.7) 45%,rgba(165,203,230,0.7) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;z-index:60;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 18px 50px rgba(0,0,0,.6);overflow:hidden;padding:8px">
