@@ -480,6 +480,7 @@
       <input type="url" id="sugUrl" maxlength="500" placeholder="https://…" autocomplete="off">
       <label class="f" for="sugNotes">Extra notes (optional)</label>
       <textarea id="sugNotes" maxlength="500" placeholder="Anything else — variant, edition, why it fits the tier…"></textarea>
+      <input type="text" id="sugWebsite" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="muted" id="sugMsg" style="margin-top:8px;min-height:18px"></div>
       <div class="frow">
         <button class="btn" id="sugSubmitBtn">Submit for approval</button>
@@ -493,8 +494,8 @@
     <div class="dlg-bar"><b>Admin Login</b><button class="winX" id="adminLoginCloseBtn" title="Close">✕</button></div>
     <div class="formBody">
       <div class="muted">Only the site owner can approve tokens.</div>
-      <label class="f" for="adminUser">Username</label>
-      <input type="text" id="adminUser" autocomplete="username" placeholder="Roboshark1019">
+      <label class="f" for="adminEmail">Admin email</label>
+      <input type="email" id="adminEmail" autocomplete="username" placeholder="you@example.com">
       <label class="f" for="adminPass">Password</label>
       <input type="password" id="adminPass" autocomplete="current-password" placeholder="••••••••">
       <div class="muted" id="adminLoginMsg" style="margin-top:8px;min-height:18px"></div>
@@ -515,6 +516,7 @@
       <textarea id="descText" maxlength="500" placeholder="e.g. A plasma-forged blade carried by elite Covenant warriors…"></textarea>
       <label class="f" for="descBy">Your name (optional)</label>
       <input type="text" id="descBy" maxlength="60" placeholder="e.g. DiscordUser123" autocomplete="off">
+      <input type="text" id="descWebsite" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="muted" id="descMsg" style="margin-top:8px;min-height:18px"></div>
       <div class="frow">
         <button class="btn" id="descSubmitBtn">Submit for approval</button>
@@ -626,6 +628,7 @@
     return '#'+m(r)+m(g)+m(b);
   }
   function trueCss(hex){ return hex==='rainbow' ? null : '#'+hex; }
+  function isSafeHttpUrl(u){ return typeof u==="string" && /^\s*https?:\/\//i.test(u); }
 
   let TOKENS = [];
   try{
@@ -784,6 +787,7 @@
     try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return 'link'; }
   }
   function linkChip(url){
+    if(!isSafeHttpUrl(url)) return null;
     const a=document.createElement('a');
     a.className='chip'; a.href=url; a.target='_blank'; a.rel='noopener';
     a.style.textDecoration='none';
@@ -801,8 +805,8 @@
     resultCard.dataset.pdf = t.pdf;
     tokenMeta.innerHTML = '';
     tokenMeta.appendChild(colorChip(t));
-    if(t.url) tokenMeta.appendChild(linkChip(t.url));
-    for(const x of (t.extra||[])) tokenMeta.appendChild(linkChip(x));
+    if(isSafeHttpUrl(t.url)){ const _lc=linkChip(t.url); if(_lc) tokenMeta.appendChild(_lc); }
+    for(const x of (t.extra||[])){ const _xl=linkChip(x); if(_xl) tokenMeta.appendChild(_xl); }
     if(t.source){ const s=document.createElement('span'); s.className='chip'; s.textContent='📚 '+t.source; tokenMeta.appendChild(s); }
     for(const n of t.notes){ const s=document.createElement('span'); s.className='chip dark'; s.textContent=n; tokenMeta.appendChild(s); }
     if(t.desc){ const ds=document.createElement('div'); ds.className='tdesc'; ds.textContent=t.desc; tokenMeta.appendChild(ds); }
@@ -820,7 +824,7 @@
       if(t.pdf==='rainbow') h.classList.add('rainbow-text');
       else h.style.color=trueCss(t.pdf);
       h.dataset.pdf = t.pdf;
-      if(t.url){
+      if(isSafeHttpUrl(t.url)){
         const a=document.createElement('a');
         a.href=t.url; a.target='_blank'; a.rel='noopener';
         a.textContent=t.name + ' ⧉';
@@ -861,7 +865,7 @@
       d.className='dot'+(t.pdf==='rainbow'?' rainbow':'');
       if(t.pdf!=='rainbow') d.style.background='#'+t.pdf;
       a.appendChild(d);
-      if(t.url){
+      if(isSafeHttpUrl(t.url)){
         const link=document.createElement('a');
         link.href=t.url; link.target='_blank'; link.rel='noopener';
         link.style.color='inherit'; link.textContent=t.name+(t.source?` — ${t.source}`:'');
@@ -925,7 +929,7 @@
     const d=document.createElement('div'); d.className='tokenRow';
     d.dataset.search=(t.name+' '+(t.source||'')+' '+(t.full||'')).toLowerCase();
     let nameEl;
-    if(t.url){ nameEl=document.createElement('a'); nameEl.href=t.url; nameEl.target='_blank'; nameEl.rel='noopener'; }
+    if(isSafeHttpUrl(t.url)){ nameEl=document.createElement('a'); nameEl.href=t.url; nameEl.target='_blank'; nameEl.rel='noopener'; }
     else nameEl=document.createElement('span');
     nameEl.textContent=t.name;
     if(t.pdf==='rainbow') nameEl.classList.add('rainbow-text');
@@ -1077,17 +1081,18 @@
   };
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://user.uploads.dev/file/694b3283e7c2c05c6e4fb5d4e36716e3.js" integrity="sha384-UagCvVPT5XXA0Hx+nJYUAGBFseHT9zBgpJMSebsAxl9lciTwbT+39j5VfRjdP5Tp" crossorigin="anonymous"></script>
 <script>
 
 var SITE_BACKEND = {
   supabaseUrl: "https://jlqjfzmnwhotfqauhmwz.supabase.co",
   supabaseAnonKey: "sb_publishable_ix3r8EOKuxm492oEc2Hr7w_hMn9iBf8",
-  adminEmail: "Roboshark1019@gmail.com"
+  adminEmail: "Roboshark1019@gmail.com",
+  // Optional Cloudflare Turnstile site key. Frontend-only checks are NOT enforcement:
+  // real spam protection needs submissions verified server-side (see src/SECURITY.md).
+  turnstileSiteKey: ""
 };
 (function(){
-  var ADMIN_USER = "Roboshark1019";
-  var ADMIN_PASS_HASH_FALLBACK = "d5e3d8ada1f498e06e6d325c433f6cc8c65457c8d2ce1e6e56d1997e3d0f74e1"; 
   var RARITIES = [
     {id:"783f04", label:"Trash"},
     {id:"000000", label:"Common"},
@@ -1104,7 +1109,6 @@ var SITE_BACKEND = {
   var LS_DESC_PENDING = "tr_desc_pending_v1"; 
   var LS_LOG = "tr_changelog_v1";
   var DEFAULT_LOG = ["10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things", "10/21/2026 - Added 84 Tokens", "10/19/2026 - Added dark mode and the cookie jar", "10/18/2026 - Website Created. Please Report any bugs to the discord. If you have any suggestions please dont be afraid to suggest them."];
-  var SS_ADMIN = "tr_admin_session_v1";
   function $(id){ return document.getElementById(id); }
   var suggestOverlay=$("suggestOverlay"), adminLoginOverlay=$("adminLoginOverlay"), adminPanelOverlay=$("adminPanelOverlay");
   var backendNote=$("backendNote"), sugMsg=$("sugMsg"), adminLoginMsg=$("adminLoginMsg");
@@ -1119,11 +1123,21 @@ var SITE_BACKEND = {
   var admRarSel=$("admRarity"); if(admRarSel) rarityOptions(admRarSel,"000000");
   var edRarSel=$("edRarity"); if(edRarSel) rarityOptions(edRarSel,"000000");
   var useServer = !!(SITE_BACKEND.supabaseUrl && SITE_BACKEND.supabaseAnonKey && window.supabase);
-  var sb=null, sbUser=null, offlineAdmin=false;
+  var sb=null, sbUser=null;
   try{
     if(useServer){ sb=window.supabase.createClient(SITE_BACKEND.supabaseUrl, SITE_BACKEND.supabaseAnonKey); }
   }catch(e){ useServer=false; sb=null; }
-  function esc(s){ return String(s==null?"":s); }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function isSafeHttpUrl(u){ return typeof u==="string" && /^\s*https?:\/\//i.test(u); }
+  function checkRateLimit(key, minGapMs, maxPerWindow, windowMs){
+    try{
+      var now=Date.now(), arr=loadLS(key).filter(function(x){ return typeof x==="number" && (now-x)<windowMs; });
+      if(arr.length && (now-arr[arr.length-1])<minGapMs) return {ok:false, retryMs:minGapMs-(now-arr[arr.length-1])};
+      if(arr.length>=maxPerWindow) return {ok:false, retryMs:windowMs-(now-arr[0])};
+      arr.push(now); saveLS(key, arr);
+    }catch(e){}
+    return {ok:true};
+  }
   function loadLS(key){ try{ var a=JSON.parse(localStorage.getItem(key)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
   function saveLS(key,val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
   function uid(p){ return (p||"id_")+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8); }
@@ -1143,7 +1157,7 @@ var SITE_BACKEND = {
       var want=String(SITE_BACKEND.adminEmail||"").toLowerCase(), got=String((sbUser.email)||"").toLowerCase();
       return want && got===want;
     }
-    return offlineAdmin || sessionStorage.getItem(SS_ADMIN)==="1";
+    return false;
   }
   window.__isAdmin = isAdmin;
   function refreshEditButtons(){
@@ -1161,12 +1175,6 @@ var SITE_BACKEND = {
     if(isAdmin()){ adminBtn.classList.add("loggedIn"); adminBtn.innerHTML="Admin"+(typeof n==="number"&&n>0?" ("+n+")":""); }
     else{ adminBtn.classList.remove("loggedIn"); adminBtn.textContent="Admin"; }
     try{ refreshEditButtons(); }catch(e){}
-  }
-  async function sha256hex(str){
-    if(window.crypto && crypto.subtle){ var b=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0");}).join(""); }
-    var h1=0xdeadbeef,h2=0x41c6ce57; for(var i=0;i<str.length;i++){ var ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
-    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909); h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
-    return (h2>>>0).toString(16)+(h1>>>0).toString(16);
   }
   function mergedOfflineRows(){
     var rows=loadLS(LS_TOKENS_CACHE);
@@ -1215,6 +1223,9 @@ var SITE_BACKEND = {
     if(!name){ sugMsg.textContent="Please enter a token name."; return; }
     if(!source){ sugMsg.textContent="Please enter the source / franchise."; return; }
     if(url && !/^https?:\/\//i.test(url)){ sugMsg.textContent="Link must start with http:// or https:// (or leave it blank)."; return; }
+    if($("sugWebsite") && $("sugWebsite").value.trim()){ try{ $("sugName").value=""; $("sugSource").value=""; $("sugUrl").value=""; $("sugNotes").value=""; $("sugBy").value=""; }catch(e){} sugMsg.textContent="✓ Thanks! Your suggestion is waiting for admin approval."; try{ setTimeout(closeSuggest, 1600); }catch(e){} return; }
+    var _rl=checkRateLimit("tr_rl_suggest_v1", 60*1000, 5, 60*60*1000);
+    if(!_rl.ok){ sugMsg.textContent="Slow down — you can submit again in "+Math.max(1, Math.ceil(_rl.retryMs/1000))+"s."; return; }
     var btn=$("sugSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; sugMsg.textContent="";
     try{
       if(useServer && sb && !serverDown){
@@ -1286,7 +1297,7 @@ var SITE_BACKEND = {
     pendingList.innerHTML='<div class="muted">Loading…</div>'; approvedList.innerHTML='<div class="muted">Loading…</div>';
     if(descPendingList) descPendingList.innerHTML='<div class="muted">Loading…</div>';
     if(logList) logList.innerHTML='<div class="muted">Loading…</div>';
-    adminModeNote.textContent = (useServer && serverDown) ? ("⚠ Server unreachable — showing this device's data. Unpause the Supabase project, then hit Refresh.") : useServer ? ("Signed in as "+ADMIN_USER+" • shared server mode.") : "Offline mode — approvals on this device only. Set up Supabase to share across visitors.";
+    adminModeNote.textContent = (useServer && serverDown) ? ("⚠ Server unreachable — showing this device's data. Unpause the Supabase project, then hit Refresh.") : useServer ? ("Signed in as "+((sbUser&&sbUser.email)||"admin")+" • shared server mode.") : "Offline mode — approvals on this device only. Set up Supabase to share across visitors.";
     try{
       var pend=await fetchPending(); var appr=await fetchApproved();
       var descs=[];
@@ -1323,7 +1334,7 @@ var SITE_BACKEND = {
           var urlIn=document.createElement("input"); urlIn.type="url"; urlIn.value=p.url||""; urlIn.placeholder="https://… (optional)"; urlIn.maxLength=500;
           var noteIn=document.createElement("input"); noteIn.type="text"; noteIn.value=(typeof p.notes==="string"?p.notes:"")||""; noteIn.placeholder="Notes (optional)"; noteIn.maxLength=300;
           card.appendChild(nmIn); card.appendChild(srcIn); card.appendChild(sel); card.appendChild(urlIn); card.appendChild(noteIn);
-          if(p.url){ var m=document.createElement("div"); m.className="meta"; var a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link"; m.appendChild(a); card.appendChild(m); }
+          if(isSafeHttpUrl(p.url)){ var m=document.createElement("div"); m.className="meta"; var a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link"; m.appendChild(a); card.appendChild(m); }
           var ops=document.createElement("div"); ops.className="ops";
           var ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
           var no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
@@ -1344,7 +1355,7 @@ var SITE_BACKEND = {
           var rl=document.createElement("span"); rl.className="meta"; rl.textContent=" • "+(RARITIES.find(function(r){return r.id===a.c;})||{label:a.c}).label+(a.origin==="admin"?" • added by admin":(a.by?(" • suggested by "+a.by):" • community"));
           top.appendChild(rl);
           card.appendChild(top);
-          if(a.u){ var m=document.createElement("div"); m.className="meta"; var lk=document.createElement("a"); lk.href=a.u; lk.target="_blank"; lk.rel="noopener"; lk.textContent="link"; m.appendChild(lk); card.appendChild(m); }
+          if(isSafeHttpUrl(a.u)){ var m=document.createElement("div"); m.className="meta"; var lk=document.createElement("a"); lk.href=a.u; lk.target="_blank"; lk.rel="noopener"; lk.textContent="link"; m.appendChild(lk); card.appendChild(m); }
           var ops=document.createElement("div"); ops.className="ops";
           var rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
           rm.onclick=function(){ removeApproved(a); };
@@ -1456,6 +1467,9 @@ var SITE_BACKEND = {
     var txt=$("descText").value.trim().slice(0,500), by=$("descBy").value.trim().slice(0,60);
     if(!descTarget){ if(descMsg) descMsg.textContent="Pick a token from Browse all Tokens first."; return; }
     if(!txt){ if(descMsg) descMsg.textContent="Please enter a description."; return; }
+    if($("descWebsite") && $("descWebsite").value.trim()){ try{ $("descText").value=""; $("descBy").value=""; }catch(e){} if(descMsg) descMsg.textContent="Thanks! Your description is waiting for admin approval."; try{ setTimeout(closeDesc, 1600); }catch(e){} return; }
+    var _drl=checkRateLimit("tr_rl_desc_v1", 60*1000, 5, 60*60*1000);
+    if(!_drl.ok){ if(descMsg) descMsg.textContent="Slow down — you can submit again in "+Math.max(1, Math.ceil(_drl.retryMs/1000))+"s."; return; }
     var btn=$("descSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; if(descMsg) descMsg.textContent="";
     try{
       if(useServer && sb && !serverDown){
@@ -1598,7 +1612,7 @@ var SITE_BACKEND = {
   
   function openSuggest(){ suggestOverlay.hidden=false; }
   function closeSuggest(){ suggestOverlay.hidden=true; if(sugMsg) sugMsg.textContent=""; }
-  function openLogin(){ adminLoginOverlay.hidden=false; adminLoginMsg.textContent=""; setTimeout(function(){ var u=$("adminUser"); if(u) u.focus(); },50); }
+  function openLogin(){ adminLoginOverlay.hidden=false; adminLoginMsg.textContent=""; setTimeout(function(){ var u=$("adminEmail"); if(u) u.focus(); },50); }
   function closeLogin(){ adminLoginOverlay.hidden=true; }
   function openPanel(){ adminPanelOverlay.hidden=false; refreshAdminLists(); }
   function closePanel(){ adminPanelOverlay.hidden=true; }
@@ -1693,7 +1707,6 @@ var SITE_BACKEND = {
   $("logAddBtn").onclick=logAddEntry;
   $("adminLogoutBtn").onclick=async function(){
     try{ if(useServer && sb) await sb.auth.signOut(); }catch(e){}
-    offlineAdmin=false; try{ sessionStorage.removeItem(SS_ADMIN); }catch(e){}
     sbUser=null; refreshAdminBtn(0); closePanel();
   };
   $("adminExportBtn").onclick=async function(){
@@ -1709,18 +1722,19 @@ var SITE_BACKEND = {
     }catch(e){ alert("Export failed: "+(e&&e.message?e.message:e)); }
   };
   $("adminLoginBtn").onclick=async function(){
-    var u=$("adminUser").value.trim(), pw=$("adminPass").value;
+    var em=$("adminEmail").value.trim(), pw=$("adminPass").value;
     adminLoginMsg.textContent="";
-    if(u!==ADMIN_USER){ adminLoginMsg.textContent="Wrong username or password."; return; }
     var btn=$("adminLoginBtn"); btn.disabled=true; btn.textContent="Checking…";
     try{
-      if(useServer && sb){
-        if(!SITE_BACKEND.adminEmail){ adminLoginMsg.textContent="Server is missing adminEmail in SITE_BACKEND config."; }
-        else{ var lr=await sb.auth.signInWithPassword({email:SITE_BACKEND.adminEmail, password:pw}); if(lr.error) throw lr.error; sbUser=(lr.data&&lr.data.user)||null; closeLogin(); openPanel(); }
-      } else {
-        var h=await sha256hex(pw);
-        if(h===ADMIN_PASS_HASH_FALLBACK){ offlineAdmin=true; try{ sessionStorage.setItem(SS_ADMIN,"1"); }catch(e){} closeLogin(); openPanel(); }
-        else adminLoginMsg.textContent="Wrong username or password.";
+      if(!useServer || !sb){ adminLoginMsg.textContent="Server not configured — admin login needs Supabase."; }
+      else{
+        var lr=await sb.auth.signInWithPassword({email:em, password:pw}); if(lr.error) throw lr.error;
+        sbUser=(lr.data&&lr.data.user)||null;
+        if(!isAdmin()){
+          try{ await sb.auth.signOut(); }catch(e){}
+          sbUser=null; refreshAdminBtn(0);
+          adminLoginMsg.textContent="That account is not an admin.";
+        } else { closeLogin(); openPanel(); }
       }
     }catch(e){ adminLoginMsg.textContent="Login failed: "+(e&&e.message?e.message:e); }
     btn.disabled=false; btn.textContent="Log in";
@@ -1728,8 +1742,6 @@ var SITE_BACKEND = {
   if(useServer && sb){
     sb.auth.onAuthStateChange(function(ev, sess){ sbUser=(sess&&sess.user)||null; refreshAdminBtn(); if(sbUser && !adminPanelOverlay.hidden) refreshAdminLists(); });
     sb.auth.getSession().then(function(r){ sbUser=(r.data&&r.data.session&&r.data.session.user)||null; refreshAdminBtn(); });
-  } else {
-    try{ offlineAdmin = sessionStorage.getItem(SS_ADMIN)==="1"; }catch(e){}
   }
   refreshAdminBtn();
   loadServerTokens().then(function(rows){
