@@ -189,8 +189,13 @@
   body.dark #tokenMeta .tdesc{color:var(--ink)}
   .tcard .tdesc{font-size:12.5px;color:#000}
   body.dark .tcard .tdesc{color:var(--muted)}
-  .tokenRow .descBtn{margin-left:auto;font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid #7a9ab5;background:#fff;color:#0e4a5f;cursor:pointer;white-space:nowrap}
-  .tokenRow .descBtn:hover{border-color:#2f6d9e}
+ .tokenRow .descBtn{margin-left:auto;font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid #7a9ab5;background:#fff;color:#0e4a5f;cursor:pointer;white-space:nowrap}
+ .tokenRow .descBtn:hover{border-color:#2f6d9e}
+  .tokenRow .editBtn{font-size:11px;padding:2px 10px;border-radius:20px;border:1px solid #7a9ab5;background:#fff;color:#0e4a5f;cursor:pointer;white-space:nowrap}
+  .tokenRow .editBtn:hover{border-color:#2f6d9e}
+  .tcard .cardOps{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .tcard .editTokenBtn{margin-top:0}
+  #resultEditBtn[hidden], .editTokenBtn[hidden], .tokenRow .editBtn[hidden]{display:none}
   #history li{border-bottom:1px solid #cfdee9;color:#1c2f3d}
   #history li span:last-child{color:#5a7488}
   #musicMinBtn,#musicHideBtn,#menuCloseBtn{
@@ -382,6 +387,7 @@
       <button class="btn small ghost" id="saveResultBtn">Add to cookie jar</button>
       <button class="btn small ghost" id="clearHistBtn">Clear history</button>
       <button class="btn small ghost" id="resultDescBtn">Suggest Description</button>
+      <button class="btn small ghost" id="resultEditBtn" hidden>Edit token</button>
     </div>
     </div>
   </div>
@@ -513,6 +519,35 @@
       <div class="frow">
         <button class="btn" id="descSubmitBtn">Submit for approval</button>
         <button class="btn ghost" id="descCancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="editTokenOverlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Edit token">
+    <div class="dlg-bar"><b>Edit Token</b><button class="winX" id="edCloseBtn" title="Close">✕</button></div>
+    <div class="formBody">
+      <div class="muted" id="edTokenNote"></div>
+      <label class="f" for="edName">Token name *</label>
+      <input type="text" id="edName" maxlength="150" autocomplete="off">
+      <label class="f" for="edSource">Source / franchise *</label>
+      <input type="text" id="edSource" maxlength="120" autocomplete="off">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:160px">
+          <label class="f" for="edRarity">Rarity *</label>
+          <select id="edRarity"></select>
+        </div>
+      </div>
+      <label class="f" for="edUrl">Info / wiki link (optional)</label>
+      <input type="url" id="edUrl" maxlength="500" placeholder="https://…" autocomplete="off">
+      <label class="f" for="edNotes">Extra notes (optional)</label>
+      <input type="text" id="edNotes" maxlength="300" placeholder="Extra (...) text">
+      <label class="f" for="edDesc">Description (optional)</label>
+      <textarea id="edDesc" maxlength="500" placeholder="Token description…"></textarea>
+      <div class="muted" id="edMsg" style="margin-top:8px;min-height:18px"></div>
+      <div class="frow">
+        <button class="btn" id="edSaveBtn">Save changes</button>
+        <button class="btn ghost" id="edCancelBtn">Cancel</button>
       </div>
     </div>
   </div>
@@ -801,8 +836,14 @@
       s.textContent=(t.source?('📚 '+t.source):'')+(t.notes.length?(' • '+t.notes.join(' • ')):'');
       d.appendChild(c); d.appendChild(h); d.appendChild(s);
       if(t.desc){ const dd=document.createElement('div'); dd.className='tdesc'; dd.textContent=t.desc; d.appendChild(dd); }
-      const sv=document.createElement('button'); sv.className='btn small ghost saveCookieBtn'; sv.dataset.id=t.id; sv.textContent='Add to cookie jar'; sv.style.marginTop='8px';
-      d.appendChild(sv);
+      const ops=document.createElement('div'); ops.className='cardOps';
+      const sv=document.createElement('button'); sv.className='btn small ghost saveCookieBtn'; sv.dataset.id=t.id; sv.textContent='Add to cookie jar';
+      ops.appendChild(sv);
+      const ed=document.createElement('button'); ed.className='btn small ghost editTokenBtn'; ed.dataset.id=t.id; ed.textContent='Edit'; ed.title='Edit this token (admin only)';
+      try{ ed.hidden=!(window.__isAdmin&&window.__isAdmin()); }catch(_){ ed.hidden=true; }
+      ed.onclick=(function(tt){ return function(){ if(window.__openTokenEditor) window.__openTokenEditor(tt); }; })(t);
+      ops.appendChild(ed);
+      d.appendChild(ops);
       grid.appendChild(d);
     }
   }
@@ -895,6 +936,10 @@
     const db=document.createElement('button'); db.className='descBtn'; db.textContent='Suggest Description'; db.title='Suggest a description for this token';
     db.onclick=function(){ if(window.__suggestDesc) window.__suggestDesc(t); };
     d.appendChild(db);
+    const eb=document.createElement('button'); eb.className='editBtn editTokenBtn'; eb.textContent='Edit'; eb.title='Edit this token (admin only)';
+    try{ eb.hidden=!(window.__isAdmin&&window.__isAdmin()); }catch(_){ eb.hidden=true; }
+    eb.onclick=function(){ if(window.__openTokenEditor) window.__openTokenEditor(t); };
+    d.appendChild(eb);
     return d;
   }
   function buildMenu(){
@@ -970,6 +1015,43 @@
     return true;
   };
   
+  window.tokenUpdateToken = (id, f)=>{
+    const t=TOKENS[id];
+    if(!t) return null;
+    const name=String((f&&f.name)||'').trim().slice(0,150);
+    const source=String((f&&f.source)||'').trim().slice(0,120);
+    if(!name||!source) return null;
+    let pdf=String((f&&f.pdf)||'000000').toLowerCase();
+    if(pdf!=='rainbow'&&!/^[0-9a-f]{6}$/.test(pdf)) pdf='000000';
+    const url=String((f&&f.url)||'').trim().slice(0,500);
+    const notes=String((f&&f.notes)||'').trim().slice(0,300);
+    const desc=String((f&&f.desc)||'').trim().slice(0,500);
+    let full=source?(name+' ('+source+')'):name;
+    if(notes) full+=' ('+notes+')';
+    try{
+      const nt=parseToken(full, t.page||0, t.id, pdf, {u:(url||null), ux:(t.extra||[]), d:desc});
+      t.full=nt.full; t.name=nt.name; t.source=nt.source; t.notes=nt.notes; t.cat=nt.cat;
+    }catch(_){ t.full=full; t.name=name; t.source=source; t.notes=notes?[notes]:[]; }
+    t.pdf=pdf; t.url=url||null; t.desc=desc;
+    deck=[];
+    try{ renderPills(); renderSwatches(); applyFilterInfo(); }catch(_){}
+    try{
+      if(window.__lastSingle&&window.__lastSingle.id===id){ showSingle(t); }
+      if(Array.isArray(lastShown)&&lastShown.some(function(x){ return x&&x.id===id; })){
+        lastShown=lastShown.map(function(x){ return (x&&x.id===id)?t:x; });
+        showGrid(lastShown);
+      }
+    }catch(_){}
+    try{
+      if(typeof menuBuilt!=='undefined'&&menuBuilt){ menuBuilt=false; if(typeof menuBody!=='undefined'&&menuBody) menuBody.innerHTML=''; if(typeof currentFilter!=='undefined') currentFilter=''; }
+      if(typeof menuOverlay!=='undefined'&&menuOverlay&&!menuOverlay.hidden){
+        try{ buildMenu(); }catch(_){}
+        try{ if(typeof menuSearch!=='undefined'&&menuSearch){ menuSearch.value=''; filterMenu(''); } }catch(_){}
+      }
+    }catch(_){}
+    try{ renderHistory(); }catch(_){}
+    return t;
+  };
   window.tokenAddServerRows = (rows)=>{
     if(!Array.isArray(rows)) return 0;
     let added=0;
@@ -1035,6 +1117,7 @@ var SITE_BACKEND = {
   rarSel.innerHTML="";
   RARITIES.forEach(function(r){ var o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id==="000000") o.selected=true; rarSel.appendChild(o); });
   var admRarSel=$("admRarity"); if(admRarSel) rarityOptions(admRarSel,"000000");
+  var edRarSel=$("edRarity"); if(edRarSel) rarityOptions(edRarSel,"000000");
   var useServer = !!(SITE_BACKEND.supabaseUrl && SITE_BACKEND.supabaseAnonKey && window.supabase);
   var sb=null, sbUser=null, offlineAdmin=false;
   try{
@@ -1062,10 +1145,22 @@ var SITE_BACKEND = {
     }
     return offlineAdmin || sessionStorage.getItem(SS_ADMIN)==="1";
   }
+  window.__isAdmin = isAdmin;
+  function refreshEditButtons(){
+    var admin=false;
+    try{ admin=!!isAdmin(); }catch(e){ admin=false; }
+    try{
+      var btns=document.querySelectorAll('.editTokenBtn, .tokenRow .editBtn, #resultEditBtn');
+      for(var i=0;i<btns.length;i++){ btns[i].hidden=!admin; }
+    }catch(e){}
+    return admin;
+  }
+  window.__refreshEditButtons = refreshEditButtons;
   function refreshAdminBtn(n){
     if(!adminBtn) return;
     if(isAdmin()){ adminBtn.classList.add("loggedIn"); adminBtn.innerHTML="Admin"+(typeof n==="number"&&n>0?" ("+n+")":""); }
     else{ adminBtn.classList.remove("loggedIn"); adminBtn.textContent="Admin"; }
+    try{ refreshEditButtons(); }catch(e){}
   }
   async function sha256hex(str){
     if(window.crypto && crypto.subtle){ var b=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str)); return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0");}).join(""); }
@@ -1513,6 +1608,80 @@ var SITE_BACKEND = {
   $("descSubmitBtn").onclick=submitDesc;
   $("descCloseBtn").onclick=closeDesc; $("descCancelBtn").onclick=closeDesc;
   descOverlay.addEventListener("click", function(e){ if(e.target===descOverlay) closeDesc(); });
+  var editOverlay=$("editTokenOverlay"), editMsg=$("edMsg"), editTargetId=null, editTargetKey=null;
+  function openEditFor(t){
+    if(!isAdmin()) return;
+    if(typeof t==="number"){ try{ t=window.tokenFindById(t); }catch(e){ t=null; } }
+    if(!t) return;
+    editTargetId=(t.id!=null?t.id:null);
+    editTargetKey=(t.serverId!=null?("srv:"+t.serverId):("full:"+(t.full||"")));
+    $("edTokenNote").textContent="Editing: "+(t.full||t.name||"");
+    $("edName").value=t.name||"";
+    $("edSource").value=t.source||"";
+    if($("edRarity")) rarityOptions($("edRarity"), t.pdf||"000000");
+    $("edUrl").value=t.url||"";
+    $("edNotes").value=(t.notes||[]).join("; ");
+    $("edDesc").value=t.desc||"";
+    if(editMsg) editMsg.textContent=(t.serverId!=null?"":"Note: this token has no server ID — edit applies to this session only.");
+    editOverlay.hidden=false;
+  }
+  function closeEdit(){ editOverlay.hidden=true; if(editMsg) editMsg.textContent=""; editTargetId=null; editTargetKey=null; }
+  window.__openTokenEditor=openEditFor;
+  async function saveEdit(){
+    if(!isAdmin()){ if(editMsg) editMsg.textContent="Admin login required."; return; }
+    if(editTargetId==null){ if(editMsg) editMsg.textContent="No token selected."; return; }
+    var t=null; try{ t=window.tokenFindById(editTargetId); }catch(e){}
+    if(t && editTargetKey){
+      var match=(t.serverId!=null&&editTargetKey===("srv:"+t.serverId))||(t.serverId==null&&editTargetKey===("full:"+(t.full||"")));
+      if(!match){
+        var found=null;
+        try{
+          var wantSrv=(editTargetKey.indexOf("srv:")===0?editTargetKey.slice(4):null);
+          var wantFull=(editTargetKey.indexOf("full:")===0?editTargetKey.slice(5):null);
+          var n=(window.tokenCount?window.tokenCount():0);
+          for(var i=0;i<n;i++){ var c=window.tokenFindById(i); if(!c) continue;
+            if(wantSrv!=null&&c.serverId!=null&&String(c.serverId)===String(wantSrv)){ found=c; break; }
+            if(wantSrv==null&&wantFull!=null&&(c.full||"")===wantFull){ found=c; break; }
+          }
+        }catch(e){}
+        if(found){ t=found; editTargetId=t.id; } else t=null;
+      }
+    }
+    if(!t){ if(editMsg) editMsg.textContent="Token no longer exists (list changed). Please reopen it."; return; }
+    var name=$("edName").value.trim().slice(0,150), source=$("edSource").value.trim().slice(0,120);
+    var pdf=$("edRarity").value, url=$("edUrl").value.trim().slice(0,500);
+    var notes=$("edNotes").value.trim().slice(0,300), desc=$("edDesc").value.trim().slice(0,500);
+    if(!name){ if(editMsg) editMsg.textContent="Token name is required."; return; }
+    if(!source){ if(editMsg) editMsg.textContent="Source is required."; return; }
+    if(url && !/^https?:\/\//i.test(url)){ if(editMsg) editMsg.textContent="Link must start with http:// or https:// (or leave it blank)."; return; }
+    var btn=$("edSaveBtn"); btn.disabled=true; btn.textContent="Saving…"; if(editMsg) editMsg.textContent="";
+    var full=source?(name+" ("+source+")"):name; if(notes) full+=" ("+notes+")";
+    try{
+      if(useServer && sb && !serverDown && t.serverId!=null){
+        var up=await sb.from("tokens").update({t:full.slice(0,500), c:pdf, u:url||"", d:desc}).eq("id", Number(t.serverId));
+        if(up.error) throw up.error;
+        var cache=loadLS(LS_TOKENS_CACHE), changed=false;
+        cache.forEach(function(r){ if(String(r.id)===String(t.serverId)){ r.t=full.slice(0,500); r.c=pdf; r.u=url||""; r.d=desc; changed=true; } });
+        if(changed) saveLS(LS_TOKENS_CACHE, cache);
+      } else if((!useServer || !sb) && t.serverId!=null){
+        var cache2=loadLS(LS_TOKENS_CACHE), ch2=false;
+        cache2.forEach(function(r){ if(String(r.id)===String(t.serverId)){ r.t=full.slice(0,500); r.c=pdf; r.u=url||""; r.d=desc; ch2=true; } });
+        if(ch2) saveLS(LS_TOKENS_CACHE, cache2);
+      }
+      if(window.tokenUpdateToken){ window.tokenUpdateToken(editTargetId, {name:name, source:source, notes:notes, pdf:pdf, url:url, desc:desc}); }
+      if(editMsg) editMsg.textContent="Saved.";
+      try{ if(!$("adminPanelOverlay").hidden) refreshAdminLists(); }catch(e){}
+      try{ refreshEditButtons(); }catch(e){}
+      setTimeout(closeEdit, 700);
+    }catch(e){ if(editMsg) editMsg.textContent="Save failed: "+(e&&e.message?e.message:e); }
+    btn.disabled=false; btn.textContent="Save changes";
+  }
+  if($("edSaveBtn")) $("edSaveBtn").onclick=saveEdit;
+  if($("edCancelBtn")) $("edCancelBtn").onclick=closeEdit;
+  if($("edCloseBtn")) $("edCloseBtn").onclick=closeEdit;
+  if(editOverlay) editOverlay.addEventListener("click", function(e){ if(e.target===editOverlay) closeEdit(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape"&&editOverlay&&!editOverlay.hidden) closeEdit(); });
+  if($("resultEditBtn")) $("resultEditBtn").onclick=function(){ try{ if(window.__lastSingle) openEditFor(window.__lastSingle); }catch(e){} };
   adminBtn.onclick=function(){ if(isAdmin()) openPanel(); else openLogin(); };
   $("adminLoginCloseBtn").onclick=closeLogin; $("adminLoginCancelBtn").onclick=closeLogin;
   adminLoginOverlay.addEventListener("click", function(e){ if(e.target===adminLoginOverlay) closeLogin(); });
