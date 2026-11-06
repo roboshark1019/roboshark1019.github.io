@@ -750,6 +750,8 @@
       for(let i=0;i<n;i++) out.push(pool[(Math.random()*pool.length)|0]);
       return out;
     }
+    const seenT=new Set(); pool=pool.filter(t=>{ if(seenT.has(t.full)) return false; seenT.add(t.full); return true; });
+    if(!pool.length) return [];
     const key = activeCat+'|'+activeColor+'|'+searchInput.value.trim().toLowerCase()+'|'+sortSel.value;
     if(key!==deckKey){ deckKey=key; deck = shuffle(pool.map(t=>t.id)); }
     const inPool = new Set(pool.map(t=>t.id));
@@ -1412,6 +1414,12 @@ var SITE_BACKEND = {
     try{
       var full=edited.source?(edited.name+" ("+edited.source+")"):edited.name;
       if(edited.notes) full+=" ("+String(edited.notes).slice(0,120)+")";
+      var dup=false;
+      if(window.tokenCount && window.tokenFindById){
+        var _n=window.tokenCount();
+        for(var _i=0;_i<_n;_i++){ var _t=window.tokenFindById(_i); if(_t && _t.full===full){ dup=true; break; } }
+      }
+      if(dup && !confirm("This exact token is already live. Add it again anyway?")) return;
       if(useServer && sb && !serverDown){
         var ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""}).select();
         if(ai.error) throw ai.error;
@@ -1593,6 +1601,12 @@ var SITE_BACKEND = {
     if(!name||!source){ msg.textContent="Name and source are required."; return; }
     if(url && !/^https?:\/\//i.test(url)){ msg.textContent="Link must start with http:// or https:// (or leave it blank)."; return; }
     var full=source?(name+" ("+source+")"):name; if(notes) full+=" ("+notes+")";
+    var dup2=false;
+    if(window.tokenCount && window.tokenFindById){
+      var _n2=window.tokenCount();
+      for(var _i2=0;_i2<_n2;_i2++){ var _t2=window.tokenFindById(_i2); if(_t2 && _t2.full===full){ dup2=true; break; } }
+    }
+    if(dup2 && !confirm("This exact token is already live. Add it again anyway?")) return;
     try{
       if(useServer && sb && !serverDown){
         var ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:pdf, u:url||"", ux:[], origin:"admin", by_name:""}).select();
