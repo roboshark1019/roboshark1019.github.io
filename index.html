@@ -106,7 +106,7 @@
     box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 2px 6px rgba(0,0,0,.4);
   }
   .btn.small{padding:8px 13px;font-size:13px}
-  
+
   button.btn:not([disabled]){color:#0a2c40;text-shadow:0 1px 0 rgba(255,255,255,.6)}
   button.btn.ghost:not([disabled]){color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.7)}
   button.pill:not([disabled]),button.swatch:not([disabled]){color:#0e2a3f}
@@ -125,6 +125,7 @@
   }
   .cat{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--carib)}
   #tokenName{font-size:clamp(24px,4.5vw,38px);margin:.35em 0 .2em;line-height:1.15;font-weight:900;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+  #tokenName a{color:inherit}
   #tokenName.rainbow-text, .rainbow-text{
     background:#ff00ff;
     -webkit-background-clip:text;background-clip:text;color:transparent !important;
@@ -159,7 +160,7 @@
   #changeLog{margin:0;padding-left:22px}
   #changeLog li{margin:6px 0}
   #menuPanel{background:linear-gradient(180deg, rgba(255,255,255,.17), rgba(255,255,255,.03) 46%, rgba(0,0,0,.10)), rgba(26,36,50,.78);border:1px solid rgba(255,255,255,.42);border-radius:10px;max-width:760px;width:100%;max-height:86vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 24px 70px rgba(0,0,0,.6);backdrop-filter:blur(14px) saturate(1.3); -webkit-backdrop-filter:blur(14px) saturate(1.3)}
-  
+
   .dlg-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 4px 8px;
     font-size:14px;font-weight:700;color:#0c2740;text-shadow:0 1px 0 rgba(255,255,255,.8);
     background:none;border:0;box-shadow:none}
@@ -167,7 +168,7 @@
   .dlg-bar .dlg-count{opacity:.6;font-weight:600;font-size:12px}
   #menuPanel .dlg-bar,#musicPanel .dlg-bar{border:0}
   #ytWrap{border:1px solid rgba(61,107,143,0.7);border-radius:4px;overflow:hidden;background:#000}
-  
+
   .panel.dlg{background:linear-gradient(180deg,rgba(234,244,251,0.7) 0%,rgba(195,220,238,0.7) 45%,rgba(165,203,230,0.7) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;padding:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 10px 30px rgba(0,0,0,.4)}
   .panel.dlg .dlg-bar{border:0}
   .dlg-pad{padding:16px;background:linear-gradient(180deg,rgba(247,250,252,.7),rgba(223,234,243,.7));border:1px solid rgba(61,107,143,0.7);border-radius:4px;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
@@ -186,6 +187,26 @@
   #tokenMeta .chip{background:#dcebf7;border-color:#8fb0c7;color:#0e4a5f}
   #tokenMeta .chip.dark{background:#e4ecf2;border-color:#9db4c6;color:#4a6579}
   #tokenMeta .tdesc{flex-basis:100%;font-size:13px;line-height:1.45;opacity:.92;color:#000}
+  #rouletteViewport{position:relative;overflow:hidden;border:1px solid rgba(61,107,143,0.7);border-radius:4px;background:linear-gradient(180deg,rgba(247,250,252,.9),rgba(223,234,243,.9));height:188px;margin:12px 0 4px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  #rouletteTrack{position:absolute;top:0;left:0;height:100%;display:flex;gap:12px;align-items:stretch;padding:16px 0;will-change:transform}
+  .rcard{flex:0 0 168px;width:168px;background:#BAD3E6;border:1px solid #5a7f9c;border-left-width:5px;border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;text-align:center}
+  .rcard .rtype{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#0e6e8c}
+  .rcard .rname{font-weight:800;font-size:15px;line-height:1.25;color:#12242f;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .rcard .rsrc{font-size:11.5px;color:#3d5566;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard.winner{border-color:#000;box-shadow:0 0 16px rgba(0,0,0,.5)}
+  #rouletteMarker{position:absolute;top:8px;bottom:8px;left:50%;width:192px;transform:translateX(-50%);border:2px solid #000;border-radius:10px;box-shadow:0 0 16px rgba(0,0,0,.45),inset 0 0 10px rgba(0,0,0,.2);pointer-events:none}
+  #rouletteMarker[hidden]{display:none}
+  #rouletteIdle{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#4a6579;font-size:13px;font-weight:700}
+  body.dark #rouletteViewport{background:linear-gradient(180deg,rgba(34,44,58,.9),rgba(22,30,40,.9));border-color:rgba(0,194,216,.3)}
+  body.dark .rcard{background:#232c38;border-color:#3a4552}
+  body.dark .rcard .rtype{color:var(--carib)}
+  body.dark .rcard .rname{color:#eef6f8}
+  body.dark .rcard .rname[data-pdf="000000"]{color:#fff !important}
+  body.dark .rcard .rsrc{color:var(--muted)}
+  body.dark #rouletteIdle{color:var(--muted)}
+  body.dark .rcard.winner{border-color:#fff;box-shadow:0 0 16px rgba(255,255,255,.5)}
+  body.dark #rouletteMarker{border-color:#fff;box-shadow:0 0 16px rgba(255,255,255,.45),inset 0 0 10px rgba(255,255,255,.2)}
   body.dark #tokenMeta .tdesc{color:var(--ink)}
   .tcard .tdesc{font-size:12.5px;color:#000}
   body.dark .tcard .tdesc{color:var(--muted)}
@@ -208,14 +229,14 @@
     background:linear-gradient(180deg,#f7c9bc 0%,#ec9c83 42%,#d05a3c 50%,#e08a70 58%,#f0b6a2 100%);
     border-color:#7e2817;color:#fff;text-shadow:0 1px 2px rgba(90,10,0,.8);
   }
-  
+
   .dlg-bar button.winX{
     border:1px solid #7e2817;border-radius:4px;min-width:32px;padding:4px 8px;line-height:1;font-size:13px;
     background:linear-gradient(180deg,#f7c9bc 0%,#ec9c83 42%,#d05a3c 50%,#e08a70 58%,#f0b6a2 100%);
     color:#fff;text-shadow:0 1px 2px rgba(90,10,0,.8);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 3px rgba(0,0,0,.35);cursor:pointer;
   }
-  
+
   #menuPanel{background:linear-gradient(180deg,rgba(234,244,251,0.7) 0%,rgba(195,220,238,0.7) 45%,rgba(165,203,230,0.7) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;padding:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 24px 70px rgba(0,0,0,.6)}
   #menuHead{padding:10px 14px;text-align:left;background:linear-gradient(180deg,rgba(247,250,252,.7),rgba(232,241,247,.7));border:1px solid rgba(61,107,143,0.7);border-bottom:0;border-radius:4px 4px 0 0;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
   #menuSearch{width:100%;max-width:100%;min-width:0;background:#fff;border:1px solid #7a9ab5;color:#12242f;border-radius:3px;padding:8px 10px;font-size:14px;outline:none}
@@ -231,19 +252,19 @@
   .tokenRow a{color:inherit}
   .tokenRow .tsrc{color:#5a7488;font-size:12px}
   footer{margin-top:22px;color:var(--muted);font-size:37.5px;line-height:1.4;background:rgba(8,18,26,.55);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:12px 12px 16px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-  
+
   #musicBg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;display:none;background:#0b0e12}
   body.music-playing #musicBg{display:block}
   #musicBg .tiles{position:absolute;inset:-500px;background:url('https://images.steamusercontent.com/ugc/1761440749200121021/CB0E498D00F09A64AE0216DD7B0A1E1AFC4A18DC/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false') repeat;background-size:450px 450px;animation:musicTile 120s linear infinite;will-change:background-position}
   #musicBg .dim{position:absolute;inset:0;background:rgba(14,18,24,.6)}
   @keyframes musicTile{from{background-position:0 0}to{background-position:-450px -450px}}
-  
+
   #jumpscare{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);pointer-events:none}
   #jumpscare[hidden]{display:none}
   #jumpscare img{width:min(92vw,900px);height:auto;max-height:94vh;object-fit:contain}
   #ccBadge{position:fixed;left:8px;bottom:52px;z-index:40;font-size:9px;color:rgba(255,255,255,.6);text-decoration:none;background:rgba(8,18,26,.45);padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.15)}
   #darkBtn{position:fixed;left:8px;bottom:8px;z-index:40}
-  
+
   #sideBar{position:fixed;top:0;right:0;bottom:0;width:min(320px,88vw);z-index:45;display:flex;
     transform:translateX(0);transition:transform .3s ease;
     background:linear-gradient(180deg,rgba(234,244,251,.92) 0%,rgba(195,220,238,.92) 45%,rgba(165,203,230,.92) 100%);
@@ -268,9 +289,9 @@
   body.dark .cookieRow{border-bottom-color:#333d48;color:var(--ink)}
   body.dark .cookieRow .crm{border-color:#3a4552;color:var(--muted)}
   body.dark .cookieRow [data-pdf="000000"]{color:#fff !important}
-  
+
   body.dark{background-color:#05070d}
-  
+
   body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:#05070d url('https://user.uploads.dev/file/9d1cbed9d5b8f8a8e91300b355a9e3ae.png') no-repeat center center fixed;background-size:cover;
     opacity:0;transition:opacity .6s ease}
@@ -289,7 +310,7 @@
   body.dark #resultCard .dlg-pad{background:linear-gradient(180deg,rgba(34,44,58,.78),rgba(22,30,40,.78));border-color:rgba(0,194,216,.3)}
   body.dark #resultCard .cat{color:var(--carib)}
   body.dark #resultCard #tokenName{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
-  
+
   body.dark #resultCard #tokenName[data-pdf="000000"]{color:#fff !important}
   body.dark #resultCard[data-pdf="000000"]{border-color:rgba(255,255,255,.55) !important}
   body.dark .tcard h3[data-pdf="000000"]{color:#fff !important}
@@ -319,7 +340,7 @@
   body.dark .tcard .src{color:var(--muted)}
   body.dark #musicPanel{background:linear-gradient(180deg,rgba(40,54,72,.92),rgba(18,26,36,.92)) !important;border-color:rgba(0,194,216,.4) !important}
   body.dark #musicNote{color:#d7eef3 !important}
-  
+
   .overlay{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,14,18,.74);backdrop-filter:blur(3px)}
   .overlay[hidden]{display:none}
   .overlay .sheet{background:linear-gradient(180deg,rgba(234,244,251,0.97) 0%,rgba(195,220,238,0.97) 45%,rgba(165,203,230,0.97) 100%);border:1px solid rgba(47,91,125,0.7);border-radius:8px;padding:8px;max-width:640px;width:100%;max-height:86vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 24px 70px rgba(0,0,0,.6);color:#1c2f3d;text-align:left}
@@ -348,6 +369,16 @@
   body.dark .sugRow{background:#232c38;border-color:#3a4552}
   body.dark .sugRow .nm{color:#eef6f8}
   body.dark .sugRow .meta{color:var(--muted)}
+  #resultCard.collapsed{min-height:0;padding:0}
+  .panel.dlg.collapsed{padding:0}
+  header.hero.collapsed{padding:0}
+  body.dark .btn{background:linear-gradient(180deg,#43566d 0%,#314052 48%,#202b39 52%,#2b394d 100%);border-color:#0d1b28;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 0 8px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.5)}
+  body.dark button.btn:not([disabled]){color:#eef6f8;text-shadow:0 1px 2px rgba(0,0,0,.8)}
+  body.dark .dlg-pad button.btn.ghost:not([disabled]){color:#d7eef3;text-shadow:0 1px 2px rgba(0,0,0,.8);background:linear-gradient(180deg,rgba(70,90,110,.6),rgba(40,52,66,.6));border-color:rgba(0,194,216,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.4)}
+  body.dark .pill{background:linear-gradient(180deg,#43566d 0%,#2b394d 100%);border-color:#0d1b28;color:#d7eef3}
+  body.dark .pill.active{background:var(--carib);border-color:var(--carib);color:#06333b;box-shadow:0 4px 18px var(--carib-glow)}
+  body.dark .swatch{background:linear-gradient(180deg,#43566d 0%,#2b394d 100%);border-color:#0d1b28;color:#d7eef3}
+  *{border-radius:0 !important}
 </style>
 
 <div id="musicBg" aria-hidden="true"><div class="tiles"></div><div class="dim"></div></div>
@@ -382,6 +413,11 @@
     <div class="cat" id="tokenCat">ready</div>
     <div id="tokenName">ㅤ</div>
     <div id="tokenMeta"></div>
+    <div id="rouletteViewport">
+      <div id="rouletteTrack"></div>
+      <div id="rouletteIdle" class="muted">Draw to spin the wheel</div>
+      <div id="rouletteMarker" hidden></div>
+    </div>
     <div class="rowBetween" style="justify-content:center">
       <button class="btn small" id="rerollBtn">↻ Reroll</button>
       <button class="btn small ghost" id="saveResultBtn">Add to cookie jar</button>
@@ -618,15 +654,6 @@
   ];
   const PDF_LABEL = Object.fromEntries(PDF_COLORS.map(c=>[c.id,c.label]));
 
-  function displayColor(hex){
-    if(hex==='rainbow') return null;
-    const r=parseInt(hex.slice(0,2),16)/255, g=parseInt(hex.slice(2,4),16)/255, b=parseInt(hex.slice(4,6),16)/255;
-    const lum = 0.2126*r+0.7152*g+0.0722*b;
-    const mix = lum<0.18 ? 0.72 : lum<0.32 ? 0.5 : lum<0.45 ? 0.22 : 0;
-    if(!mix) return '#'+hex;
-    const m = v => Math.round((v+(1-v)*mix)*255).toString(16).padStart(2,'0');
-    return '#'+m(r)+m(g)+m(b);
-  }
   function trueCss(hex){ return hex==='rainbow' ? null : '#'+hex; }
   function isSafeHttpUrl(u){ return typeof u==="string" && /^\s*https?:\/\//i.test(u); }
 
@@ -799,21 +826,31 @@
 
   function showSingle(t){
     tokenCat.textContent = (CAT_LABEL[t.cat]||t.cat) + ' • ' + (PDF_LABEL[t.pdf]||t.pdf);
-    tokenName.textContent = t.name;
-    tokenName.classList.toggle('rainbow-text', t.pdf==='rainbow');
+    tokenName.innerHTML='';
+    if(isSafeHttpUrl(t.url)){
+      const a=document.createElement('a');
+      a.href=t.url; a.target='_blank'; a.rel='noopener'; a.textContent=t.name;
+      if(t.pdf==='rainbow') a.classList.add('rainbow-text');
+      else a.style.color='inherit';
+      a.style.textDecoration='underline'; a.style.textDecorationColor='currentColor'; a.style.textUnderlineOffset='3px';
+      tokenName.appendChild(a);
+    } else {
+      tokenName.textContent = t.name;
+    }
+    tokenName.classList.toggle('rainbow-text', t.pdf==='rainbow' && !isSafeHttpUrl(t.url));
     tokenName.style.color = t.pdf==='rainbow' ? '' : trueCss(t.pdf);
     tokenName.dataset.pdf = t.pdf;
     resultCard.style.borderColor = t.pdf==='rainbow' ? '#ff00ff' : trueCss(t.pdf);
     resultCard.dataset.pdf = t.pdf;
     tokenMeta.innerHTML = '';
     tokenMeta.appendChild(colorChip(t));
-    if(isSafeHttpUrl(t.url)){ const _lc=linkChip(t.url); if(_lc) tokenMeta.appendChild(_lc); }
     for(const x of (t.extra||[])){ const _xl=linkChip(x); if(_xl) tokenMeta.appendChild(_xl); }
     if(t.source){ const s=document.createElement('span'); s.className='chip'; s.textContent='📚 '+t.source; tokenMeta.appendChild(s); }
     for(const n of t.notes){ const s=document.createElement('span'); s.className='chip dark'; s.textContent=n; tokenMeta.appendChild(s); }
     if(t.desc){ const ds=document.createElement('div'); ds.className='tdesc'; ds.textContent=t.desc; tokenMeta.appendChild(ds); }
     if(t.page){ const p=document.createElement('span'); p.className='chip dark'; p.textContent='p.'+t.page; tokenMeta.appendChild(p); }
     resultCard.classList.remove('pop'); void resultCard.offsetWidth; resultCard.classList.add('pop');
+    if(!rouletteSpinning){ try{ rouletteShow(t); }catch(_){} }
     window.__lastSingle=t;
   }
   function showGrid(list){
@@ -881,15 +918,108 @@
     }
     histCount.textContent = history.length?`(${history.length})`:'';
   }
-  function doDraw(n){
+  const RCARD_W=168, RGAP=12, RSTEP=RCARD_W+RGAP;
+  const rouletteViewport=document.getElementById('rouletteViewport');
+  const rouletteTrack=document.getElementById('rouletteTrack');
+  const rouletteIdle=document.getElementById('rouletteIdle');
+  const rouletteMarker=document.getElementById('rouletteMarker');
+  let rouletteSpinning=false, rouletteRAF=0, rouletteAudio=null;
+  function rCardEl(t){
+    const d=document.createElement('div'); d.className='rcard'; d.dataset.pdf=t.pdf;
+    d.style.borderLeftColor = t.pdf==='rainbow' ? '#ff00ff' : trueCss(t.pdf);
+    const c1=document.createElement('div'); c1.className='rtype';
+    c1.textContent=(CAT_LABEL[t.cat]||t.cat)+' • '+(PDF_LABEL[t.pdf]||t.pdf);
+    const nm=document.createElement('div'); nm.className='rname'; nm.textContent=t.name; nm.dataset.pdf=t.pdf;
+    if(t.pdf==='rainbow') nm.classList.add('rainbow-text'); else nm.style.color=trueCss(t.pdf);
+    const c2=document.createElement('div'); c2.className='rsrc'; c2.textContent=t.source||'\u2014';
+    d.appendChild(c1); d.appendChild(nm); d.appendChild(c2);
+    return d;
+  }
+  function rouletteCenterX(idx){ return rouletteViewport.clientWidth/2 - (idx*RSTEP + RCARD_W/2); }
+  function rouletteBuild(items, winnerIdx){
+    rouletteTrack.innerHTML='';
+    rouletteTrack.style.transform='translateX(0px)';
+    const frag=document.createDocumentFragment();
+    items.forEach(function(tk,i){ const el=rCardEl(tk); if(i===winnerIdx) el.classList.add('winner'); frag.appendChild(el); });
+    rouletteTrack.appendChild(frag);
+    if(rouletteIdle) rouletteIdle.style.display='none';
+    if(rouletteMarker) rouletteMarker.hidden=false;
+  }
+  function rouletteStrip(pool, winner, N, stopIdx){
+    const items=[];
+    const sorted = sortSel && (sortSel.value==='az' || sortSel.value==='za') && pool.length>1;
+    if(sorted){
+      let wp=pool.findIndex(function(x){ return x.id===winner.id; });
+      if(wp<0) wp=0;
+      for(let i=0;i<N;i++){ items.push(pool[(((wp-stopIdx+i)%pool.length)+pool.length)%pool.length]); }
+    } else {
+      for(let i=0;i<N;i++){ items.push(i===stopIdx ? winner : pool[(Math.random()*pool.length)|0]); }
+    }
+    return items;
+  };
+  function rouletteShow(t){
+    if(!rouletteViewport || !TOKENS.length) return;
+    const pool=filteredPool();
+    if(!pool.length) return;
+    const w=pool.some(function(x){ return x.id===t.id; }) ? t : pool[0];
+    const N=23, mid=(N-1)/2, items=rouletteStrip(pool, w, N, mid);
+    rouletteBuild(items, mid);
+    rouletteTrack.style.transform='translateX('+rouletteCenterX(mid)+'px)';
+  }
+  function rouletteTick(){
+    try{
+      if(!rouletteAudio){ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; rouletteAudio=new AC(); }
+      if(rouletteAudio.state==='suspended') rouletteAudio.resume();
+      const o=rouletteAudio.createOscillator(), g=rouletteAudio.createGain();
+      o.type='square'; o.frequency.value=1800;
+      g.gain.setValueAtTime(0.03, rouletteAudio.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, rouletteAudio.currentTime+0.04);
+      o.connect(g); g.connect(rouletteAudio.destination);
+      o.start(); o.stop(rouletteAudio.currentTime+0.045);
+    }catch(_){}
+  }
+  function spinRoulette(winner, pool, done){
+    if(rouletteRAF){ cancelAnimationFrame(rouletteRAF); rouletteRAF=0; }
+    rouletteSpinning=true;
+    [draw1Btn,draw5Btn,draw10Btn,rerollBtn].forEach(function(b){ if(b) b.disabled=true; });
+    tokenCat.textContent='spinning\u2026';
+    tokenName.textContent='\u22EF'; tokenName.style.color=''; tokenName.classList.remove('rainbow-text'); delete tokenName.dataset.pdf;
+    tokenMeta.innerHTML='';
+    const N=52, stopIdx=N-5, items=rouletteStrip(pool, winner, N, stopIdx);
+    rouletteBuild(items, stopIdx);
+    const finish=function(){
+      [draw1Btn,draw5Btn,draw10Btn,rerollBtn].forEach(function(b){ if(b) b.disabled=false; });
+      try{ done(); }finally{ rouletteSpinning=false; }
+    };
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+      rouletteTrack.style.transform='translateX('+rouletteCenterX(stopIdx)+'px)';
+      finish(); return;
+    }
+    const jitter=(Math.random()*28-14);
+    const targetX=rouletteCenterX(stopIdx)+jitter;
+    const D=4600; let start=null, lastTick=0;
+    const stepFn=function(ts){
+      if(!start) start=ts;
+      const p=Math.min(1,(ts-start)/D), e=1-Math.pow(1-p,4);
+      const x=targetX*e;
+      rouletteTrack.style.transform='translateX('+x+'px)';
+      const idx=Math.floor(-x/RSTEP);
+      if(idx>lastTick){ lastTick=idx; rouletteTick(); }
+      if(p<1){ rouletteRAF=requestAnimationFrame(stepFn); }
+      else { rouletteRAF=0; rouletteTrack.style.transform='translateX('+targetX+'px)'; finish(); }
+    };
+    rouletteRAF=requestAnimationFrame(stepFn);
+  }
+  function doDraw(n, instant){
     const pool = applyFilterInfo();
     if(!pool.length){ tokenCat.textContent='no matches'; tokenName.textContent='No tokens match — clear search or change filter.'; tokenName.style.color=''; delete tokenName.dataset.pdf; tokenName.classList.remove('rainbow-text'); tokenMeta.innerHTML=''; grid.innerHTML=''; return; }
     const got = draw(pool, n);
     if(!got.length) return;
-    showSingle(got[0]);
-    showGrid(got);
-    pushHistory(got);
-    lastShown = got;
+    if(got.length===1 && !instant){
+      spinRoulette(got[0], pool, function(){ showSingle(got[0]); showGrid(got); pushHistory(got); lastShown=got; });
+    } else {
+      showSingle(got[0]); showGrid(got); pushHistory(got); lastShown=got;
+    }
   }
   async function copyText(txt, btn){
     try{ await navigator.clipboard.writeText(txt); const o=btn.textContent; btn.textContent='✓ Copied!'; setTimeout(()=>btn.textContent=o,1200); }
@@ -899,8 +1029,8 @@
     }
   }
 
-  draw1Btn.onclick=()=>doDraw(1);
-  resultDescBtn.onclick=()=>{ if(!window.__lastSingle){ try{ doDraw(1); }catch(e){} } if(window.__suggestDesc && window.__lastSingle) window.__suggestDesc(window.__lastSingle); };
+  draw1Btn.onclick=()=>doDraw(1,true);
+  resultDescBtn.onclick=()=>{ if(!window.__lastSingle){ try{ doDraw(1,true); }catch(e){} } if(window.__suggestDesc && window.__lastSingle) window.__suggestDesc(window.__lastSingle); };
   draw5Btn.onclick=()=>doDraw(5);
   draw10Btn.onclick=()=>doDraw(10);
   browseBtn.onclick=openMenu;
@@ -1011,7 +1141,7 @@
   window.tokenLastDrawn = ()=>lastShown;
   window.tokenFindById = (id)=>TOKENS[id]||null;
   window.tokenCount = ()=>TOKENS.length;
-  window.tokenViewById = (id)=>{ const t=TOKENS[id]; if(!t) return; showSingle(t); showGrid([t]); pushHistory([t]); lastShown=[t]; };
+  window.tokenViewById = (id)=>{ const t=TOKENS[id]; if(!t) return; if(rouletteRAF){ cancelAnimationFrame(rouletteRAF); rouletteRAF=0; } rouletteSpinning=false; [draw1Btn,draw5Btn,draw10Btn,rerollBtn].forEach(function(b){ if(b) b.disabled=false; }); showSingle(t); showGrid([t]); pushHistory([t]); lastShown=[t]; };
   window.tokenRemoveApproved = (clientId)=>{
     const i=TOKENS.findIndex(t=>t.communityId===clientId||(t.serverId!=null&&String(t.serverId)===String(clientId)));
     if(i<0) return false;
@@ -1020,7 +1150,7 @@
     deck=[]; renderPills(); renderSwatches(); applyFilterInfo();
     return true;
   };
-  
+
   window.tokenUpdateToken = (id, f)=>{
     const t=TOKENS[id];
     if(!t) return null;
@@ -1090,12 +1220,10 @@ var SITE_BACKEND = {
   supabaseUrl: "https://jlqjfzmnwhotfqauhmwz.supabase.co",
   supabaseAnonKey: "sb_publishable_ix3r8EOKuxm492oEc2Hr7w_hMn9iBf8",
   adminEmail: "Roboshark1019@gmail.com",
-  // Optional Cloudflare Turnstile site key. Frontend-only checks are NOT enforcement:
-  // real spam protection needs submissions verified server-side (see src/SECURITY.md).
   turnstileSiteKey: ""
 };
 (function(){
-  var RARITIES = [
+  const RARITIES = [
     {id:"783f04", label:"Trash"},
     {id:"000000", label:"Common"},
     {id:"08e608", label:"Uncommon"},
@@ -1105,27 +1233,27 @@ var SITE_BACKEND = {
     {id:"rainbow", label:"Mythic"},
     {id:"1155cc", label:"Base"}
   ];
-  var LS_PENDING = "tr_suggest_pending_v1";
-  var LS_APPROVED = "tr_community_approved_v1";
-  var LS_TOKENS_CACHE = "tr_tokens_cache_v1"; 
-  var LS_DESC_PENDING = "tr_desc_pending_v1"; 
-  var LS_LOG = "tr_changelog_v1";
-  var DEFAULT_LOG = ["10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things", "10/21/2026 - Added 84 Tokens", "10/19/2026 - Added dark mode and the cookie jar", "10/18/2026 - Website Created. Please Report any bugs to the discord. If you have any suggestions please dont be afraid to suggest them."];
+  const LS_PENDING = "tr_suggest_pending_v1";
+  const LS_APPROVED = "tr_community_approved_v1";
+  const LS_TOKENS_CACHE = "tr_tokens_cache_v1";
+  const LS_DESC_PENDING = "tr_desc_pending_v1";
+  const LS_LOG = "tr_changelog_v1";
+  const DEFAULT_LOG = ["10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things", "10/21/2026 - Added 84 Tokens", "10/19/2026 - Added dark mode and the cookie jar", "10/18/2026 - Website Created. Please Report any bugs to the discord. If you have any suggestions please dont be afraid to suggest them."];
   function $(id){ return document.getElementById(id); }
-  var suggestOverlay=$("suggestOverlay"), adminLoginOverlay=$("adminLoginOverlay"), adminPanelOverlay=$("adminPanelOverlay");
-  var backendNote=$("backendNote"), sugMsg=$("sugMsg"), adminLoginMsg=$("adminLoginMsg");
-  var pendingList=$("pendingList"), approvedList=$("approvedList"), pendingCount=$("pendingCount"), approvedCount=$("approvedCount");
-  var descPendingList=$("descPendingList"), descOverlay=$("descOverlay"), descMsg=$("descMsg");
-  var logList=$("logList");
-  var descTarget=null; 
-  var adminBtn=$("adminBtn"), adminModeNote=$("adminModeNote"), suggestModeNote=$("suggestModeNote");
-  var rarSel=$("sugRarity");
+  const suggestOverlay=$("suggestOverlay"), adminLoginOverlay=$("adminLoginOverlay"), adminPanelOverlay=$("adminPanelOverlay");
+  const backendNote=$("backendNote"), sugMsg=$("sugMsg"), adminLoginMsg=$("adminLoginMsg");
+  const pendingList=$("pendingList"), approvedList=$("approvedList"), pendingCount=$("pendingCount"), approvedCount=$("approvedCount");
+  const descPendingList=$("descPendingList"), descOverlay=$("descOverlay"), descMsg=$("descMsg");
+  const logList=$("logList");
+  let descTarget=null;
+  const adminBtn=$("adminBtn"), adminModeNote=$("adminModeNote"), suggestModeNote=$("suggestModeNote");
+  const rarSel=$("sugRarity");
   rarSel.innerHTML="";
-  RARITIES.forEach(function(r){ var o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id==="000000") o.selected=true; rarSel.appendChild(o); });
-  var admRarSel=$("admRarity"); if(admRarSel) rarityOptions(admRarSel,"000000");
-  var edRarSel=$("edRarity"); if(edRarSel) rarityOptions(edRarSel,"000000");
-  var useServer = !!(SITE_BACKEND.supabaseUrl && SITE_BACKEND.supabaseAnonKey && window.supabase);
-  var sb=null, sbUser=null;
+  RARITIES.forEach(function(r){ let o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id==="000000") o.selected=true; rarSel.appendChild(o); });
+  const admRarSel=$("admRarity"); if(admRarSel) rarityOptions(admRarSel,"000000");
+  const edRarSel=$("edRarity"); if(edRarSel) rarityOptions(edRarSel,"000000");
+  let useServer = !!(SITE_BACKEND.supabaseUrl && SITE_BACKEND.supabaseAnonKey && window.supabase);
+  let sb=null, sbUser=null;
   try{
     if(useServer){ sb=window.supabase.createClient(SITE_BACKEND.supabaseUrl, SITE_BACKEND.supabaseAnonKey); }
   }catch(e){ useServer=false; sb=null; }
@@ -1133,17 +1261,17 @@ var SITE_BACKEND = {
   function isSafeHttpUrl(u){ return typeof u==="string" && /^\s*https?:\/\//i.test(u); }
   function checkRateLimit(key, minGapMs, maxPerWindow, windowMs){
     try{
-      var now=Date.now(), arr=loadLS(key).filter(function(x){ return typeof x==="number" && (now-x)<windowMs; });
+      let now=Date.now(), arr=loadLS(key).filter(function(x){ return typeof x==="number" && (now-x)<windowMs; });
       if(arr.length && (now-arr[arr.length-1])<minGapMs) return {ok:false, retryMs:minGapMs-(now-arr[arr.length-1])};
       if(arr.length>=maxPerWindow) return {ok:false, retryMs:windowMs-(now-arr[0])};
       arr.push(now); saveLS(key, arr);
     }catch(e){}
     return {ok:true};
   }
-  function loadLS(key){ try{ var a=JSON.parse(localStorage.getItem(key)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+  function loadLS(key){ try{ let a=JSON.parse(localStorage.getItem(key)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
   function saveLS(key,val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
   function uid(p){ return (p||"id_")+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8); }
-  var serverDown=false; 
+  let serverDown=false;
  function setBackendNote(){
    if(!backendNote) return;
    if(useServer && serverDown) backendNote.textContent="⚠ Can't reach the Supabase server — is the project unpaused? New suggestions will be kept on this device for now.";
@@ -1155,19 +1283,19 @@ var SITE_BACKEND = {
   function isAdmin(){
     if(useServer){
       if(!sbUser) return false;
-      
-      var want=String(SITE_BACKEND.adminEmail||"").toLowerCase(), got=String((sbUser.email)||"").toLowerCase();
+
+      let want=String(SITE_BACKEND.adminEmail||"").toLowerCase(), got=String((sbUser.email)||"").toLowerCase();
       return want && got===want;
     }
     return false;
   }
   window.__isAdmin = isAdmin;
   function refreshEditButtons(){
-    var admin=false;
+    let admin=false;
     try{ admin=!!isAdmin(); }catch(e){ admin=false; }
     try{
-      var btns=document.querySelectorAll('.editTokenBtn, .tokenRow .editBtn, #resultEditBtn');
-      for(var i=0;i<btns.length;i++){ btns[i].hidden=!admin; }
+      const btns=document.querySelectorAll('.editTokenBtn, .tokenRow .editBtn, #resultEditBtn');
+      for(let i=0;i<btns.length;i++){ btns[i].hidden=!admin; }
     }catch(e){}
     return admin;
   }
@@ -1179,11 +1307,11 @@ var SITE_BACKEND = {
     try{ refreshEditButtons(); }catch(e){}
   }
   function mergedOfflineRows(){
-    var rows=loadLS(LS_TOKENS_CACHE);
-    var old=loadLS(LS_APPROVED); 
+    let rows=loadLS(LS_TOKENS_CACHE);
+    const old=loadLS(LS_APPROVED);
     if(old.length){
       old.forEach(function(o){
-        var full=o.source?(o.name+" ("+o.source+")"):o.name;
+        let full=o.source?(o.name+" ("+o.source+")"):o.name;
         if(o.notes) full+=" ("+String(o.notes).slice(0,120)+")";
         rows.push({id:o.clientId||uid("old_"), t:full, p:0, c:o.pdf||"000000", u:o.url||"", ux:[], origin:"community", by_name:o.by||""});
       });
@@ -1192,16 +1320,16 @@ var SITE_BACKEND = {
     }
     return rows;
   }
-  
+
   async function loadServerTokens(){
-    var rows=[];
+    let rows=[];
     if(useServer && sb){
       try{
-        var from=0, pageSize=1000;
+        let from=0, pageSize=1000;
         for(;;){
-          var rp=await sb.from("tokens").select("*").order("id",{ascending:true}).range(from, from+pageSize-1);
+          const rp=await sb.from("tokens").select("*").order("id",{ascending:true}).range(from, from+pageSize-1);
           if(rp.error) throw rp.error;
-          var got=rp.data||[];
+          let got=rp.data||[];
           got.forEach(function(v){ rows.push({id:v.id, t:v.t, p:v.p, c:v.c, u:v.u, ux:v.ux, d:(v.d||''), origin:v.origin, by_name:v.by_name}); });
           if(got.length<pageSize) break;
           from+=pageSize;
@@ -1218,25 +1346,25 @@ var SITE_BACKEND = {
     if(rows.length && window.tokenAddServerRows){ try{ window.tokenAddServerRows(rows); }catch(e){} }
     return rows;
   }
-  
+
   async function submitSuggestion(){
-    var name=$("sugName").value.trim().slice(0,150), source=$("sugSource").value.trim().slice(0,120);
-    var pdf=rarSel.value, url=$("sugUrl").value.trim().slice(0,500), notes=$("sugNotes").value.trim().slice(0,500), by=$("sugBy").value.trim().slice(0,60);
+    let name=$("sugName").value.trim().slice(0,150), source=$("sugSource").value.trim().slice(0,120);
+    let pdf=rarSel.value, url=$("sugUrl").value.trim().slice(0,500), notes=$("sugNotes").value.trim().slice(0,500), by=$("sugBy").value.trim().slice(0,60);
     if(!name){ sugMsg.textContent="Please enter a token name."; return; }
     if(!source){ sugMsg.textContent="Please enter the source / franchise."; return; }
     if(url && !/^https?:\/\//i.test(url)){ sugMsg.textContent="Link must start with http:// or https:// (or leave it blank)."; return; }
     if($("sugWebsite") && $("sugWebsite").value.trim()){ try{ $("sugName").value=""; $("sugSource").value=""; $("sugUrl").value=""; $("sugNotes").value=""; $("sugBy").value=""; }catch(e){} sugMsg.textContent="✓ Thanks! Your suggestion is waiting for admin approval."; try{ setTimeout(closeSuggest, 1600); }catch(e){} return; }
-    var _rl=checkRateLimit("tr_rl_suggest_v1", 60*1000, 5, 60*60*1000);
+    const _rl=checkRateLimit("tr_rl_suggest_v1", 60*1000, 5, 60*60*1000);
     if(!_rl.ok){ sugMsg.textContent="Slow down — you can submit again in "+Math.max(1, Math.ceil(_rl.retryMs/1000))+"s."; return; }
-    var btn=$("sugSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; sugMsg.textContent="";
+    let btn=$("sugSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; sugMsg.textContent="";
     try{
       if(useServer && sb && !serverDown){
         try{
-          var ins=await sb.from("suggestions").insert({name:name, source:source, pdf:pdf, url:url||"", notes:notes||"", by_name:by||""});
+          let ins=await sb.from("suggestions").insert({name:name, source:source, pdf:pdf, url:url||"", notes:notes||"", by_name:by||""});
           if(ins.error) throw ins.error;
         }catch(se){
           serverDown=true; setBackendNote();
-          var arr0=loadLS(LS_PENDING);
+          let arr0=loadLS(LS_PENDING);
           arr0.unshift({clientId:uid("local_"), name:name, source:source, pdf:pdf, url:url, notes:notes, by:by, createdAt:Date.now()});
           saveLS(LS_PENDING, arr0);
           $("sugName").value=""; $("sugSource").value=""; $("sugUrl").value=""; $("sugNotes").value="";
@@ -1245,7 +1373,7 @@ var SITE_BACKEND = {
           return;
         }
       } else {
-        var arr=loadLS(LS_PENDING);
+        let arr=loadLS(LS_PENDING);
         arr.unshift({clientId:uid("local_"), name:name, source:source, pdf:pdf, url:url, notes:notes, by:by, createdAt:Date.now()});
         saveLS(LS_PENDING, arr);
       }
@@ -1255,28 +1383,28 @@ var SITE_BACKEND = {
     }catch(e){ sugMsg.textContent="Could not submit: "+(e&&e.message?e.message:e); }
     btn.disabled=false; btn.textContent="Submit for approval";
   }
-  
+
   async function fetchPending(){
-    if(useServer && sb){ var out=[]; var r1=await sb.from("suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r1.error) throw r1.error; (r1.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srv_"+v.id, name:v.name, source:v.source, pdf:v.pdf, url:v.url, notes:v.notes, by:v.by_name}); }); return out; }
+    if(useServer && sb){ let out=[]; const r1=await sb.from("suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r1.error) throw r1.error; (r1.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srv_"+v.id, name:v.name, source:v.source, pdf:v.pdf, url:v.url, notes:v.notes, by:v.by_name}); }); return out; }
     return loadLS(LS_PENDING);
   }
   async function fetchApproved(){
-    if(useServer && sb){ var out2=[]; var r2=await sb.from("tokens").select("*").neq("origin","seed").order("id",{ascending:false}).limit(300); if(r2.error) throw r2.error; (r2.data||[]).forEach(function(v){ out2.push({docId:String(v.id), clientId:"srv_"+v.id, t:v.t, p:v.p, c:v.c, u:v.u, ux:v.ux, origin:v.origin, by:v.by_name}); }); return out2; }
+    if(useServer && sb){ const out2=[]; const r2=await sb.from("tokens").select("*").neq("origin","seed").order("id",{ascending:false}).limit(300); if(r2.error) throw r2.error; (r2.data||[]).forEach(function(v){ out2.push({docId:String(v.id), clientId:"srv_"+v.id, t:v.t, p:v.p, c:v.c, u:v.u, ux:v.ux, origin:v.origin, by:v.by_name}); }); return out2; }
     return mergedOfflineRows().filter(function(r){ return r.origin!=="seed"; }).map(function(r){ return {docId:String(r.id), clientId:"srv_"+r.id, t:r.t, p:r.p, c:r.c, u:r.u, ux:r.ux, origin:r.origin, by:r.by_name}; });
   }
   async function fetchDescPending(){
-    if(useServer && sb){ var out=[]; var r3=await sb.from("desc_suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r3.error) throw r3.error; (r3.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvd_"+v.id, token_id:v.token_id, token_t:v.token_t, description:v.description, by:v.by_name}); }); return out; }
+    if(useServer && sb){ let out=[]; const r3=await sb.from("desc_suggestions").select("*").order("created_at",{ascending:false}).limit(200); if(r3.error) throw r3.error; (r3.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvd_"+v.id, token_id:v.token_id, token_t:v.token_t, description:v.description, by:v.by_name}); }); return out; }
     return loadLS(LS_DESC_PENDING);
   }
   async function fetchLog(){
-    if(useServer && sb){ var out=[]; var r4=await sb.from("changelog").select("*").order("id",{ascending:false}).limit(200); if(r4.error) throw r4.error; (r4.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvl_"+v.id, entry:v.entry}); }); return out; }
+    if(useServer && sb){ let out=[]; const r4=await sb.from("changelog").select("*").order("id",{ascending:false}).limit(200); if(r4.error) throw r4.error; (r4.data||[]).forEach(function(v){ out.push({docId:String(v.id), clientId:"srvl_"+v.id, entry:v.entry}); }); return out; }
     return loadLS(LS_LOG);
   }
   function renderLog(rows){
-    var ul=$("changeLog"); if(!ul) return;
+    const ul=$("changeLog"); if(!ul) return;
     ul.innerHTML="";
     (rows||[]).forEach(function(r){
-      var li=document.createElement("li");
+      const li=document.createElement("li");
       li.textContent=(typeof r==="string")?r:(r.entry||"");
       if(li.textContent) ul.appendChild(li);
     });
@@ -1284,7 +1412,7 @@ var SITE_BACKEND = {
   async function loadLog(){
     if(useServer && sb){
       try{
-        var rows=await fetchLog();
+        let rows=await fetchLog();
         saveLS(LS_LOG, rows.map(function(r){ return {docId:r.docId, clientId:r.clientId, entry:r.entry}; }));
         return rows;
       }catch(e){ return loadLS(LS_LOG); }
@@ -1292,7 +1420,7 @@ var SITE_BACKEND = {
     return loadLS(LS_LOG);
   }
   function rarityOptions(sel, val){
-    sel.innerHTML=""; RARITIES.forEach(function(r){ var o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id===val) o.selected=true; sel.appendChild(o); });
+    sel.innerHTML=""; RARITIES.forEach(function(r){ let o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id===val) o.selected=true; sel.appendChild(o); });
   }
   async function refreshAdminLists(){
     if(!isAdmin()) return;
@@ -1301,21 +1429,21 @@ var SITE_BACKEND = {
     if(logList) logList.innerHTML='<div class="muted">Loading…</div>';
     adminModeNote.textContent = (useServer && serverDown) ? ("⚠ Server unreachable — showing this device's data. Unpause the Supabase project, then hit Refresh.") : useServer ? ("Signed in as "+((sbUser&&sbUser.email)||"admin")+" • shared server mode.") : "Offline mode — approvals on this device only. Set up Supabase to share across visitors.";
     try{
-      var pend=await fetchPending(); var appr=await fetchApproved();
-      var descs=[];
+      let pend=await fetchPending(); let appr=await fetchApproved();
+      let descs=[];
       try{ descs=await fetchDescPending(); }
       catch(de){
         if(descPendingList){
-          var m=String((de&&de.message)||de);
+          let m=String((de&&de.message)||de);
           descPendingList.innerHTML='<div class="muted">'+(/desc_suggestions|schema cache|does not exist|404/i.test(m)?'Descriptions are not enabled yet — run supabase-descriptions-migration.sql in Supabase, then hit Refresh.':'Could not load descriptions: '+esc(m))+'</div>';
         }
       }
       pendingCount.textContent=pend.length?("("+pend.length+" pending)"):""; approvedCount.textContent=appr.length;
-      var logs=[];
+      let logs=[];
       try{ logs=await fetchLog(); }
       catch(le){
         if(logList){
-          var lm=String((le&&le.message)||le);
+          const lm=String((le&&le.message)||le);
           logList.innerHTML='<div class="muted">'+(/changelog|schema cache|does not exist|404/i.test(lm)?'Change log is not enabled yet — run supabase-changelog-migration.sql in Supabase, then hit Refresh.':'Could not load change log: '+esc(lm))+'</div>';
         }
       }
@@ -1324,22 +1452,22 @@ var SITE_BACKEND = {
       else{
         pendingList.innerHTML="";
         pend.forEach(function(p){
-          var card=document.createElement("div"); card.className="sugRow";
-          var top=document.createElement("div"); top.className="top";
-          var nm=document.createElement("span"); nm.className="nm"; nm.textContent=p.name+(p.source?(" ("+p.source+")"):"");
+          let card=document.createElement("div"); card.className="sugRow";
+          let top=document.createElement("div"); top.className="top";
+          let nm=document.createElement("span"); nm.className="nm"; nm.textContent=p.name+(p.source?(" ("+p.source+")"):"");
           top.appendChild(nm);
-          if(p.by){ var by=document.createElement("span"); by.className="meta"; by.textContent="from "+p.by; top.appendChild(by); }
+          if(p.by){ let by=document.createElement("span"); by.className="meta"; by.textContent="from "+p.by; top.appendChild(by); }
           card.appendChild(top);
-          var nmIn=document.createElement("input"); nmIn.type="text"; nmIn.value=p.name||""; nmIn.placeholder="Token name"; nmIn.maxLength=150;
-          var srcIn=document.createElement("input"); srcIn.type="text"; srcIn.value=p.source||""; srcIn.placeholder="Source / franchise"; srcIn.maxLength=120;
-          var sel=document.createElement("select"); rarityOptions(sel, p.pdf||"000000");
-          var urlIn=document.createElement("input"); urlIn.type="url"; urlIn.value=p.url||""; urlIn.placeholder="https://… (optional)"; urlIn.maxLength=500;
-          var noteIn=document.createElement("input"); noteIn.type="text"; noteIn.value=(typeof p.notes==="string"?p.notes:"")||""; noteIn.placeholder="Notes (optional)"; noteIn.maxLength=300;
+          const nmIn=document.createElement("input"); nmIn.type="text"; nmIn.value=p.name||""; nmIn.placeholder="Token name"; nmIn.maxLength=150;
+          const srcIn=document.createElement("input"); srcIn.type="text"; srcIn.value=p.source||""; srcIn.placeholder="Source / franchise"; srcIn.maxLength=120;
+          const sel=document.createElement("select"); rarityOptions(sel, p.pdf||"000000");
+          const urlIn=document.createElement("input"); urlIn.type="url"; urlIn.value=p.url||""; urlIn.placeholder="https://… (optional)"; urlIn.maxLength=500;
+          const noteIn=document.createElement("input"); noteIn.type="text"; noteIn.value=(typeof p.notes==="string"?p.notes:"")||""; noteIn.placeholder="Notes (optional)"; noteIn.maxLength=300;
           card.appendChild(nmIn); card.appendChild(srcIn); card.appendChild(sel); card.appendChild(urlIn); card.appendChild(noteIn);
-          if(isSafeHttpUrl(p.url)){ var m=document.createElement("div"); m.className="meta"; var a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link"; m.appendChild(a); card.appendChild(m); }
-          var ops=document.createElement("div"); ops.className="ops";
-          var ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
-          var no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
+          if(isSafeHttpUrl(p.url)){ let m=document.createElement("div"); m.className="meta"; let a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link"; m.appendChild(a); card.appendChild(m); }
+          let ops=document.createElement("div"); ops.className="ops";
+          let ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
+          let no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
           ok.onclick=function(){ approveItem(p, {name:nmIn.value.trim(), source:srcIn.value.trim(), pdf:sel.value, url:urlIn.value.trim(), notes:noteIn.value.trim()}); };
           no.onclick=function(){ rejectItem(p); };
           ops.appendChild(ok); ops.appendChild(no); card.appendChild(ops);
@@ -1350,16 +1478,16 @@ var SITE_BACKEND = {
       else{
         approvedList.innerHTML="";
         appr.forEach(function(a){
-          var card=document.createElement("div"); card.className="sugRow";
-          var top=document.createElement("div"); top.className="top";
-          var nm=document.createElement("span"); nm.className="nm"; nm.textContent=a.t;
+          let card=document.createElement("div"); card.className="sugRow";
+          let top=document.createElement("div"); top.className="top";
+          let nm=document.createElement("span"); nm.className="nm"; nm.textContent=a.t;
           top.appendChild(nm);
-          var rl=document.createElement("span"); rl.className="meta"; rl.textContent=" • "+(RARITIES.find(function(r){return r.id===a.c;})||{label:a.c}).label+(a.origin==="admin"?" • added by admin":(a.by?(" • suggested by "+a.by):" • community"));
+          const rl=document.createElement("span"); rl.className="meta"; rl.textContent=" • "+(RARITIES.find(function(r){return r.id===a.c;})||{label:a.c}).label+(a.origin==="admin"?" • added by admin":(a.by?(" • suggested by "+a.by):" • community"));
           top.appendChild(rl);
           card.appendChild(top);
-          if(isSafeHttpUrl(a.u)){ var m=document.createElement("div"); m.className="meta"; var lk=document.createElement("a"); lk.href=a.u; lk.target="_blank"; lk.rel="noopener"; lk.textContent="link"; m.appendChild(lk); card.appendChild(m); }
-          var ops=document.createElement("div"); ops.className="ops";
-          var rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
+          if(isSafeHttpUrl(a.u)){ let m=document.createElement("div"); m.className="meta"; const lk=document.createElement("a"); lk.href=a.u; lk.target="_blank"; lk.rel="noopener"; lk.textContent="link"; m.appendChild(lk); card.appendChild(m); }
+          let ops=document.createElement("div"); ops.className="ops";
+          let rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
           rm.onclick=function(){ removeApproved(a); };
           ops.appendChild(rm); card.appendChild(ops);
           approvedList.appendChild(card);
@@ -1370,18 +1498,18 @@ var SITE_BACKEND = {
         else{
           descPendingList.innerHTML="";
           descs.forEach(function(g){
-            var card=document.createElement("div"); card.className="sugRow";
-            var top=document.createElement("div"); top.className="top";
-            var nm=document.createElement("span"); nm.className="nm"; nm.textContent=g.token_t||"(unknown token)";
+            let card=document.createElement("div"); card.className="sugRow";
+            let top=document.createElement("div"); top.className="top";
+            let nm=document.createElement("span"); nm.className="nm"; nm.textContent=g.token_t||"(unknown token)";
             top.appendChild(nm);
-            if(g.by){ var by=document.createElement("span"); by.className="meta"; by.textContent="from "+g.by; top.appendChild(by); }
+            if(g.by){ let by=document.createElement("span"); by.className="meta"; by.textContent="from "+g.by; top.appendChild(by); }
             card.appendChild(top);
-            var cur=tokenCurrentDesc(g);
-            if(cur){ var cm=document.createElement("div"); cm.className="meta"; cm.textContent="Current: "+cur; card.appendChild(cm); }
-            var prop=document.createElement("div"); prop.className="meta"; prop.style.marginTop="4px"; prop.textContent="Proposed: "+g.description; card.appendChild(prop);
-            var ops=document.createElement("div"); ops.className="ops";
-            var ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
-            var no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
+            const cur=tokenCurrentDesc(g);
+            if(cur){ const cm=document.createElement("div"); cm.className="meta"; cm.textContent="Current: "+cur; card.appendChild(cm); }
+            const prop=document.createElement("div"); prop.className="meta"; prop.style.marginTop="4px"; prop.textContent="Proposed: "+g.description; card.appendChild(prop);
+            let ops=document.createElement("div"); ops.className="ops";
+            let ok=document.createElement("button"); ok.className="btn small"; ok.textContent="Approve";
+            let no=document.createElement("button"); no.className="btn small ghost"; no.textContent="Reject";
             ok.onclick=function(){ approveDescItem(g); };
             no.onclick=function(){ rejectDescItem(g); };
             ops.appendChild(ok); ops.appendChild(no); card.appendChild(ops);
@@ -1394,13 +1522,13 @@ var SITE_BACKEND = {
         else if(logs.length){
           logList.innerHTML="";
           logs.forEach(function(g){
-            var card=document.createElement("div"); card.className="sugRow";
-            var top=document.createElement("div"); top.className="top";
-            var nm=document.createElement("span"); nm.className="nm"; nm.textContent=g.entry;
+            let card=document.createElement("div"); card.className="sugRow";
+            let top=document.createElement("div"); top.className="top";
+            let nm=document.createElement("span"); nm.className="nm"; nm.textContent=g.entry;
             top.appendChild(nm);
             card.appendChild(top);
-            var ops=document.createElement("div"); ops.className="ops";
-            var rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
+            let ops=document.createElement("div"); ops.className="ops";
+            let rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
             rm.onclick=function(){ logRemoveEntry(g); };
             ops.appendChild(rm); card.appendChild(ops);
             logList.appendChild(card);
@@ -1412,24 +1540,24 @@ var SITE_BACKEND = {
   async function approveItem(p, edited){
     if(!edited.name || !edited.source){ alert("Name and source are required."); return; }
     try{
-      var full=edited.source?(edited.name+" ("+edited.source+")"):edited.name;
+      let full=edited.source?(edited.name+" ("+edited.source+")"):edited.name;
       if(edited.notes) full+=" ("+String(edited.notes).slice(0,120)+")";
-      var dup=false;
+      let dup=false;
       if(window.tokenCount && window.tokenFindById){
-        var _n=window.tokenCount();
-        for(var _i=0;_i<_n;_i++){ var _t=window.tokenFindById(_i); if(_t && _t.full===full){ dup=true; break; } }
+        const _n=window.tokenCount();
+        for(let _i=0;_i<_n;_i++){ const _t=window.tokenFindById(_i); if(_t && _t.full===full){ dup=true; break; } }
       }
       if(dup && !confirm("This exact token is already live. Add it again anyway?")) return;
       if(useServer && sb && !serverDown){
-        var ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""}).select();
+        let ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""}).select();
         if(ai.error) throw ai.error;
-        var newRow=ai.data&&ai.data[0];
+        const newRow=ai.data&&ai.data[0];
         if(newRow && window.tokenAddServerRows){ try{ window.tokenAddServerRows([{id:newRow.id, t:newRow.t, p:newRow.p, c:newRow.c, u:newRow.u, ux:newRow.ux, origin:newRow.origin, by_name:newRow.by_name}]); }catch(e){} }
-        if(p.docId){ var dl=await sb.from("suggestions").delete().eq("id", Number(p.docId)); if(dl.error) throw dl.error; }
+        if(p.docId){ let dl=await sb.from("suggestions").delete().eq("id", Number(p.docId)); if(dl.error) throw dl.error; }
       } else {
-        if(p.clientId){ var pend=loadLS(LS_PENDING).filter(function(x){ return x.clientId!==p.clientId; }); saveLS(LS_PENDING, pend); }
-        var row={id:uid("local_"), t:full, p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""};
-        var cache=mergedOfflineRows(); cache.unshift(row); saveLS(LS_TOKENS_CACHE, cache);
+        if(p.clientId){ let pend=loadLS(LS_PENDING).filter(function(x){ return x.clientId!==p.clientId; }); saveLS(LS_PENDING, pend); }
+        let row={id:uid("local_"), t:full, p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""};
+        let cache=mergedOfflineRows(); cache.unshift(row); saveLS(LS_TOKENS_CACHE, cache);
         if(window.tokenAddServerRows){ try{ window.tokenAddServerRows([row]); }catch(e){} }
       }
       refreshAdminLists();
@@ -1438,22 +1566,22 @@ var SITE_BACKEND = {
   async function rejectItem(p){
     if(!confirm("Reject (delete) this suggestion?")) return;
     try{
-      if(useServer && sb){ if(p.docId){ var dr=await sb.from("suggestions").delete().eq("id", Number(p.docId)); if(dr.error) throw dr.error; } }
+      if(useServer && sb){ if(p.docId){ let dr=await sb.from("suggestions").delete().eq("id", Number(p.docId)); if(dr.error) throw dr.error; } }
       else{ saveLS(LS_PENDING, loadLS(LS_PENDING).filter(function(x){ return x.clientId!==p.clientId; })); }
       refreshAdminLists();
     }catch(e){ alert("Reject failed: "+(e&&e.message?e.message:e)); }
   }
-  
+
   function tokenCurrentDesc(g){
     return findLocalDesc(g);
   }
   function findLocalDesc(g){
     try{
       if(!window.tokenFindById) return "";
-      
-      var n=(window.tokenCount?window.tokenCount():0);
-      for(var i=0;i<n;i++){
-        var t=window.tokenFindById(i);
+
+      let n=(window.tokenCount?window.tokenCount():0);
+      for(let i=0;i<n;i++){
+        let t=window.tokenFindById(i);
         if(!t) continue;
         if(g.token_id!=null && t.serverId!=null && String(t.serverId)===String(g.token_id)) return t.desc||"";
         if(g.token_t && t.full===g.token_t) return t.desc||"";
@@ -1472,27 +1600,27 @@ var SITE_BACKEND = {
   function closeDesc(){ descOverlay.hidden=true; if(descMsg) descMsg.textContent=""; }
   window.__suggestDesc=openDescFor;
   async function submitDesc(){
-    var txt=$("descText").value.trim().slice(0,500), by=$("descBy").value.trim().slice(0,60);
+    let txt=$("descText").value.trim().slice(0,500), by=$("descBy").value.trim().slice(0,60);
     if(!descTarget){ if(descMsg) descMsg.textContent="Pick a token from Browse all Tokens first."; return; }
     if(!txt){ if(descMsg) descMsg.textContent="Please enter a description."; return; }
     if($("descWebsite") && $("descWebsite").value.trim()){ try{ $("descText").value=""; $("descBy").value=""; }catch(e){} if(descMsg) descMsg.textContent="Thanks! Your description is waiting for admin approval."; try{ setTimeout(closeDesc, 1600); }catch(e){} return; }
-    var _drl=checkRateLimit("tr_rl_desc_v1", 60*1000, 5, 60*60*1000);
+    const _drl=checkRateLimit("tr_rl_desc_v1", 60*1000, 5, 60*60*1000);
     if(!_drl.ok){ if(descMsg) descMsg.textContent="Slow down — you can submit again in "+Math.max(1, Math.ceil(_drl.retryMs/1000))+"s."; return; }
-    var btn=$("descSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; if(descMsg) descMsg.textContent="";
+    let btn=$("descSubmitBtn"); btn.disabled=true; btn.textContent="Submitting…"; if(descMsg) descMsg.textContent="";
     try{
       if(useServer && sb && !serverDown){
         try{
-          var ins=await sb.from("desc_suggestions").insert({token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by_name:by||""});
+          let ins=await sb.from("desc_suggestions").insert({token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by_name:by||""});
           if(ins.error) throw ins.error;
         }catch(se){
-          var sm=String((se&&se.message)||se);
+          let sm=String((se&&se.message)||se);
           if(/desc_suggestions|schema cache|does not exist|404/i.test(sm)){
             if(descMsg) descMsg.textContent="Descriptions are not enabled on the server yet — the admin needs to run the migration first.";
             btn.disabled=false; btn.textContent="Submit for approval";
             return;
           }
           serverDown=true; setBackendNote();
-          var arr0=loadLS(LS_DESC_PENDING);
+          let arr0=loadLS(LS_DESC_PENDING);
           arr0.unshift({clientId:uid("locald_"), token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by:by, createdAt:Date.now()});
           saveLS(LS_DESC_PENDING, arr0);
           if(descMsg) descMsg.textContent="Server unreachable — saved on this device only. It will NOT be shared until the server is back.";
@@ -1500,7 +1628,7 @@ var SITE_BACKEND = {
           return;
         }
       } else {
-        var arr=loadLS(LS_DESC_PENDING);
+        let arr=loadLS(LS_DESC_PENDING);
         arr.unshift({clientId:uid("locald_"), token_id:descTarget.serverId, token_t:descTarget.token_t, description:txt, by:by, createdAt:Date.now()});
         saveLS(LS_DESC_PENDING, arr);
       }
@@ -1511,17 +1639,17 @@ var SITE_BACKEND = {
     btn.disabled=false; btn.textContent="Submit for approval";
   }
   function applyDescLocal(g){
-    
+
     try{
       if(window.tokenFindById && window.tokenCount){
-        var n=window.tokenCount();
-        for(var i=0;i<n;i++){
-          var t=window.tokenFindById(i);
+        let n=window.tokenCount();
+        for(let i=0;i<n;i++){
+          let t=window.tokenFindById(i);
           if(!t) continue;
           if((g.token_id!=null && t.serverId!=null && String(t.serverId)===String(g.token_id)) || (g.token_t && t.full===g.token_t)){ t.desc=g.description; break; }
         }
       }
-      var cache=loadLS(LS_TOKENS_CACHE), changed=false;
+      let cache=loadLS(LS_TOKENS_CACHE), changed=false;
       cache.forEach(function(r){
         if((g.token_id!=null && String(r.id)===String(g.token_id)) || (g.token_t && r.t===g.token_t)){ r.d=g.description; changed=true; }
       });
@@ -1533,10 +1661,10 @@ var SITE_BACKEND = {
     try{
       if(useServer && sb && !serverDown){
         if(g.token_id!=null){
-          var up=await sb.from("tokens").update({d:g.description.slice(0,500)}).eq("id", Number(g.token_id));
+          let up=await sb.from("tokens").update({d:g.description.slice(0,500)}).eq("id", Number(g.token_id));
           if(up.error) throw up.error;
         }
-        if(g.docId){ var dl=await sb.from("desc_suggestions").delete().eq("id", Number(g.docId)); if(dl.error) throw dl.error; }
+        if(g.docId){ let dl=await sb.from("desc_suggestions").delete().eq("id", Number(g.docId)); if(dl.error) throw dl.error; }
       } else {
         saveLS(LS_DESC_PENDING, loadLS(LS_DESC_PENDING).filter(function(x){ return x.clientId!==g.clientId; }));
       }
@@ -1547,30 +1675,30 @@ var SITE_BACKEND = {
   async function rejectDescItem(g){
     if(!confirm("Reject (delete) this description suggestion?")) return;
     try{
-      if(useServer && sb && !serverDown){ if(g.docId){ var dr=await sb.from("desc_suggestions").delete().eq("id", Number(g.docId)); if(dr.error) throw dr.error; } }
+      if(useServer && sb && !serverDown){ if(g.docId){ let dr=await sb.from("desc_suggestions").delete().eq("id", Number(g.docId)); if(dr.error) throw dr.error; } }
       else{ saveLS(LS_DESC_PENDING, loadLS(LS_DESC_PENDING).filter(function(x){ return x.clientId!==g.clientId; })); }
       refreshAdminLists();
     }catch(e){ alert("Reject failed: "+(e&&e.message?e.message:e)); }
   }
   async function logAddEntry(){
-    var msg=$("logAddMsg"); msg.textContent="";
-    var txt=$("logText").value.trim().slice(0,300);
+    let msg=$("logAddMsg"); msg.textContent="";
+    let txt=$("logText").value.trim().slice(0,300);
     if(!txt){ msg.textContent="Type what changed first."; return; }
-    var d=new Date();
-    var line=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear()+" - "+txt;
+    let d=new Date();
+    const line=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear()+" - "+txt;
     try{
       if(useServer && sb && !serverDown){
-        var ai=await sb.from("changelog").insert({entry:line}).select();
+        let ai=await sb.from("changelog").insert({entry:line}).select();
         if(ai.error) throw ai.error;
       } else {
-        var cache=loadLS(LS_LOG); cache.unshift({clientId:uid("locallog_"), entry:line}); saveLS(LS_LOG, cache);
+        let cache=loadLS(LS_LOG); cache.unshift({clientId:uid("locallog_"), entry:line}); saveLS(LS_LOG, cache);
       }
       $("logText").value=""; msg.textContent="Live now.";
-      var rows=await fetchLog().catch(function(){ return loadLS(LS_LOG); });
+      let rows=await fetchLog().catch(function(){ return loadLS(LS_LOG); });
       renderLog(rows && rows.length?rows:DEFAULT_LOG);
       refreshAdminLists();
     }catch(e){
-      var sm=String((e&&e.message)||e);
+      let sm=String((e&&e.message)||e);
       if(/changelog|schema cache|does not exist|404/i.test(sm)){ msg.textContent="Change log is not enabled on the server yet — run the migration first."; }
       else msg.textContent="Add failed: "+sm;
     }
@@ -1578,9 +1706,9 @@ var SITE_BACKEND = {
   async function logRemoveEntry(g){
     if(!confirm("Remove this change log entry?")) return;
     try{
-      if(useServer && sb && !serverDown){ if(g.docId){ var dr=await sb.from("changelog").delete().eq("id", Number(g.docId)); if(dr.error) throw dr.error; } }
+      if(useServer && sb && !serverDown){ if(g.docId){ let dr=await sb.from("changelog").delete().eq("id", Number(g.docId)); if(dr.error) throw dr.error; } }
       else{ saveLS(LS_LOG, loadLS(LS_LOG).filter(function(x){ return String(x.clientId||"")!==String(g.clientId||""); })); }
-      var rows2=await fetchLog().catch(function(){ return loadLS(LS_LOG); });
+      const rows2=await fetchLog().catch(function(){ return loadLS(LS_LOG); });
       renderLog(rows2 && rows2.length?rows2:DEFAULT_LOG);
       refreshAdminLists();
     }catch(e){ alert("Remove failed: "+(e&&e.message?e.message:e)); }
@@ -1588,34 +1716,34 @@ var SITE_BACKEND = {
   async function removeApproved(a){
     if(!confirm("Remove this live community token?")) return;
     try{
-      if(useServer && sb && !serverDown){ if(a.docId){ var da=await sb.from("tokens").delete().eq("id", Number(a.docId)); if(da.error) throw da.error; } }
-      else{ var cache2=mergedOfflineRows().filter(function(x){ return String(x.id)!==String(a.docId||a.clientId); }); saveLS(LS_TOKENS_CACHE, cache2); }
+      if(useServer && sb && !serverDown){ if(a.docId){ const da=await sb.from("tokens").delete().eq("id", Number(a.docId)); if(da.error) throw da.error; } }
+      else{ let cache2=mergedOfflineRows().filter(function(x){ return String(x.id)!==String(a.docId||a.clientId); }); saveLS(LS_TOKENS_CACHE, cache2); }
       if(window.tokenRemoveApproved){ try{ window.tokenRemoveApproved(a.clientId); }catch(e){} }
       refreshAdminLists();
     }catch(e){ alert("Remove failed: "+(e&&e.message?e.message:e)); }
   }
   async function adminAddToken(){
-    var msg=$("admAddMsg"); msg.textContent="";
-    var name=$("admName").value.trim().slice(0,150), source=$("admSource").value.trim().slice(0,120);
-    var pdf=$("admRarity").value, url=$("admUrl").value.trim().slice(0,500), notes=$("admNotes").value.trim().slice(0,300);
+    let msg=$("admAddMsg"); msg.textContent="";
+    let name=$("admName").value.trim().slice(0,150), source=$("admSource").value.trim().slice(0,120);
+    let pdf=$("admRarity").value, url=$("admUrl").value.trim().slice(0,500), notes=$("admNotes").value.trim().slice(0,300);
     if(!name||!source){ msg.textContent="Name and source are required."; return; }
     if(url && !/^https?:\/\//i.test(url)){ msg.textContent="Link must start with http:// or https:// (or leave it blank)."; return; }
-    var full=source?(name+" ("+source+")"):name; if(notes) full+=" ("+notes+")";
-    var dup2=false;
+    let full=source?(name+" ("+source+")"):name; if(notes) full+=" ("+notes+")";
+    let dup2=false;
     if(window.tokenCount && window.tokenFindById){
-      var _n2=window.tokenCount();
-      for(var _i2=0;_i2<_n2;_i2++){ var _t2=window.tokenFindById(_i2); if(_t2 && _t2.full===full){ dup2=true; break; } }
+      const _n2=window.tokenCount();
+      for(let _i2=0;_i2<_n2;_i2++){ const _t2=window.tokenFindById(_i2); if(_t2 && _t2.full===full){ dup2=true; break; } }
     }
     if(dup2 && !confirm("This exact token is already live. Add it again anyway?")) return;
     try{
       if(useServer && sb && !serverDown){
-        var ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:pdf, u:url||"", ux:[], origin:"admin", by_name:""}).select();
+        let ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:pdf, u:url||"", ux:[], origin:"admin", by_name:""}).select();
         if(ai.error) throw ai.error;
-        var nr=ai.data&&ai.data[0];
+        const nr=ai.data&&ai.data[0];
         if(nr && window.tokenAddServerRows){ try{ window.tokenAddServerRows([{id:nr.id, t:nr.t, p:nr.p, c:nr.c, u:nr.u, ux:nr.ux, origin:nr.origin, by_name:nr.by_name}]); }catch(e){} }
       } else {
-        var row={id:uid("local_"), t:full, p:0, c:pdf, u:url||"", ux:[], origin:"admin", by_name:""};
-        var cache=mergedOfflineRows(); cache.unshift(row); saveLS(LS_TOKENS_CACHE, cache);
+        let row={id:uid("local_"), t:full, p:0, c:pdf, u:url||"", ux:[], origin:"admin", by_name:""};
+        let cache=mergedOfflineRows(); cache.unshift(row); saveLS(LS_TOKENS_CACHE, cache);
         if(window.tokenAddServerRows){ try{ window.tokenAddServerRows([row]); }catch(e){} }
       }
       $("admName").value=""; $("admSource").value=""; $("admUrl").value=""; $("admNotes").value="";
@@ -1623,10 +1751,10 @@ var SITE_BACKEND = {
       refreshAdminLists();
     }catch(e){ msg.textContent="Add failed: "+(e&&e.message?e.message:e); }
   }
-  
+
   function openSuggest(){ suggestOverlay.hidden=false; }
   function closeSuggest(){ suggestOverlay.hidden=true; if(sugMsg) sugMsg.textContent=""; }
-  function openLogin(){ adminLoginOverlay.hidden=false; adminLoginMsg.textContent=""; setTimeout(function(){ var u=$("adminEmail"); if(u) u.focus(); },50); }
+  function openLogin(){ adminLoginOverlay.hidden=false; adminLoginMsg.textContent=""; setTimeout(function(){ let u=$("adminEmail"); if(u) u.focus(); },50); }
   function closeLogin(){ adminLoginOverlay.hidden=true; }
   function openPanel(){ adminPanelOverlay.hidden=false; refreshAdminLists(); }
   function closePanel(){ adminPanelOverlay.hidden=true; }
@@ -1636,7 +1764,7 @@ var SITE_BACKEND = {
   $("descSubmitBtn").onclick=submitDesc;
   $("descCloseBtn").onclick=closeDesc; $("descCancelBtn").onclick=closeDesc;
   descOverlay.addEventListener("click", function(e){ if(e.target===descOverlay) closeDesc(); });
-  var editOverlay=$("editTokenOverlay"), editMsg=$("edMsg"), editTargetId=null, editTargetKey=null;
+  let editOverlay=$("editTokenOverlay"), editMsg=$("edMsg"), editTargetId=null, editTargetKey=null;
   function openEditFor(t){
     if(!isAdmin()) return;
     if(typeof t==="number"){ try{ t=window.tokenFindById(t); }catch(e){ t=null; } }
@@ -1658,16 +1786,16 @@ var SITE_BACKEND = {
   async function saveEdit(){
     if(!isAdmin()){ if(editMsg) editMsg.textContent="Admin login required."; return; }
     if(editTargetId==null){ if(editMsg) editMsg.textContent="No token selected."; return; }
-    var t=null; try{ t=window.tokenFindById(editTargetId); }catch(e){}
+    let t=null; try{ t=window.tokenFindById(editTargetId); }catch(e){}
     if(t && editTargetKey){
-      var match=(t.serverId!=null&&editTargetKey===("srv:"+t.serverId))||(t.serverId==null&&editTargetKey===("full:"+(t.full||"")));
+      const match=(t.serverId!=null&&editTargetKey===("srv:"+t.serverId))||(t.serverId==null&&editTargetKey===("full:"+(t.full||"")));
       if(!match){
-        var found=null;
+        let found=null;
         try{
-          var wantSrv=(editTargetKey.indexOf("srv:")===0?editTargetKey.slice(4):null);
-          var wantFull=(editTargetKey.indexOf("full:")===0?editTargetKey.slice(5):null);
-          var n=(window.tokenCount?window.tokenCount():0);
-          for(var i=0;i<n;i++){ var c=window.tokenFindById(i); if(!c) continue;
+          const wantSrv=(editTargetKey.indexOf("srv:")===0?editTargetKey.slice(4):null);
+          const wantFull=(editTargetKey.indexOf("full:")===0?editTargetKey.slice(5):null);
+          let n=(window.tokenCount?window.tokenCount():0);
+          for(let i=0;i<n;i++){ let c=window.tokenFindById(i); if(!c) continue;
             if(wantSrv!=null&&c.serverId!=null&&String(c.serverId)===String(wantSrv)){ found=c; break; }
             if(wantSrv==null&&wantFull!=null&&(c.full||"")===wantFull){ found=c; break; }
           }
@@ -1676,23 +1804,23 @@ var SITE_BACKEND = {
       }
     }
     if(!t){ if(editMsg) editMsg.textContent="Token no longer exists (list changed). Please reopen it."; return; }
-    var name=$("edName").value.trim().slice(0,150), source=$("edSource").value.trim().slice(0,120);
-    var pdf=$("edRarity").value, url=$("edUrl").value.trim().slice(0,500);
-    var notes=$("edNotes").value.trim().slice(0,300), desc=$("edDesc").value.trim().slice(0,500);
+    let name=$("edName").value.trim().slice(0,150), source=$("edSource").value.trim().slice(0,120);
+    let pdf=$("edRarity").value, url=$("edUrl").value.trim().slice(0,500);
+    let notes=$("edNotes").value.trim().slice(0,300), desc=$("edDesc").value.trim().slice(0,500);
     if(!name){ if(editMsg) editMsg.textContent="Token name is required."; return; }
     if(!source){ if(editMsg) editMsg.textContent="Source is required."; return; }
     if(url && !/^https?:\/\//i.test(url)){ if(editMsg) editMsg.textContent="Link must start with http:// or https:// (or leave it blank)."; return; }
-    var btn=$("edSaveBtn"); btn.disabled=true; btn.textContent="Saving…"; if(editMsg) editMsg.textContent="";
-    var full=source?(name+" ("+source+")"):name; if(notes) full+=" ("+notes+")";
+    let btn=$("edSaveBtn"); btn.disabled=true; btn.textContent="Saving…"; if(editMsg) editMsg.textContent="";
+    let full=source?(name+" ("+source+")"):name; if(notes) full+=" ("+notes+")";
     try{
       if(useServer && sb && !serverDown && t.serverId!=null){
-        var up=await sb.from("tokens").update({t:full.slice(0,500), c:pdf, u:url||"", d:desc}).eq("id", Number(t.serverId));
+        let up=await sb.from("tokens").update({t:full.slice(0,500), c:pdf, u:url||"", d:desc}).eq("id", Number(t.serverId));
         if(up.error) throw up.error;
-        var cache=loadLS(LS_TOKENS_CACHE), changed=false;
+        let cache=loadLS(LS_TOKENS_CACHE), changed=false;
         cache.forEach(function(r){ if(String(r.id)===String(t.serverId)){ r.t=full.slice(0,500); r.c=pdf; r.u=url||""; r.d=desc; changed=true; } });
         if(changed) saveLS(LS_TOKENS_CACHE, cache);
       } else if((!useServer || !sb) && t.serverId!=null){
-        var cache2=loadLS(LS_TOKENS_CACHE), ch2=false;
+        let cache2=loadLS(LS_TOKENS_CACHE), ch2=false;
         cache2.forEach(function(r){ if(String(r.id)===String(t.serverId)){ r.t=full.slice(0,500); r.c=pdf; r.u=url||""; r.d=desc; ch2=true; } });
         if(ch2) saveLS(LS_TOKENS_CACHE, cache2);
       }
@@ -1725,24 +1853,24 @@ var SITE_BACKEND = {
   };
   $("adminExportBtn").onclick=async function(){
     try{
-      var appr=await fetchApproved();
-      var embed=appr.map(function(a){
-        var pdf=(RARITIES.some(function(r){return r.id===a.c;})?a.c:"000000");
-        var o={t:a.t, p:(a.p|0), c:pdf, b:pdf}; if(a.u) o.u=a.u; if(a.ux&&a.ux.length) o.ux=a.ux; return o;
+      let appr=await fetchApproved();
+      const embed=appr.map(function(a){
+        let pdf=(RARITIES.some(function(r){return r.id===a.c;})?a.c:"000000");
+        let o={t:a.t, p:(a.p|0), c:pdf, b:pdf}; if(a.u) o.u=a.u; if(a.ux&&a.ux.length) o.ux=a.ux; return o;
       });
-      var txt=JSON.stringify(embed);
+      let txt=JSON.stringify(embed);
       try{ await navigator.clipboard.writeText(txt); alert("Copied "+embed.length+" added tokens as embed JSON (backup)."); }
       catch(e){ prompt("Copy this embed JSON:", txt); }
     }catch(e){ alert("Export failed: "+(e&&e.message?e.message:e)); }
   };
   $("adminLoginBtn").onclick=async function(){
-    var em=$("adminEmail").value.trim(), pw=$("adminPass").value;
+    const em=$("adminEmail").value.trim(), pw=$("adminPass").value;
     adminLoginMsg.textContent="";
-    var btn=$("adminLoginBtn"); btn.disabled=true; btn.textContent="Checking…";
+    let btn=$("adminLoginBtn"); btn.disabled=true; btn.textContent="Checking…";
     try{
       if(!useServer || !sb){ adminLoginMsg.textContent="Server not configured — admin login needs Supabase."; }
       else{
-        var lr=await sb.auth.signInWithPassword({email:em, password:pw}); if(lr.error) throw lr.error;
+        const lr=await sb.auth.signInWithPassword({email:em, password:pw}); if(lr.error) throw lr.error;
         sbUser=(lr.data&&lr.data.user)||null;
         if(!isAdmin()){
           try{ await sb.auth.signOut(); }catch(e){}
@@ -1777,21 +1905,21 @@ var SITE_BACKEND = {
 </div>
 <script>
 (function(){
-  var VIDEO_ID='EETV2JNBhcc';
-  var WATCH_URL='https://www.youtube.com/watch?v='+VIDEO_ID;
-  var player=null, playerReady=false, pendingPlay=false, failed=false;
-  var musicBar=document.querySelector('#musicBar');
-  var note=document.querySelector('#musicNote');
-  var panel=document.querySelector('#musicPanel');
-  var wrap=document.querySelector('#ytWrap');
-  var minBtn=document.querySelector('#musicMinBtn');
-  var minimized=false;
+  const VIDEO_ID='EETV2JNBhcc';
+  const WATCH_URL='https://www.youtube.com/watch?v='+VIDEO_ID;
+  let player=null, playerReady=false, pendingPlay=false, failed=false;
+  const musicBar=document.querySelector('#musicBar');
+  const note=document.querySelector('#musicNote');
+  const panel=document.querySelector('#musicPanel');
+  const wrap=document.querySelector('#ytWrap');
+  const minBtn=document.querySelector('#musicMinBtn');
+  let minimized=false;
   if(!musicBar||!panel) return;
   function setNote(mode){
     if(!note) return;
     if(mode==='fallback'){
       note.innerHTML='';
-      var a=document.createElement('a');
+      const a=document.createElement('a');
       a.href=WATCH_URL; a.target='_blank'; a.rel='noopener'; a.style.color='inherit';
       a.textContent='Click here to open the song on YouTube';
       note.appendChild(a); note.style.display='';
@@ -1814,21 +1942,21 @@ var SITE_BACKEND = {
     document.body.classList.remove('music-playing');
     try{ if(player&&player.pauseVideo) player.pauseVideo(); }catch(e){}
   }
-  
+
   function setMinimized(m){
     minimized=m;
     if(wrap) wrap.style.display=m?'none':'';
     if(minBtn) minBtn.textContent=m?'+':'–';
   }
-  
-  var autoTimer=null, autoTries=0;
+
+  let autoTimer=null, autoTries=0;
   function stopAuto(){ if(autoTimer){ clearInterval(autoTimer); autoTimer=null; } }
   function autoPlay(){
     stopAuto(); autoTries=0;
-    var tick=function(){
+    const tick=function(){
       try{
         if(!player||!window.YT) return;
-        var s=player.getPlayerState();
+        const s=player.getPlayerState();
         if(s===window.YT.PlayerState.PLAYING||s===window.YT.PlayerState.BUFFERING){ stopAuto(); return; }
         if(autoTries>=7){ stopAuto(); return; }
         autoTries++;
@@ -1838,14 +1966,14 @@ var SITE_BACKEND = {
     tick();
     autoTimer=setInterval(tick,700);
   }
- 
+
   (function init(){
     if(!window.YT){
-      var tag=document.createElement('script');
+      const tag=document.createElement('script');
       tag.src='https://www.youtube.com/iframe_api';
       document.head.appendChild(tag);
     }
-    var iv=setInterval(function(){
+    const iv=setInterval(function(){
       if(window.YT && window.YT.Player){
         clearInterval(iv);
         try{
@@ -1855,7 +1983,7 @@ var SITE_BACKEND = {
               onError:function(){ failed=true; pendingPlay=false; setNote('fallback'); },
               onStateChange:function(e){
                 if(!window.YT) return;
-                var st=window.YT.PlayerState;
+                const st=window.YT.PlayerState;
                 if(e.data===st.PLAYING) document.body.classList.add('music-playing');
                 else if(e.data===st.PAUSED||e.data===st.ENDED||e.data===st.CUED) document.body.classList.remove('music-playing');
               }
@@ -1872,24 +2000,24 @@ var SITE_BACKEND = {
   });
   document.querySelector('#musicHideBtn').addEventListener('click', closePanel);
   if(minBtn) minBtn.addEventListener('click', function(){ setMinimized(!minimized); });
-  window.__ytPlayer=function(){ return player; };
+
 })();
 </script>
 <script>
 (function(){
-  var GIF='https://media.tenor.com/gNuEETG-jPUAAAAj/foxy-jumpscare.gif';
-  var box=document.querySelector('#jumpscare'), img=document.querySelector('#jumpscareImg');
+  const GIF='https://media.tenor.com/gNuEETG-jPUAAAAj/foxy-jumpscare.gif';
+  const box=document.querySelector('#jumpscare'), img=document.querySelector('#jumpscareImg');
   if(!box||!img) return;
-  var pre=new Image(); pre.src=GIF;
-  var showing=false;
+  const pre=new Image(); pre.src=GIF;
+  let showing=false;
   function scare(){
     if(showing) return; showing=true;
-    img.removeAttribute('src'); img.src=GIF; 
+    img.removeAttribute('src'); img.src=GIF;
     box.hidden=false;
     setTimeout(function(){ box.hidden=true; showing=false; }, 840);
   }
   setInterval(function(){ if(Math.random()<0.2) scare(); }, 300000);
-  window.__jumpscare=scare; 
+
 })();
 </script>
 <script>
@@ -1897,19 +2025,19 @@ var SITE_BACKEND = {
   document.querySelectorAll('.dlg-bar .winX').forEach(function(btn){
     btn.addEventListener('click', function(e){
       e.stopPropagation();
-      var win=btn.closest('.panel.dlg,header.hero,#resultCard');
+      const win=btn.closest('.panel.dlg,header.hero,#resultCard');
       if(!win) return;
-      var body=win.querySelector('.dlg-pad,.hero-body');
-      if(body) body.hidden=!body.hidden;
+      const body=win.querySelector('.dlg-pad,.hero-body');
+      if(body){ body.hidden=!body.hidden; win.classList.toggle('collapsed', body.hidden); }
     });
   });
-  var logOverlay=document.querySelector('#logOverlay');
+  const logOverlay=document.querySelector('#logOverlay');
   function openLog(){ logOverlay.hidden=false; document.body.style.overflow='hidden'; }
   function closeLog(){ logOverlay.hidden=true; document.body.style.overflow=''; }
   document.querySelector('#logBtn').addEventListener('click', openLog);
   document.querySelector('#logCloseBtn').addEventListener('click', closeLog);
   logOverlay.addEventListener('click', function(e){ if(e.target===logOverlay) closeLog(); });
-  var darkBtn=document.querySelector('#darkBtn');
+  const darkBtn=document.querySelector('#darkBtn');
   function setDark(on){
     on=!!on;
     document.body.classList.toggle('dark', on);
@@ -1918,27 +2046,27 @@ var SITE_BACKEND = {
   }
   if(darkBtn) darkBtn.addEventListener('click', function(){ setDark(!document.body.classList.contains('dark')); });
   (function(){
-    var saved=null;
+    let saved=null;
     try{ saved=localStorage.getItem('tokenRandTheme'); }catch(e){}
     if(saved) setDark(saved==='dark');
     else setDark(false);
   })();
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!logOverlay.hidden) closeLog(); });
   (function(){
-    var KEY='tokenRandCookies';
-    var bar=document.querySelector('#sideBar');
+    const KEY='tokenRandCookies';
+    const bar=document.querySelector('#sideBar');
     if(!bar) return;
     function load(){
       try{
-        var a=JSON.parse(localStorage.getItem(KEY)||'[]');
+        const a=JSON.parse(localStorage.getItem(KEY)||'[]');
         if(!Array.isArray(a)) return [];
-        var n=(window.tokenCount?window.tokenCount():3504);
+        const n=(window.tokenCount?window.tokenCount():3504);
         return a.filter(function(id){ return typeof id==='number'&&id>=0&&id<n; });
       }catch(e){ return []; }
     }
     function store(arr){ try{ localStorage.setItem(KEY, JSON.stringify(arr.slice(0,500))); }catch(e){} }
-    var ids=load();
-    var list=document.querySelector('#cookieList'), empty=document.querySelector('#cookieEmpty'),
+    let ids=load();
+    const list=document.querySelector('#cookieList'), empty=document.querySelector('#cookieEmpty'),
       count=document.querySelector('#cookieCount'), clearBtn=document.querySelector('#cookieClearBtn');
     function render(){
       list.innerHTML='';
@@ -1946,17 +2074,17 @@ var SITE_BACKEND = {
       empty.style.display=ids.length?'none':'';
       clearBtn.style.display=ids.length?'':'none';
       ids.forEach(function(id){
-        var t=(window.tokenFindById?window.tokenFindById(id):null);
+        const t=(window.tokenFindById?window.tokenFindById(id):null);
         if(!t) return;
-        var li=document.createElement('li'); li.className='cookieRow';
-        var d=document.createElement('span'); d.className='dot'+(t.pdf==='rainbow'?' rainbow':'');
+        const li=document.createElement('li'); li.className='cookieRow';
+        const d=document.createElement('span'); d.className='dot'+(t.pdf==='rainbow'?' rainbow':'');
         if(t.pdf!=='rainbow') d.style.background='#'+t.pdf;
-        var nm=document.createElement('button'); nm.className='cname'; nm.textContent=t.name; nm.title='Show in result';
+        const nm=document.createElement('button'); nm.className='cname'; nm.textContent=t.name; nm.title='Show in result';
         if(t.pdf==='rainbow') nm.classList.add('rainbow-text');
         else nm.style.color='#'+t.pdf;
         nm.dataset.pdf=t.pdf;
         nm.onclick=(function(tid){ return function(){ if(window.tokenViewById) window.tokenViewById(tid); }; })(id);
-        var rm=document.createElement('button'); rm.className='crm'; rm.textContent='✕'; rm.title='Remove';
+        const rm=document.createElement('button'); rm.className='crm'; rm.textContent='✕'; rm.title='Remove';
         rm.onclick=(function(tid){ return function(){ ids=ids.filter(function(x){ return x!==tid; }); store(ids); render(); }; })(id);
         li.appendChild(d); li.appendChild(nm); li.appendChild(rm);
         list.appendChild(li);
@@ -1968,21 +2096,21 @@ var SITE_BACKEND = {
     }
     function setFold(folded){
       document.body.classList.toggle('sideFolded', !!folded);
-      var c=document.querySelector('#sideTab .chev');
+      const c=document.querySelector('#sideTab .chev');
       if(c) c.textContent=folded?'›':'‹';
     }
-    var tab=document.querySelector('#sideTab');
+    const tab=document.querySelector('#sideTab');
     if(tab) tab.onclick=function(){ setFold(!document.body.classList.contains('sideFolded')); };
-    var foldBtn=document.querySelector('#sideFoldBtn');
+    const foldBtn=document.querySelector('#sideFoldBtn');
     if(foldBtn) foldBtn.onclick=function(){ setFold(true); };
-    var saveBtn=document.querySelector('#saveResultBtn');
+    const saveBtn=document.querySelector('#saveResultBtn');
     if(saveBtn) saveBtn.onclick=function(){
-      var last=(window.tokenLastDrawn?window.tokenLastDrawn():[]);
+      const last=(window.tokenLastDrawn?window.tokenLastDrawn():[]);
       if(last&&last.length) save(last[0].id);
     };
-    var grid=document.querySelector('#grid');
+    const grid=document.querySelector('#grid');
     if(grid) grid.addEventListener('click', function(e){
-      var b=(e.target&&e.target.closest)?e.target.closest('.saveCookieBtn'):null;
+      const b=(e.target&&e.target.closest)?e.target.closest('.saveCookieBtn'):null;
       if(!b) return;
       save(Number(b.dataset.id));
     });
@@ -1991,6 +2119,4 @@ var SITE_BACKEND = {
   })();
 })();
 </script>
-</script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5245569b97fa5c8',t:'MTc5MzI5OTQ4OA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5245569b97fa5c8',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
