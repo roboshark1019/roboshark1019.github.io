@@ -438,9 +438,11 @@
     <div class="searchRow">
       <input type="search" id="searchInput" placeholder="Search tokens or sources…" autocomplete="off">
       <select id="sortSel" title="Sort">
-        <option value="random">Sort: shuffle</option>
-        <option value="az">Sort: A → Z</option>
+        <option value="az" selected>Sort: A → Z</option>
         <option value="za">Sort: Z → A</option>
+        <option value="rarity">Sort: rarity</option>
+        <option value="fandom">Sort: fandom</option>
+        <option value="random">Sort: shuffle</option>
       </select>
     </div>
     <div class="controls" style="margin-top:12px">
@@ -653,6 +655,7 @@
     {id:'1155cc', label:'Base',      pages:'tabs pp. 80–85'},
   ];
   const PDF_LABEL = Object.fromEntries(PDF_COLORS.map(c=>[c.id,c.label]));
+  const PDF_RANK = Object.fromEntries(PDF_COLORS.map((c,i)=>[c.id,i]));
 
   function trueCss(hex){ return hex==='rainbow' ? null : '#'+hex; }
   function isSafeHttpUrl(u){ return typeof u==="string" && /^\s*https?:\/\//i.test(u); }
@@ -756,6 +759,8 @@
     const s = sortSel.value;
     if(s==='az') pool.sort((a,b)=>a.name.localeCompare(b.name));
     else if(s==='za') pool.sort((a,b)=>b.name.localeCompare(a.name));
+    else if(s==='rarity') pool.sort((a,b)=>{ const ra=(a.pdf in PDF_RANK)?PDF_RANK[a.pdf]:99, rb=(b.pdf in PDF_RANK)?PDF_RANK[b.pdf]:99; return (ra-rb)||a.name.localeCompare(b.name); });
+    else if(s==='fandom') pool.sort((a,b)=>{ const x=(a.source||'').toLowerCase(), y=(b.source||'').toLowerCase(); if(!x&&y) return 1; if(x&&!y) return -1; return x.localeCompare(y)||a.name.localeCompare(b.name); });
     return pool;
   }
   function applyFilterInfo(){
@@ -947,7 +952,7 @@
   }
   function rouletteStrip(pool, winner, N, stopIdx){
     const items=[];
-    const sorted = sortSel && (sortSel.value==='az' || sortSel.value==='za') && pool.length>1;
+    const sorted = sortSel && sortSel.value!=='random' && pool.length>1;
     if(sorted){
       let wp=pool.findIndex(function(x){ return x.id===winner.id; });
       if(wp<0) wp=0;
