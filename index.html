@@ -453,7 +453,7 @@
       <button class="btn ghost" id="draw5Btn">Draw 5</button>
       <button class="btn ghost" id="draw10Btn">Draw 10</button>
       <button class="btn ghost" id="copyBtn">⧉ Copy result</button>
-      <label class="toggle"><input type="checkbox" id="noRepeatChk" checked> no repeats (deck)</label>
+      <label class="toggle"><input type="checkbox" id="noRepeatChk" checked> no repeats (deck + history)</label>
     </div>
     <div class="muted" id="filterInfo" style="margin-top:8px"></div>
     </div>
@@ -709,7 +709,7 @@
   ];
   const CAT_LABEL = Object.fromEntries(CATS.map(c=>[c.id,c.label]));
   let activeCat = 'all';
-  let activeColor = 'all';
+  let activeColors = new Set();
   let deck = [];
   let deckKey = '';
   let history = [];
@@ -732,8 +732,8 @@
     swatchesCtn.innerHTML = '';
     const mk = (id,label,count)=>{
       const b=document.createElement('button');
-      b.className='swatch'+(activeColor===id?' active':'');
-      b.title=label;
+      b.className='swatch'+((id==='all'?activeColors.size===0:activeColors.has(id))?' active':'');
+      b.title=id==='all'?'All rarities':(label+' — click to toggle');
       const d=document.createElement('span');
       d.className='dot'+(id==='rainbow'?' rainbow':'');
       if(id!=='rainbow'&&id!=='all') d.style.background='#'+id;
@@ -742,7 +742,12 @@
       const t=document.createElement('span');
       t.innerHTML=`${label} <small>${count.toLocaleString()}</small>`;
       b.appendChild(t);
-      b.onclick=()=>{activeColor=id;deck=[];renderSwatches();applyFilterInfo();};
+      b.onclick=()=>{
+        if(id==='all') activeColors.clear();
+        else if(activeColors.has(id)) activeColors.delete(id);
+        else activeColors.add(id);
+        deck=[];renderSwatches();applyFilterInfo();
+      };
       swatchesCtn.appendChild(b);
     };
     mk('all','All colors',TOKENS.length);
@@ -755,7 +760,7 @@
     const q = searchInput.value.trim().toLowerCase();
     let pool = TOKENS.slice();
     if(activeCat!=='all') pool = pool.filter(t=>t.cat===activeCat);
-    if(activeColor!=='all') pool = pool.filter(t=>t.pdf===activeColor);
+    if(activeColors.size) pool = pool.filter(t=>activeColors.has(t.pdf));
     if(q){
       pool = pool.filter(t => t.name.toLowerCase().includes(q) || t.source.toLowerCase().includes(q) || t.full.toLowerCase().includes(q));
     }
@@ -768,7 +773,7 @@
   }
   function applyFilterInfo(){
     const pool = filteredPool();
-    const bits = [`${CAT_LABEL[activeCat]}`, activeColor==='all'?'all rarities':(PDF_LABEL[activeColor]||activeColor)+' rarity'];
+    const bits = [`${CAT_LABEL[activeCat]}`, activeColors.size?[...activeColors].map(c=>PDF_LABEL[c]||c).join(' + '):'all rarities'];
     if(searchInput.value.trim()) bits.push(`“${searchInput.value.trim()}”`);
     filterInfo.textContent = `${pool.length.toLocaleString()} match • ` + bits.join(' • ');
     return pool;
@@ -780,6 +785,14 @@
   }
   function draw(pool, n){
     if(!pool.length) return [];
+    if(noRepeatChk.checked&&history.length){
+      const seenH=new Set();
+      for(const h of history){ if(h&&typeof h.id==='number') seenH.add(h.id); }
+      if(seenH.size){
+        const fresh=pool.filter(t=>!seenH.has(t.id));
+        if(fresh.length) pool=fresh;
+      }
+    }
     if(!noRepeatChk.checked){
       const out=[];
       for(let i=0;i<n;i++) out.push(pool[(Math.random()*pool.length)|0]);
@@ -787,7 +800,7 @@
     }
     const seenT=new Set(); pool=pool.filter(t=>{ if(seenT.has(t.full)) return false; seenT.add(t.full); return true; });
     if(!pool.length) return [];
-    const key = activeCat+'|'+activeColor+'|'+searchInput.value.trim().toLowerCase()+'|'+sortSel.value;
+    const key = activeCat+'|'+[...activeColors].sort().join(',')+'|'+searchInput.value.trim().toLowerCase()+'|'+sortSel.value;
     if(key!==deckKey){ deckKey=key; deck = shuffle(pool.map(t=>t.id)); }
     const inPool = new Set(pool.map(t=>t.id));
     deck = deck.filter(id=>inPool.has(id));
@@ -1145,7 +1158,7 @@
   renderPills(); renderSwatches(); applyFilterInfo(); renderHistory();
   window.tokenDraw = doDraw;
   window.tokenBrowse = openMenu;
-  window.tokenSetColor = (id)=>{activeColor=id;deck=[];renderSwatches();applyFilterInfo();};
+  window.tokenSetColor = (id)=>{ activeColors=(id==='all')?new Set():new Set([id]); deck=[];renderSwatches();applyFilterInfo(); };
   window.tokenLastDrawn = ()=>lastShown;
   window.tokenFindById = (id)=>TOKENS[id]||null;
   window.tokenCount = ()=>TOKENS.length;
