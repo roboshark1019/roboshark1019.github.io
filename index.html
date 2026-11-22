@@ -618,8 +618,15 @@
         <div class="muted" id="admAddMsg" style="margin-top:6px;min-height:16px"></div>
         <div class="ops"><button class="btn small" id="admAddBtn">Add live now</button></div>
       </div>
+      <div class="pills" id="adminTabs" style="justify-content:flex-start;margin:10px 0 2px">
+        <button class="pill active" data-atab="live">Live added tokens</button>
+        <button class="pill" data-atab="log">Change log</button>
+      </div>
+      <div id="adminTab-live">
       <label class="f">Live added tokens — community + admin (<span id="approvedCount">0</span>)</label>
       <div id="approvedList"><div class="muted">Loading…</div></div>
+      </div>
+      <div id="adminTab-log" hidden>
       <label class="f">Change log</label>
       <div class="sugRow" id="logAddBox">
         <input type="text" id="logText" maxlength="300" placeholder="What changed? (today's date is added automatically)">
@@ -627,6 +634,7 @@
         <div class="ops"><button class="btn small" id="logAddBtn">Add entry now</button></div>
       </div>
       <div id="logList"><div class="muted">Loading…</div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1781,6 +1789,18 @@ var SITE_BACKEND = {
   function closeLogin(){ adminLoginOverlay.hidden=true; }
   function openPanel(){ adminPanelOverlay.hidden=false; refreshAdminLists(); }
   function closePanel(){ adminPanelOverlay.hidden=true; }
+  (function(){
+    const tabs=$("adminTabs");
+    if(!tabs) return;
+    tabs.addEventListener("click", function(e){
+      const b=e.target&&e.target.closest?e.target.closest("[data-atab]"):null;
+      if(!b||!tabs.contains(b)) return;
+      const which=b.dataset.atab;
+      tabs.querySelectorAll("[data-atab]").forEach(function(x){ x.classList.toggle("active", x===b); });
+      $("adminTab-live").hidden=(which!=="live");
+      $("adminTab-log").hidden=(which!=="log");
+    });
+  })();
   $("suggestBtn").onclick=openSuggest; $("suggestCloseBtn").onclick=closeSuggest; $("sugCancelBtn").onclick=closeSuggest;
   suggestOverlay.addEventListener("click", function(e){ if(e.target===suggestOverlay) closeSuggest(); });
   $("sugSubmitBtn").onclick=submitSuggestion;
