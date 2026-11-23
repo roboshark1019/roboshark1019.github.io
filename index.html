@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Your one stop shop for everything and anything this side of the multiverse - draw random tokens, browse every tier, and save favorites to the cookie jar.">
 <link rel="icon" href="https://roboshark1019.github.io/img/ena-icon.png" type="image/png">
+<link rel="apple-touch-icon" href="https://roboshark1019.github.io/img/ena-icon.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Robo's Token Randomizer","url":"https://roboshark1019.github.io","description":"Your one stop shop for everything and anything this side of the multiverse - draw random tokens, browse every tier, and save favorites to the cookie jar."}</script>
 <link rel="preload" as="image" href="https://roboshark1019.github.io/img/vista-aurora.jpg">
 <link rel="preload" as="image" href="https://roboshark1019.github.io/img/dark-ribbons.png">
 <meta property="og:site_name" content="Robo's Token Randomizer">
@@ -68,6 +70,9 @@
   body.dark .window.glass,body.dark .window.active{--w7-w-bg:#1c3f58}
   .title-bar{cursor:default;user-select:none}
   .title-bar .title-bar-text{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.85);font-weight:600;letter-spacing:.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #topWindow .title-bar{position:relative}
+  #topWindow .titleIcon{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:16px;height:16px;image-rendering:pixelated}
+  #topWindow .title-bar-text{padding-left:26px}
   .window.glass:after{content:none}
   .window.glass > .title-bar{background-attachment:scroll}
   .title-bar-controls button{min-width:28px}
@@ -260,6 +265,7 @@
 <div class="desktop">
   <div class="window glass active panel dlg" id="topWindow">
     <div class="title-bar dlg-bar">
+      <img class="titleIcon" src="https://roboshark1019.github.io/img/ena-icon.png" alt="Robo's Token Randomizer logo">
       <div class="title-bar-text"><b>Robo's Token Randomizer</b></div>
       <div class="title-bar-controls">
         <button aria-label="Minimize" data-win="topWindow" data-act="min"></button>
@@ -432,7 +438,7 @@
   </div>
 </aside>
 
-<div id="jumpscare" hidden><img id="jumpscareImg" alt=""></div>
+<div id="jumpscare" hidden><img id="jumpscareImg" alt="Sudden spooky pop-up image"></div>
 
 <div id="taskbar">
   <div id="taskItems">
