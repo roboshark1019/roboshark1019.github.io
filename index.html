@@ -133,12 +133,12 @@
   #rouletteViewport{position:relative;overflow:hidden;border:1px solid #8e8f8f;background:#fff linear-gradient(#fff,#e9eef3);height:172px;margin:10px 0 6px;box-shadow:inset 1px 1px 3px rgba(0,0,0,.25);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
   body.dark #rouletteViewport{background:#10161d linear-gradient(#1a2330,#10161d)}
   #rouletteTrack{position:absolute;top:0;left:0;height:100%;display:flex;gap:12px;align-items:stretch;padding:14px 0;will-change:transform}
-  .rcard{flex:0 0 168px;width:168px;background:linear-gradient(#fff,#dfe8f0);border:1px solid #8e8f8f;border-left-width:5px;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;text-align:center;box-shadow:inset 0 1px 0 #fff,0 1px 3px rgba(0,0,0,.2)}
+  .rcard{flex:0 0 168px;width:168px;background:linear-gradient(#fff,#dfe8f0);border:1px solid #8e8f8f;border-left-width:5px;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;text-align:center;overflow:hidden;box-shadow:inset 0 1px 0 #fff,0 1px 3px rgba(0,0,0,.2)}
   body.dark .rcard{background:linear-gradient(#232c38,#161d27);color:#eef6f8}
-  .rcard .rtype{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#0e6e8c}
+  .rcard .rtype{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#0e6e8c;line-height:1.2}
   body.dark .rcard .rtype{color:#7fd4e8}
-  .rcard .rname{font-weight:700;font-size:14px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .rcard .rsrc{font-size:11.5px;color:#3d5566;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rcard .rname{font-weight:700;font-size:14px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .rcard .rsrc{font-size:11.5px;line-height:1.3;color:#3d5566;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   body.dark .rcard .rsrc{color:#9db4c6}
   .rcard.winner{outline:2px solid #000;outline-offset:-2px}
   body.dark .rcard.winner{outline-color:#fff}
