@@ -686,13 +686,8 @@
       <div id="adminTab-quotes" hidden>
       <label class="f">Buddy quotes (<span id="quotesCount">0</span>)</label>
       <div class="muted" id="quotesNote">Quotes show in the buddy text bubble for everyone.</div>
-      <details id="quotesSqlBox" style="margin:6px 0">
-        <summary style="cursor:pointer;font-size:12px">Server setup SQL (run once in Supabase)</summary>
-        <textarea id="quotesSqlText" readonly style="width:100%;min-height:140px;margin-top:6px;font-size:11px" spellcheck="false"></textarea>
-        <div class="ops"><button id="quotesSqlCopyBtn" class="btn small">Copy SQL</button></div>
-      </details>
       <div class="sugRow" id="quoteAddBox">
-        <input type="text" id="quoteText" maxlength="500" placeholder="New buddy quote… (max 500 chars)" autocomplete="off">
+        <textarea id="quoteText" maxlength="500" placeholder="New buddy quote… (max 500 chars)" autocomplete="off" rows="4" style="width:100%;min-height:90px;box-sizing:border-box"></textarea>
         <div class="muted" id="quoteAddMsg" style="margin-top:6px;min-height:16px"></div>
         <div class="ops"><button id="quoteAddBtn">Add quote now</button><button id="quoteSeedBtn" class="btn small ghost" title="Push all built-in quotes to the server (skips ones already there)">Seed defaults to server</button></div>
       </div>
