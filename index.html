@@ -184,6 +184,19 @@
   body.dark #menuHead{background:#1a2330}
   #menuBody{min-height:120px}
   #descText{min-height:120px;width:100%;box-sizing:border-box}
+  #buddyZone{position:relative;z-index:1;max-width:984px;margin:0 auto;min-height:46vh;padding:0 14px}
+  #buddyBtn{position:absolute;right:10px;bottom:10px;background:none;background-image:none;border:0;outline:none;box-shadow:none;padding:0;cursor:pointer}
+  #buddyBtn:focus,#buddyBtn:active,#buddyBtn:hover{outline:none;box-shadow:none;border:0;background:none;background-image:none;animation:none}
+  #buddyBtn::before,#buddyBtn::after{content:none}
+  #buddyBtn img{display:block;width:110px;height:110px;border:0;outline:none;transition:transform .15s ease;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+  #buddyBtn:hover img{transform:scale(1.06)}
+  #buddyBubble{position:absolute;right:132px;bottom:96px;max-width:min(280px,70vw);background:#ffffe1;color:#111;border:1px solid #767676;padding:8px 10px;font-size:12.5px;box-shadow:3px 3px 0 rgba(0,0,0,.25)}
+  #buddyBubble::after{content:'';position:absolute;right:-7px;bottom:18px;width:12px;height:12px;background:#ffffe1;border-right:1px solid #767676;border-bottom:1px solid #767676;transform:rotate(-45deg)}
+  #buddyBubble[hidden]{display:none}
+  @media (max-width:640px){
+    #buddyBtn img{width:84px;height:84px}
+    #buddyBubble{right:104px;bottom:72px}
+  }
   details.tier{border:1px solid #8e8f8f;margin:8px 0;background:#fff;overflow:hidden}
   body.dark details.tier{background:#232c38}
   details.tier summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 12px;font-weight:700;border-left:5px solid transparent}
@@ -391,6 +404,7 @@
       <div id="grid"></div>
     </div>
   </div>
+
   <div class="window glass active panel dlg" id="historyWindow">
     <div class="title-bar dlg-bar">
       <div class="title-bar-text">History <span id="histCount"></span></div>
@@ -423,6 +437,43 @@
     </div>
   </div>
 </div>
+
+<div id="buddyZone">
+  <div id="buddyBubble" hidden></div>
+  <button id="buddyBtn" aria-label="Ask the buddy" aria-expanded="false" aria-controls="buddyBubble"><img src="https://user.uploads.dev/file/a159c57068431ad60e23b9b78bae76aa.png" alt="Blue pixel buddy"></button>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('buddyBtn'), bubble=document.getElementById('buddyBubble');
+  if(!btn||!bubble) return;
+  function defaults(){
+    try{
+      var el=document.getElementById('quotes-data');
+      if(el){ var a=JSON.parse(el.textContent); if(Array.isArray(a)&&a.length) return a.filter(function(x){ return typeof x==='string'&&x.trim(); }); }
+    }catch(e){}
+    return ['Fox! Do a barrel roll!'];
+  }
+  function pool(){
+    try{ if(Array.isArray(window.__buddyQuotes)&&window.__buddyQuotes.length) return window.__buddyQuotes; }catch(e){}
+    return defaults();
+  }
+  var last=-1, hideT=0;
+  function show(){
+    var p=pool();
+    if(!p||!p.length) p=defaults();
+    var i=Math.floor(Math.random()*p.length);
+    if(p.length>1&&i===last) i=(i+1)%p.length;
+    last=i;
+    bubble.textContent=p[i];
+    bubble.hidden=false;
+    btn.setAttribute('aria-expanded','true');
+    try{ clearTimeout(hideT); hideT=setTimeout(hide, 9000); }catch(e){}
+  }
+  function hide(){ bubble.hidden=true; btn.setAttribute('aria-expanded','false'); }
+  btn.addEventListener('click', function(){ if(bubble.hidden) show(); else hide(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!bubble.hidden) hide(); });
+})();
+</script>
 
 <aside id="sideBar" aria-label="Saved cookies">
   <div class="window glass active" id="sideMain" style="margin:0">
@@ -617,6 +668,7 @@
       <div class="pills" id="adminTabs" style="justify-content:flex-start;margin:10px 0 2px">
         <button data-atab="live" class="active">Live added tokens</button>
         <button data-atab="log">Change log</button>
+        <button data-atab="quotes">Buddy quotes</button>
       </div>
       <div id="adminTab-live">
       <label class="f">Live added tokens - community + admin (<span id="approvedCount">0</span>)</label>
@@ -630,6 +682,21 @@
         <div class="ops"><button id="logAddBtn">Add entry now</button></div>
       </div>
       <div id="logList"><div class="muted">Loading…</div></div>
+      </div>
+      <div id="adminTab-quotes" hidden>
+      <label class="f">Buddy quotes (<span id="quotesCount">0</span>)</label>
+      <div class="muted" id="quotesNote">Quotes show in the buddy text bubble for everyone.</div>
+      <details id="quotesSqlBox" style="margin:6px 0">
+        <summary style="cursor:pointer;font-size:12px">Server setup SQL (run once in Supabase)</summary>
+        <textarea id="quotesSqlText" readonly style="width:100%;min-height:140px;margin-top:6px;font-size:11px" spellcheck="false"></textarea>
+        <div class="ops"><button id="quotesSqlCopyBtn" class="btn small">Copy SQL</button></div>
+      </details>
+      <div class="sugRow" id="quoteAddBox">
+        <input type="text" id="quoteText" maxlength="500" placeholder="New buddy quote… (max 500 chars)" autocomplete="off">
+        <div class="muted" id="quoteAddMsg" style="margin-top:6px;min-height:16px"></div>
+        <div class="ops"><button id="quoteAddBtn">Add quote now</button><button id="quoteSeedBtn" class="btn small ghost" title="Push all built-in quotes to the server (skips ones already there)">Seed defaults to server</button></div>
+      </div>
+      <div id="quotesList"><div class="muted">Loading…</div></div>
       </div>
     </div>
   </div>
@@ -788,6 +855,7 @@
 })();
 </script>
 <script id="tokens-data" type="application/json">[]</script>
+<script id="quotes-data" type="application/json">["Fox! Do a barrel roll!","Those beer-swilling Imperial pudding-heads!","Snake? SNAAAAAAAAAKE!!","War has changed. It's no longer about nations, ideologies, or ethnicity. It's an endless series of proxy battles, fought by mercenaries and machines. War, and it's consumption of life, has become a well-oiled machine.","War never changes. The Romans waged war to gather slaves and wealth. Spain built an empire from its lust for gold and territory. Hitler shaped a battered Germany into an economic superpower.","Hadouken!","Thank you Mario! But our Princess is in another Castle!","Tunnel snakes rule!","Dear sarge, kicking alien ass in outer space. wish you were here","please insert the sample into the test chamber now, Gordon.","Mah boi, this peace is what all true warriors strive for!","Prepare for unforseen consequences","Would you kindly?","now, there is a very small chance that you have a minor case of serious brain damage. Now don't be alarmed, but if you do feel alarmed, hold onto that feeling. Because that is of course the right reaction to being told that you have brain damage","Nobody tried to murder me, or turn me into a potato, or fed me to birds","I showed you mercy and you mistook it for weakness. Now I'll show you strength and you may mistake it for brutality.","You exist because we allow it. And you will end because we demand it","It's so much easier to see the world in black and white. Gray? I don't know what to do with gray...","Existence is beautiful, if you let it be. Life is not a question. There does not need to be an answer","Despite everything, it's still you","Rip and tear, until it is done.","All your base are belong to us.","What is better: to be born good or to overcome your evil nature through great effort?","The game was rigged from the start!","War is where the young and stupid are tricked by the old and bitter into killing each other,","I survived because the fire inside burned brighter than the fire around me. I fell down into that dark chasm, but the flame burned on and on.","You’re an inspiration for birth control.","It's dangerous to go alone! Take this.","Detecting multiple Leviathan class lifeforms in the region. Are you certain whatever you’re doing is worth it?","Hey, you. You’re finally awake. You were trying to cross the border, right? Walked right into that Imperial ambush, same as us, and that thief over there...","Ah shit, here we go again","ALL WE HAD TO DO WAS FOLLOW THE DAMN TRAIN CJ!","I'll have 2 number nines, a number nine large. A number six with extra dip. A number seven. Two number forty-fives, one with cheese, and a large soda.","Death can have me, when it earns me","I said my sword was a tool of justice. Not used in anger. Not used for vengeance. But now... Now I’m not so sure. And besides, this isn’t my sword.","It's time to kick ass and chew bubble gum. And I'm all out of gum.","Counter Terrorists Win !","Press F to pay respect","The right man in the wrong place can make all the difference in the world. So wake up Mr. Freeman, it’s time to wake up and smell the ashes.","50.000 people used to live here, now it's a ghost town","I used to be an adventurer like you. Then I took an arrow in the knee","What is a wave without the ocean? A beginning without an end? They are different, but they go together. Now you go among the stars, and I fall beneath the sand. We are different, but we go together.","OBJECTION!","You're not wrong, Walter. You’re just an asshole.","Am I not turtley enough for the turtle club?","In case I don’t see ya… good afternoon, good evening, and goodnight.","A person is smart. People are dumb, panicky, dangerous animals and you know it.","Those aren't the design choices we were curious about, Mr Afton.","There is only one thing left for me to do now. I'm going to come find you. I'm going to come find you.","My friend, you have met a terrible, terrible demise.","According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.","Get over here!","Wake up, Samurai. We have a city to burn.","A man chooses, a slave obeys.","Fus Ro Dah!","Praise the sun!","Nanomachines, son!","Kept you waiting, huh?","It's super effective!","You have died of dysentery.","Heroes never die!","It's high noon.","Spy sappin' my sentry!","Medic!","The Enrichment Center reminds you that the Weighted Companion Cube will never threaten to stab you.","Do you like hurting other people?","Leeroy Jenkins!","I'll be back.","You shall not pass!","No, I am your father.","Why so serious?","To infinity and beyond!","Life, uh, finds a way.","You're gonna need a bigger boat.","There is no spoon.","Just keep swimming.","I am the one who knocks.","Winter is coming.","This is the way.","Bazinga!","D'oh!","Live long and prosper.","They used to hear voices. Before players could read. Back in the days when those who did not play called the players witches, and warlocks. And players dreamed they flew through the air, on sticks powered by demons.","You want apples? You want carrots? You want pineapples? We got torches.","Now with even less Ocram!","I hope a scrawny kid like you isn't all that is standing between us and Cthulhu's Eye.","Hey, buddy, do you know where any deathweed is? Oh, no reason; just wondering, is all.","sqrt(-1) love you!","20 GOTO 10!","Supercalifragilisticexpialidocious!","++++++++++[>+++++++>++++++++++>+++++++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<++.>+++++++++++++++.>.+++.------.--------.<<+.","Chicken jockey!","Never Dig Straight Down!","Stop right there, criminal scum!","Let me guess, someone stole your sweetroll.","YOU DIED","Try finger, but hole.","Git gud.","Do you know the definition of insanity?","Wasted.","Press X to doubt.","I'm sorry, Dave. I'm afraid I can't do that.","Resistance is futile.","Do or do not. There is no try.","Never tell me the odds!","I have the high ground.","These aren't the droids you're looking for.","It's a trap!","May the Force be with you.","I am inevitable.","I am Iron Man.","Avengers, assemble!","I can do this all day.","Wakanda forever!","With great power comes great responsibility.","I am Groot.","Why is the rum gone?","One does not simply walk into Mordor.","Fly, you fools!","My precious.","Roads? Where we're going, we don't need roads.","Great Scott!","Inconceivable!","As you wish.","Hasta la vista, baby.","Say hello to my little friend!","You can't handle the truth!","Houston, we have a problem.","Here's Johnny!","I see dead people.","Are you not entertained?","I'll make him an offer he can't refuse.","Bond. James Bond.","I am Batman.","E.T. phone home.","Wubba lubba dub dub!","I'm Mr. Meeseeks, look at me!","Respect my authoritah!","Oh my God, they killed Kenny!","No soup for you!","We were on a break!","That's what she said.","Danger, Will Robinson!","So say we all.","Allons-y!","Don't blink.","We do what we must because we can.","You've met with a terrible fate, haven't you?","Yer a wizard, Harry.","I know kung fu.","Just when I thought I was out, they pull me back in.","I feel the need, the need for speed!","There's no place like home.","I did not hit her, it's not true, it's bullshit! I did not hit her. Oh, hi Mark!","Ogres are like onions.","Anyone can cook.","Hakuna Matata.","Cowabunga!","Shaken, not stirred.","How you doin'?","Pivot!","Gotta catch 'em all!","It's over 9000!","I'm gonna be King of the Pirates!","Plus Ultra!","Yare yare daze.","El Psy Kongroo.","You forget a thousand things every day, pal. Make sure this is one of 'em.","Go to college. Then you can rip people off and get paid for it. It's called capitalism","ate human meat -15","There's a mod for that","Ate without table -5","No such thing as a failed return mission. It's an unexpected colonisation.","Well, I staged the parachutes wrong, so I suppose we will now try an impromptu propulsive landing.","200 m/s delta V is totally enough to get back home.","Houston, the rescue mission needs a rescue mission.","You don't find the Institute... the Institute finds you.","They're the real enemy, not the raiders, not the super mutants, not even those tools over in Diamond City.","A nearby settlement needs your help.","Well, Gordon Freeman! And about time, too.","Sometimes, I dream about cheese.","Don't forget to reload, Dr. Freeman!","Node graph out of date: rebuilding","RDM! RDM! I'm calling an admin! You didn't advert raid!","KOS if past the line! KOS if looking at my fading door!","We die in the dark so that you may live in the light.","Make your choice, adventurous stranger; strike the bell and bide the danger. Or wonder, 'till it drives you mad, what would have followed if you had.","We can only suspend God's disbelief so many times before the universe just says 'no'.","No matter how much I'm defiled, how much I'm ridiculed, I'll continue to call myself 'first-class King Halo'... A king doesn't retreat... I'll absolutely earn the proof called victory.","I was able to give it my all because I was against you. Can you say the same?","I asked for no pickle and they gave me the fuckin McPickle pounder, wtf is this bullshit?!","Mambo Mambo","Everything is connected- and I'll use that to expose, to protect, and if necessary- to punish.","You are now less valuable than the data you produce. This is the new reality. Going dark is no longer an option.","Many scientists have worked hard to figure that out with no conclusive results.","My rams clock at 1333 megaherds","You found me. why? not that much of the world remains","A heart that beating can't belong to a broken machine","You only have one shot.","Don't look at me. I'm not a nerd. Maybe go kill yourself on some spikes it'll be amusing.","I can offer coffee, turn-based strategies and chocolate pancakes.","why is everyone hitting me so lightly today? QUIT THE HITTING AND FINISH THE JOB!","Please speak to me through the body language of the gods!","I wanna go home, i don’t sob I don’t like this party, I’m alewgic to people","Hey, did you know that in terms of male human and female Pokémon Cuddling, Vaporeon is the most compatible Pokémon for humans?","that is infacurate","You're a machine, you were designed to obey, so obey!","You can't kill me; I'm not alive.","Decide who you are, and wanna become. This world doesn't like those who are different. Don't let anyone tell you who you should be.","For folks like us? Wrong city, wrong people.","Or... we storm Arasaka Tower and go out in the most legendary way possible.","Bout time I chrome the f up.","No kid from Santo will ever be a suit.","Don't make a name for yourself as a cyberpunk by how you live… Make a name by how you die.","You're this close... Just keep running... This is it.","You can't just shoot a hole into the surface of Mars!","There's nothing wrong with dreaming. Wishing for the impossible is just human nature. That's how I got it started. Just a pencil and a dream.","Belief can make you succeed! Belief can make you rich! Belief can make you powerful! Why, with enough belief, you can even cheat death itself!","We gotta rescue our friends and get back to Mr. Boat!","Don't, don't like... fail and... die and stuff CAUSE IT'S ALL UP TO YOU NOW!","You don't even complain about the prison food! Which is shocking, because that stuff tastes like doo-doo casserole!","Clench your butt, this isn't gonna be good!","With great power comes great bullshit.","Welcome to 'The Real Step-douches of Arcadia Bay'.","I'm so glad you're my partner in crime./ As long as you're my partner in time.","I wish I could stay in this moment forever. I guess I actually can now, but then it wouldn't be a moment.","Wherever I end up after this... in whatever reality... all those moments between us were real, and they'll always be ours.","Everybody lies. No exceptions.","I’d rather have a life of \"oh wells\" than a life of what ifs","Max, never Maxine.","Take of yourself kid. ‘Cause someone really cares about you.","NYEH HEH HEH HEH HEH HEH!!!","I can’t go to hell, I’m all out of vacation days.","You didn't gain LOVE, but you gained love","Have you ever thought about a world where everything is exactly the same... Except you don't exist? Everything functions perfectly fine without you... Ha ha... the thought terrifies me","geeettttttt dunked on!!!","You are filled with determination.","MIKE! TEAR DOWN MY HOUSE! TEAR DOWN MY KIDS!","Whether 11 hours or 11 years, DELTARUNE will be waiting. So take your time, wash your face, and get dressed!","But now, I got hope crossed on my heart. Hope, written in truth. Written somewhere no one can erase!","I was simply relaxing in Kris’ spacious Pants Hole.","WOAH!! IF IT ISN'T A... LIGHTNER! HEY-HEY HEY!!! LOOKS LIKE YOU'RE [[All Alone On A Late Night?]] ALL YOUR FRIENDS, [[Abandoned you for the slime]] YOU ARE? SALES, GONE DOWN THE [[Drain]] [[Drain]]?? LIVING IN A GODDAMN GARBAGE CAN???","This game is not suitable for children or those who are easily disturbed.","You really left her hanging","Birds can fly, Humans Can Try, But that's about it","A Poem Never Really Finishes It Just Stops Moving","Even now... Why won't the rainclouds go away? They're not going away at all...","Sul sul!","Are you a Sim? Because my love for you is maxed out.","Nooboo","Emily, who is Emily? My mother would say she's everyone. Every girl, every boy, every person that anyone has ever loved","not everyone can be a great artist but a great artist can come from anywhere","We have encountered many civilizations that claimed greatness, and we have crushed them all","You want to know the meaning of life? Okay, here goes: Did you hear about the aliens who went into a bar on the moon? They left because it had no atmosphere! Hope that answers all your questions for you.","Greetings my friend! You have traveled very far and overcome many obstacles. Along the way you have encountered many of your diverse, far-flung siblings, Precious few of them will make it this far. Your heroic efforts have proven you deserving, worthy of advancement to the next level of your existence. The universe you inhabit is but one of many countless worlds, unseen but yet connected. Your creative efforts have not gone unnoticed. Indeed they have spilled into these other, unseen worlds just as your world has been enriched by them. It is now time for you to join us, Join us! Mwahahahaha! No, just kidding. It's not scary. Indeed. The times ahead, they are good. Really, really good. Some of you may ask, who is this mysterious voice who knows so much and possesses such great powers? I'm glad you asked…","John Madden! John Madden! John Madden!","AEIOU","UUUUUUUUUUUUUUU","9999999999999999","972 985","BRBRBRBRBRBRBRBRBRBRBRBRBRBR","Question mark, exclamation point!","Snake! Snake! Snaaaake!","Holla Holla Get $","Snake? Snake! Sake!","Cheering.... I hear. Happy Day... I think. Join them... someday. Hopeful.... yes. Today is the day. Today is the day. Join our friends outside. Join the happy day.","Rest in peace my good friends, and know that I'll always be here to boil eggs for you! Speaking of eggs....","I always come back.","Uh, the animatronic characters here do get a bit quirky at night.","Connection terminated.","Leave the demon to his demons.","It's one of the prerogatives of being a primal divine force. I can be as petty and absurd as I want.","I don't understand, Grandmother - what am I to do with this baby? I'm not hungry right now...","Are you a boy? Or a girl?","wait young wizard, that area is not quite ready for you.","The pain doesn't go away. You just make room for it.","See you don't get to do that,to come into somebody's life, make them care, then just check out","Well excuse the shit out of my goddamned language","Hey, you. Dumbass. Yeah, you in the tank. Cozy in there?","These are the end times. There was no hope of survival. This is how you died.","You were almost a Jill sandwich!","Wololo!","A winner is you!","Rock and Stone!","Bring us the girl and wipe away the debt.","We're thieves in a world that don't want us no more.","Creeper? Aw man.","Can it run Crysis?","Nobody expects the Spanish Inquisition!","Welcome to Costco, I love you."]</script>
 
 <script>
 (async function(){
@@ -1417,6 +1485,9 @@ var SITE_BACKEND = {
   const LS_TOKENS_CACHE = "tr_tokens_cache_v1";
   const LS_DESC_PENDING = "tr_desc_pending_v1";
   const LS_LOG = "tr_changelog_v1";
+  const LS_QUOTES_CACHE = "tr_quotes_cache_v1";
+  const LS_QUOTES_LOCAL = "tr_quotes_local_v1";
+  const LS_QUOTES_BLOCKED = "tr_quotes_blocked_v1";
   const DEFAULT_LOG = ["10/29/2026 - Changed backend systems. Added the ability to suggest tokens on the website. Transfered from Neocities to GitHub. Added Admin menu for me to do things", "10/21/2026 - Added 84 Tokens", "10/19/2026 - Added dark mode and the cookie jar", "10/18/2026 - Website Created. Please Report any bugs to the discord. If you have any suggestions please dont be afraid to suggest them."];
   function $(id){ return document.getElementById(id); }
   const suggestOverlay=$("suggestOverlay"), adminLoginOverlay=$("adminLoginOverlay"), adminPanelOverlay=$("adminPanelOverlay");
@@ -1601,6 +1672,167 @@ var SITE_BACKEND = {
   function rarityOptions(sel, val){
     sel.innerHTML=""; RARITIES.forEach(function(r){ let o=document.createElement("option"); o.value=r.id; o.textContent=r.label; if(r.id===val) o.selected=true; sel.appendChild(o); });
   }
+  // ---- Buddy quotes (server-backed text bubble) ----
+  const QUOTES_SQL = "create table if not exists public.quotes (\n  id bigint generated always as identity primary key,\n  text text not null check (char_length(text) between 1 and 500),\n  created_at timestamptz default now()\n);\nalter table public.quotes enable row level security;\ndrop policy if exists \"quotes public read\" on public.quotes;\ncreate policy \"quotes public read\" on public.quotes for select using (true);\ndrop policy if exists \"quotes admin write\" on public.quotes;\ncreate policy \"quotes admin write\" on public.quotes for all using (auth.role() = \'authenticated\') with check (auth.role() = \'authenticated\');";
+  function quotesDefaults(){
+    try{
+      var el=document.querySelector('#quotes-data');
+      if(el){ var a=JSON.parse(el.textContent); if(Array.isArray(a)) return a.filter(function(x){ return typeof x==='string'&&x.trim(); }).map(function(x){ return x.trim().slice(0,500); }); }
+    }catch(e){}
+    return [];
+  }
+  function loadQuotesCache(){ try{ var a=JSON.parse(localStorage.getItem(LS_QUOTES_CACHE)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+  function saveQuotesCache(rows){ try{ localStorage.setItem(LS_QUOTES_CACHE, JSON.stringify((rows||[]).slice(0,2000))); }catch(e){} }
+  function loadQuotesLocal(){ try{ var a=JSON.parse(localStorage.getItem(LS_QUOTES_LOCAL)||"[]"); return Array.isArray(a)?a.filter(function(x){ return typeof x==='string'&&x.trim(); }):[]; }catch(e){ return []; } }
+  function saveQuotesLocal(arr){ try{ localStorage.setItem(LS_QUOTES_LOCAL, JSON.stringify((arr||[]).slice(0,2000))); }catch(e){} }
+  function loadQuotesBlocked(){ try{ var a=JSON.parse(localStorage.getItem(LS_QUOTES_BLOCKED)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+  function dedupeStrings(arr){ var seen={}, out=[]; for(var i=0;i<arr.length;i++){ var k=String(arr[i]); if(!seen[k]){ seen[k]=1; out.push(k); } } return out; }
+  function rebuildBuddyQuotes(){
+    var defs=quotesDefaults();
+    var blocked=loadQuotesBlocked(), bset={};
+    for(var bi=0;bi<blocked.length;bi++) bset[String(blocked[bi])]=1;
+    var cache=loadQuotesCache().map(function(r){ return (r&&typeof r.text==='string')?r.text.trim().slice(0,500):''; }).filter(function(s){ return s&&!bset[s]; });
+    var local=loadQuotesLocal().filter(function(s){ return s&&!bset[s]; });
+    var baseDefs=defs.filter(function(s){ return !bset[s]; });
+    var merged=dedupeStrings([].concat(cache, local, baseDefs));
+    if(!merged.length) merged=baseDefs.slice();
+    window.__buddyQuotes=merged;
+    try{ var qc=$("quotesCount"); if(qc) qc.textContent=merged.length.toLocaleString(); }catch(e){}
+    return merged;
+  }
+  window.__buddyQuotes=rebuildBuddyQuotes();
+  window.__buddyQuotesRefresh=rebuildBuddyQuotes;
+  async function fetchQuotes(){
+    rebuildBuddyQuotes();
+    if(!(useServer&&sb)) return loadQuotesCache();
+    try{
+      var r=await sb.from("quotes").select("*").order("id",{ascending:false}).limit(2000);
+      if(r.error) throw r.error;
+      var rows=(r.data||[]).map(function(v){ return {docId:String(v.id), clientId:"srvq_"+v.id, serverId:v.id, text:String(v.text==null?"":v.text).slice(0,500)}; }).filter(function(x){ return x.text.trim(); });
+      saveQuotesCache(rows);
+      rebuildBuddyQuotes();
+      return rows;
+    }catch(e){
+      var m=String((e&&e.message)||e);
+      if(/quotes|schema cache|does not exist|404|relation/i.test(m)){
+        try{ var qn=$("quotesNote"); if(qn) qn.textContent="Server table 'quotes' not found - run the setup SQL below once in Supabase, then hit Refresh. Showing built-in + this-device quotes for now."; }catch(_){}
+      }
+      return loadQuotesCache();
+    }
+  }
+  async function refreshQuotesList(){
+    var list=$("quotesList"); if(!list) return;
+    var note=$("quotesNote");
+    try{ var sqlEl=$("quotesSqlText"); if(sqlEl&&!sqlEl.value) sqlEl.value=QUOTES_SQL; }catch(e){}
+    if(!isAdmin()){ list.innerHTML='<div class="muted">Admin login required.</div>'; return; }
+    list.innerHTML='<div class="muted">Loading…</div>';
+    var rows=[];
+    try{ rows=await fetchQuotes(); }catch(e){ rows=loadQuotesCache(); }
+    rebuildBuddyQuotes();
+    var hint=(useServer&&serverDown)?" Showing this device's data (server unreachable).":"";
+    if(note&&note.textContent.indexOf("not found")<0) note.textContent="Quotes show in the buddy text bubble for everyone."+hint+(useServer?" Shared server mode.":" Offline mode - stored on this device only.");
+    try{ var qc=$("quotesCount"); if(qc) qc.textContent=(window.__buddyQuotes.length||0).toLocaleString(); }catch(e){}
+    if(!rows.length){
+      list.innerHTML="";
+      var empty=document.createElement("div"); empty.className="muted";
+      var total=(window.__buddyQuotes||[]).length;
+      empty.textContent="No server quotes yet. Visitors currently see "+total+" built-in quotes. Add one below or press \"Seed defaults to server\" to push them all to the server.";
+      list.appendChild(empty);
+      return;
+    }
+    list.innerHTML="";
+    rows.forEach(function(q){
+      var card=document.createElement("div"); card.className="sugRow";
+      var top=document.createElement("div"); top.className="top";
+      var nm=document.createElement("span"); nm.className="nm"; nm.style.fontWeight="400"; nm.textContent=q.text;
+      top.appendChild(nm); card.appendChild(top);
+      var ops=document.createElement("div"); ops.className="ops";
+      var rm=document.createElement("button"); rm.className="btn small ghost"; rm.textContent="Remove";
+      rm.onclick=function(){ removeQuote(q); };
+      ops.appendChild(rm); card.appendChild(ops);
+      list.appendChild(card);
+    });
+  }
+  async function addQuoteNow(){
+    var msg=$("quoteAddMsg"); if(msg) msg.textContent="";
+    var inp=$("quoteText"); var txt=(inp?inp.value:"").trim().slice(0,500);
+    if(!txt){ if(msg) msg.textContent="Type a quote first."; return; }
+    if(!isAdmin()){ if(msg) msg.textContent="Admin login required."; return; }
+    var btn=$("quoteAddBtn"); if(btn){ btn.disabled=true; btn.textContent="Adding…"; }
+    try{
+      var exists=(window.__buddyQuotes||[]).some(function(x){ return String(x).toLowerCase()===txt.toLowerCase(); });
+      if(exists&&!confirm("This exact quote already exists. Add it anyway?")){ if(btn){ btn.disabled=false; btn.textContent="Add quote now"; } return; }
+      if(useServer&&sb&&!serverDown){
+        try{
+          var ins=await sb.from("quotes").insert({text:txt}).select();
+          if(ins.error) throw ins.error;
+        }catch(se){
+          var sm=String((se&&se.message)||se);
+          if(/quotes|schema cache|does not exist|404|relation/i.test(sm)){
+            if(msg) msg.textContent="Server table 'quotes' not found - run the setup SQL first. Saved on this device instead.";
+            var loc=loadQuotesLocal(); loc.unshift(txt); saveQuotesLocal(loc); rebuildBuddyQuotes();
+            if(inp) inp.value=""; await refreshQuotesList();
+            if(btn){ btn.disabled=false; btn.textContent="Add quote now"; }
+            return;
+          }
+          serverDown=true; setBackendNote();
+          var loc2=loadQuotesLocal(); loc2.unshift(txt); saveQuotesLocal(loc2); rebuildBuddyQuotes();
+          if(msg) msg.textContent="Server unreachable - saved on this device only.";
+          if(inp) inp.value=""; await refreshQuotesList();
+          if(btn){ btn.disabled=false; btn.textContent="Add quote now"; }
+          return;
+        }
+      }else{
+        var loc3=loadQuotesLocal(); loc3.unshift(txt); saveQuotesLocal(loc3); rebuildBuddyQuotes();
+      }
+      if(inp) inp.value=""; if(msg) msg.textContent="Live now.";
+      await refreshQuotesList();
+    }catch(e){ if(msg) msg.textContent="Add failed: "+(e&&e.message?e.message:e); }
+    if(btn){ btn.disabled=false; btn.textContent="Add quote now"; }
+  }
+  async function removeQuote(q){
+    if(!q) return;
+    if(!confirm("Remove this quote?")) return;
+    try{
+      if(useServer&&sb&&!serverDown&&q.serverId!=null){
+        var dr=await sb.from("quotes").delete().eq("id", Number(q.serverId));
+        if(dr.error) throw dr.error;
+      }else{
+        saveQuotesCache(loadQuotesCache().filter(function(x){ return String(x.text)!==String(q.text); }));
+        saveQuotesLocal(loadQuotesLocal().filter(function(x){ return x!==q.text; }));
+        var bl=loadQuotesBlocked(); bl.push(q.text); try{ localStorage.setItem(LS_QUOTES_BLOCKED, JSON.stringify(bl.slice(0,2000))); }catch(_){}
+        rebuildBuddyQuotes();
+      }
+      await refreshQuotesList();
+    }catch(e){ alert("Remove failed: "+(e&&e.message?e.message:e)); }
+  }
+  async function seedQuotesToServer(){
+    var msg=$("quoteAddMsg"); if(msg) msg.textContent="";
+    if(!isAdmin()){ if(msg) msg.textContent="Admin login required."; return; }
+    if(!(useServer&&sb)){ if(msg) msg.textContent="Server not configured - quotes stay on this device."; return; }
+    var btn=$("quoteSeedBtn"); if(btn){ btn.disabled=true; btn.textContent="Seeding…"; }
+    try{
+      var defs=quotesDefaults();
+      try{ await fetchQuotes(); }catch(e){}
+      var have={};
+      (window.__buddyQuotes||[]).forEach(function(s){ have[String(s).toLowerCase()]=1; });
+      var missing=defs.filter(function(s){ return !have[String(s).toLowerCase()]; });
+      if(!missing.length){ if(msg) msg.textContent="Server already has all defaults ("+defs.length+")."; if(btn){ btn.disabled=false; btn.textContent="Seed defaults to server"; } return; }
+      for(var i=0;i<missing.length;i+=100){
+        var chunk=missing.slice(i,i+100).map(function(t){ return {text:t}; });
+        var r=await sb.from("quotes").insert(chunk);
+        if(r.error) throw r.error;
+      }
+      if(msg) msg.textContent="Seeded "+missing.length+" quotes to server.";
+      await refreshQuotesList();
+    }catch(e){
+      var m=String((e&&e.message)||e);
+      if(/quotes|schema cache|does not exist|404|relation/i.test(m)){ if(msg) msg.textContent="Server table 'quotes' not found - run the setup SQL first."; }
+      else if(msg) msg.textContent="Seed failed: "+m;
+    }
+    if(btn){ btn.disabled=false; btn.textContent="Seed defaults to server"; }
+  }
+
   async function refreshAdminLists(){
     if(!isAdmin()) return;
     pendingList.innerHTML='<div class="muted">Loading…</div>'; approvedList.innerHTML='<div class="muted">Loading…</div>';
@@ -1935,7 +2167,7 @@ var SITE_BACKEND = {
   function closeSuggest(){ suggestOverlay.hidden=true; if(sugMsg) sugMsg.textContent=""; }
   function openLogin(){ adminLoginOverlay.hidden=false; adminLoginMsg.textContent=""; setTimeout(function(){ let u=$("adminEmail"); if(u) u.focus(); },50); }
   function closeLogin(){ adminLoginOverlay.hidden=true; }
-  function openPanel(){ adminPanelOverlay.hidden=false; refreshAdminLists(); }
+  function openPanel(){ adminPanelOverlay.hidden=false; refreshAdminLists(); try{ refreshQuotesList(); }catch(e){} try{ var s=$("quotesSqlText"); if(s&&!s.value) s.value=QUOTES_SQL; }catch(e){} }
   function closePanel(){ adminPanelOverlay.hidden=true; }
   (function(){
     const tabs=$("adminTabs");
@@ -1945,8 +2177,8 @@ var SITE_BACKEND = {
       if(!b||!tabs.contains(b)) return;
       const which=b.dataset.atab;
       tabs.querySelectorAll("[data-atab]").forEach(function(x){ x.classList.toggle("active", x===b); });
-      $("adminTab-live").hidden=(which!=="live");
-      $("adminTab-log").hidden=(which!=="log");
+      ["live","log","quotes"].forEach(function(k){ var el=$("adminTab-"+k); if(el) el.hidden=(which!==k); });
+      if(which==="quotes"){ try{ refreshQuotesList(); }catch(e){} }
     });
   })();
   $("suggestBtn").onclick=openSuggest; $("suggestCloseBtn").onclick=closeSuggest; $("sugCancelBtn").onclick=closeSuggest;
@@ -2035,8 +2267,12 @@ var SITE_BACKEND = {
   $("adminPanelCloseBtn").onclick=closePanel;
   adminPanelOverlay.addEventListener("click", function(e){ if(e.target===adminPanelOverlay) closePanel(); });
   document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ if(!suggestOverlay.hidden) closeSuggest(); if(!descOverlay.hidden) closeDesc(); if(!adminLoginOverlay.hidden) closeLogin(); if(!adminPanelOverlay.hidden) closePanel(); } });
-  $("adminRefreshBtn").onclick=refreshAdminLists;
+  async function refreshAdminAndQuotes(){ try{ await refreshAdminLists(); }catch(e){} try{ await refreshQuotesList(); }catch(e){} }
+  $("adminRefreshBtn").onclick=refreshAdminAndQuotes;
   $("admAddBtn").onclick=adminAddToken;
+  if($("quoteAddBtn")) $("quoteAddBtn").onclick=addQuoteNow;
+  if($("quoteSeedBtn")) $("quoteSeedBtn").onclick=seedQuotesToServer;
+  if($("quotesSqlCopyBtn")) $("quotesSqlCopyBtn").onclick=function(){ try{ var t=$("quotesSqlText"); if(!t) return; t.focus(); t.select(); var ok=false; try{ ok=document.execCommand("copy"); }catch(e){} if(navigator.clipboard&&t.value) navigator.clipboard.writeText(t.value).catch(function(){}); var b=this; var o=b.textContent; b.textContent="Copied!"; setTimeout(function(){ b.textContent=o; },1200); }catch(e){} };
   $("logAddBtn").onclick=logAddEntry;
   $("adminLogoutBtn").onclick=async function(){
     try{ if(useServer && sb) await sb.auth.signOut(); }catch(e){}
@@ -2077,6 +2313,9 @@ var SITE_BACKEND = {
     sb.auth.getSession().then(function(r){ sbUser=(r.data&&r.data.session&&r.data.session.user)||null; refreshAdminBtn(); });
   }
   refreshAdminBtn();
+  rebuildBuddyQuotes();
+  try{ var sq=$("quotesSqlText"); if(sq) sq.value=QUOTES_SQL; }catch(e){}
+  fetchQuotes().then(function(){ try{ rebuildBuddyQuotes(); }catch(e){} }).catch(function(){});
   loadServerTokens().then(function(rows){
     if(isAdmin()) refreshAdminBtn();
   });
