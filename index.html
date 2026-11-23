@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <title>Robo's Token Randomizer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Your one stop shop for everything and anything this side of the multiverse - draw random tokens, browse every tier, and save favorites to the cookie jar.">
+<meta name="description" content="Your one stop shop for everything and anything this side of the multiverse - draw random items, browse every tier, and save favorites to the cookie jar.">
 <link rel="icon" href="https://roboshark1019.github.io/img/ena-icon.png" type="image/png">
 <link rel="apple-touch-icon" href="https://roboshark1019.github.io/img/ena-icon.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Robo's Token Randomizer","url":"https://roboshark1019.github.io","description":"Your one stop shop for everything and anything this side of the multiverse - draw random tokens, browse every tier, and save favorites to the cookie jar."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Robo's Token Randomizer","url":"https://roboshark1019.github.io","description":"Your one stop shop for everything and anything this side of the multiverse - draw random items, browse every tier, and save favorites to the cookie jar."}</script>
 <link rel="preload" as="image" href="https://roboshark1019.github.io/img/vista-aurora.jpg">
 <link rel="preload" as="image" href="https://roboshark1019.github.io/img/dark-ribbons.png">
 <meta property="og:site_name" content="Robo's Token Randomizer">
 <meta property="og:title" content="Robo's Token Randomizer">
 <meta property="og:description" content="Your one stop shop for everything and anything this side of the multiverse">
-<meta property="og:image" content="https://roboshark1019.github.io/img/preview.png">
+<meta property="og:image" content="https://roboshark1019.github.io/img/preview1.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1400">
 <meta property="og:image:height" content="928">
@@ -217,6 +217,9 @@
   .sugRow input,.sugRow select{margin-top:6px}
   .overlay label.f{display:block;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#0e4a5f;margin:10px 0 4px}
   body.dark .overlay label.f{color:#9db4c6}
+  .overlay .formBody input[type=text],.overlay .formBody input[type=url],.overlay .formBody input[type=email],.overlay .formBody input[type=password],.overlay .formBody input[type=number],.overlay .formBody textarea,.overlay .formBody select{width:100%;box-sizing:border-box;font-size:14px;padding:8px;min-height:34px}
+  .overlay .formBody textarea{min-height:110px;resize:vertical}
+  .overlay .formBody select{min-height:34px}
   .frow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .frow button{flex:1;min-width:140px}
   .adminBadge{display:inline-block;background:#0e6e8c;color:#fff;font-size:11px;font-weight:700;padding:1px 8px;margin-left:8px}
@@ -553,8 +556,8 @@
       </div>
       <label class="f" for="sugUrl">Info / wiki link (optional)</label>
       <input type="url" id="sugUrl" maxlength="500" placeholder="https://…" autocomplete="off">
-      <label class="f" for="sugNotes">Extra notes (optional)</label>
-      <textarea id="sugNotes" maxlength="500" placeholder="Anything else - variant, edition, why it fits the tier…"></textarea>
+      <label class="f" for="sugNotes">Description (optional)</label>
+      <textarea id="sugNotes" maxlength="500" placeholder="Token description… e.g. A plasma-forged blade carried by elite warriors…"></textarea>
       <input type="text" id="sugWebsite" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="muted" id="sugMsg" style="margin-top:8px;min-height:18px"></div>
       <div class="frow">
@@ -1868,7 +1871,7 @@ var SITE_BACKEND = {
           const srcIn=document.createElement("input"); srcIn.type="text"; srcIn.value=p.source||""; srcIn.placeholder="Source / franchise"; srcIn.maxLength=120;
           const sel=document.createElement("select"); rarityOptions(sel, p.pdf||"000000");
           const urlIn=document.createElement("input"); urlIn.type="url"; urlIn.value=p.url||""; urlIn.placeholder="https://… (optional)"; urlIn.maxLength=500;
-          const noteIn=document.createElement("input"); noteIn.type="text"; noteIn.value=(typeof p.notes==="string"?p.notes:"")||""; noteIn.placeholder="Notes (optional)"; noteIn.maxLength=300;
+          const noteIn=document.createElement("textarea"); noteIn.value=(typeof p.notes==="string"?p.notes:"")||""; noteIn.placeholder="Description (optional)"; noteIn.maxLength=500; noteIn.rows=3; noteIn.style.width="100%"; noteIn.style.boxSizing="border-box";
           card.appendChild(nmIn); card.appendChild(srcIn); card.appendChild(sel); card.appendChild(urlIn); card.appendChild(noteIn);
           if(isSafeHttpUrl(p.url)){ let m=document.createElement("div"); m.className="meta"; let a=document.createElement("a"); a.href=p.url; a.target="_blank"; a.rel="noopener"; a.textContent="submitted link"; m.appendChild(a); card.appendChild(m); }
           let ops=document.createElement("div"); ops.className="ops";
@@ -1947,7 +1950,7 @@ var SITE_BACKEND = {
     if(!edited.name || !edited.source){ alert("Name and source are required."); return; }
     try{
       let full=edited.source?(edited.name+" ("+edited.source+")"):edited.name;
-      if(edited.notes) full+=" ("+String(edited.notes).slice(0,120)+")";
+      let desc=String(edited.notes||"").slice(0,500);
       let dup=false;
       if(window.tokenCount && window.tokenFindById){
         const _n=window.tokenCount();
@@ -1955,14 +1958,14 @@ var SITE_BACKEND = {
       }
       if(dup && !confirm("This exact token is already live. Add it again anyway?")) return;
       if(useServer && sb && !serverDown){
-        let ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""}).select();
+        let ai=await sb.from("tokens").insert({t:full.slice(0,500), p:0, c:edited.pdf, u:edited.url||"", ux:[], d:desc, origin:"community", by_name:p.by||""}).select();
         if(ai.error) throw ai.error;
         const newRow=ai.data&&ai.data[0];
-        if(newRow && window.tokenAddServerRows){ try{ window.tokenAddServerRows([{id:newRow.id, t:newRow.t, p:newRow.p, c:newRow.c, u:newRow.u, ux:newRow.ux, origin:newRow.origin, by_name:newRow.by_name}]); }catch(e){} }
+        if(newRow && window.tokenAddServerRows){ try{ window.tokenAddServerRows([{id:newRow.id, t:newRow.t, p:newRow.p, c:newRow.c, u:newRow.u, ux:newRow.ux, d:(newRow.d!=null?newRow.d:desc), origin:newRow.origin, by_name:newRow.by_name}]); }catch(e){} }
         if(p.docId){ let dl=await sb.from("suggestions").delete().eq("id", Number(p.docId)); if(dl.error) throw dl.error; }
       } else {
         if(p.clientId){ let pend=loadLS(LS_PENDING).filter(function(x){ return x.clientId!==p.clientId; }); saveLS(LS_PENDING, pend); }
-        let row={id:uid("local_"), t:full, p:0, c:edited.pdf, u:edited.url||"", ux:[], origin:"community", by_name:p.by||""};
+        let row={id:uid("local_"), t:full, p:0, c:edited.pdf, u:edited.url||"", ux:[], d:desc, origin:"community", by_name:p.by||""};
         let cache=mergedOfflineRows(); cache.unshift(row); saveLS(LS_TOKENS_CACHE, cache);
         if(window.tokenAddServerRows){ try{ window.tokenAddServerRows([row]); }catch(e){} }
       }
