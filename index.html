@@ -13,11 +13,12 @@
 <meta property="og:site_name" content="Robo's Token Randomizer">
 <meta property="og:title" content="Robo's Token Randomizer">
 <meta property="og:description" content="Your one stop shop for everything and anything this side of the multiverse">
-<meta property="og:image" content="https://roboshark1019.github.io/img/preview1.png">
+<meta property="og:image" content="https://user.uploads.dev/file/af09938f10202642e0a4f93604b03e48.png">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1400">
-<meta property="og:image:height" content="928">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user.uploads.dev/file/af09938f10202642e0a4f93604b03e48.png">
 <meta property="og:url" content="https://roboshark1019.github.io">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#1c5676">
@@ -241,7 +242,7 @@
   body.dark .btn.ghost{color:#eef6f8}
   body.dark .btn.ghost:hover{background:linear-gradient(#2b394d,#161e29);border-color:#0d1b28}
 
-  #taskbar{position:fixed;left:0;right:0;bottom:0;height:42px;z-index:80;display:flex;align-items:stretch;gap:8px;padding:0 8px 0 0;background:linear-gradient(180deg,rgba(120,180,220,.75),rgba(30,80,120,.85) 45%,rgba(10,40,70,.92));backdrop-filter:blur(8px) saturate(1.4);-webkit-backdrop-filter:blur(8px) saturate(1.4);border-top:1px solid rgba(255,255,255,.65);box-shadow:0 -2px 12px rgba(0,0,0,.45);color:#fff}
+  #taskbar{position:fixed;left:0;right:0;bottom:0;height:42px;z-index:80;display:flex;align-items:stretch;gap:8px;padding:0 8px 0 10px;background:linear-gradient(180deg,rgba(120,180,220,.75),rgba(30,80,120,.85) 45%,rgba(10,40,70,.92));backdrop-filter:blur(8px) saturate(1.4);-webkit-backdrop-filter:blur(8px) saturate(1.4);border-top:1px solid rgba(255,255,255,.65);box-shadow:0 -2px 12px rgba(0,0,0,.45);color:#fff}
   #taskItems{display:flex;align-items:center;gap:6px;flex:1;min-width:0;overflow:hidden;padding:5px 0}
   #musicCtl{display:flex;align-items:center;gap:4px;min-width:0;flex:1;overflow:hidden;padding:5px 0}
   #musicCtl button{min-width:0;padding:3px 9px;font-size:12px;color:#0a2c40}
@@ -958,8 +959,8 @@
       b.className='swatch'+((id==='all'?activeColors.size===0:activeColors.has(id))?' active':'');
       b.title=id==='all'?'All rarities':(label+' - click to toggle');
       const d=document.createElement('span');
-      d.className='dot'+(id==='rainbow'||id==='all'?' rainbow':'');
-      d.style.background=(id==='rainbow'||id==='all')?RAINBOW_BG:'#'+id;
+      d.className='dot'+(id==='rainbow'?' rainbow':'');
+      d.style.background=id==='rainbow'?RAINBOW_BG:(id==='all'?'#fff':'#'+id);
       b.appendChild(d);
       const t=document.createElement('span');
       t.innerHTML=`${label} <small>${count.toLocaleString()}</small>`;
