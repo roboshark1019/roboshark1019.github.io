@@ -5,6 +5,7 @@
 <title>Robo's Token Randomizer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Your one stop shop for everything and anything this side of the multiverse - draw random items, browse every tier, and save favorites to the cookie jar.">
+<meta name="keywords" content="Gacha, Token, Gacha Token, Items, Random, Random items, Game items, Movie items, Anime items, Fanfic items, Token Randomizer, random item generator">
 <link rel="icon" href="https://roboshark1019.github.io/img/ena-icon.png" type="image/png">
 <link rel="apple-touch-icon" href="https://roboshark1019.github.io/img/ena-icon.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Robo's Token Randomizer","url":"https://roboshark1019.github.io","description":"Your one stop shop for everything and anything this side of the multiverse - draw random items, browse every tier, and save favorites to the cookie jar."}</script>
@@ -973,7 +974,7 @@
       };
       swatchesCtn.appendChild(b);
     };
-    mk('all','All Rarities',TOKENS.length);
+    mk('all','All colors',TOKENS.length);
     for(const c of PDF_COLORS){
       mk(c.id, c.label, TOKENS.filter(t=>t.pdf===c.id).length);
     }
